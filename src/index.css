@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Colors - Dark palette */
+  --color-dark-50: #f8fafc;
+  --color-dark-100: #f1f5f9;
+  --color-dark-200: #e2e8f0;
+  --color-dark-300: #cbd5e1;
+  --color-dark-400: #94a3b8;
+  --color-dark-500: #64748b;
+  --color-dark-600: #475569;
+  --color-dark-700: #334155;
+  --color-dark-800: #1e293b;
+  --color-dark-900: #0f172a;
+  --color-dark-950: #020617;
+
+  /* Colors - Primary */
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+  --color-primary-950: #082f49;
+
+  /* Colors - Accent */
+  --color-accent-50: #fdf4ff;
+  --color-accent-100: #fae8ff;
+  --color-accent-200: #f5d0fe;
+  --color-accent-300: #f0abfc;
+  --color-accent-400: #e879f9;
+  --color-accent-500: #d946ef;
+  --color-accent-600: #c026d3;
+  --color-accent-700: #a21caf;
+  --color-accent-800: #86198f;
+  --color-accent-900: #701a75;
+  --color-accent-950: #4a044e;
+
+  /* Fonts */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Animations */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes glow {
+    0% { box-shadow: 0 0 5px oklch(from var(--color-accent-500) l c h / 0.5); }
+    100% { box-shadow: 0 0 20px oklch(from var(--color-accent-500) l c h / 0.8); }
+  }
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  @apply bg-dark-900 text-dark-50 font-sans antialiased;
+  min-height: 100vh;
+}
+
+::selection {
+  background-color: oklch(from var(--color-accent-500) l c h / 0.3);
+  color: white;
+}
+
+/* Utility classes */
+@utility container-main {
+  @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+@utility section-padding {
+  @apply py-16 md:py-24 lg:py-32;
+}
+
+@utility heading-1 {
+  @apply text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight;
+}
+
+@utility heading-2 {
+  @apply text-3xl md:text-4xl font-display font-bold tracking-tight;
+}
+
+@utility heading-3 {
+  @apply text-2xl md:text-3xl font-display font-semibold;
+}
+
+@utility heading-4 {
+  @apply text-xl md:text-2xl font-display font-semibold;
+}
+
+@utility text-gradient {
+  @apply bg-gradient-to-r from-accent-400 via-accent-500 to-primary-400 bg-clip-text text-transparent;
+}
+
+@utility glass-card {
+  @apply bg-dark-800/50 backdrop-blur-lg border border-dark-700/50 rounded-2xl;
+}
+
+@utility glass-card-hover {
+  @apply bg-dark-800/50 backdrop-blur-lg border border-dark-700/50 rounded-2xl transition-all duration-300 hover:bg-dark-800/70 hover:border-accent-500/30 hover:shadow-lg hover:shadow-accent-500/10;
+}
+
+@utility btn-primary {
+  @apply inline-flex items-center justify-center px-6 py-3 bg-accent-500 hover:bg-accent-600 text-white font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-dark-900;
+}
+
+@utility btn-secondary {
+  @apply inline-flex items-center justify-center px-6 py-3 bg-dark-700 hover:bg-dark-600 text-white font-medium rounded-xl border border-dark-600 hover:border-dark-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-dark-500 focus:ring-offset-2 focus:ring-offset-dark-900;
+}
+
+@utility btn-ghost {
+  @apply inline-flex items-center justify-center px-4 py-2 text-dark-300 hover:text-white hover:bg-dark-800/50 font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-dark-500;
+}
+
+@utility tag {
+  @apply inline-flex items-center px-3 py-1 text-sm font-medium bg-dark-700/50 text-dark-300 rounded-full border border-dark-600/50;
+}
+
+@utility tag-accent {
+  @apply inline-flex items-center px-3 py-1 text-sm font-medium bg-accent-500/10 text-accent-400 rounded-full border border-accent-500/30;
+}
+
+@utility filter-chip {
+  @apply inline-flex items-center px-4 py-2 text-sm font-medium bg-dark-800 text-dark-300 rounded-full border border-dark-700 transition-all duration-200 cursor-pointer hover:border-accent-500/50 hover:text-white;
+}
+
+@utility filter-chip-active {
+  @apply inline-flex items-center px-4 py-2 text-sm font-medium bg-accent-500/20 text-accent-400 rounded-full border border-accent-500/50 transition-all duration-200 cursor-pointer;
+}
+
+@utility input-field {
+  @apply w-full px-4 py-3 bg-dark-800 border border-dark-700 rounded-xl text-white placeholder-dark-500 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200;
+}
+
+/* Custom animation */
+@utility animate-in {
+  animation: animateIn 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes animateIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility gradient-bg {
+  background: linear-gradient(135deg, var(--color-dark-900) 0%, var(--color-dark-800) 50%, var(--color-dark-900) 100%);
+}
+
+@utility gradient-accent {
+  background: linear-gradient(135deg, var(--color-accent-500) 0%, var(--color-primary-500) 100%);
+}
+
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
