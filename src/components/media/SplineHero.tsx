@@ -1,5 +1,4 @@
 import { Suspense, lazy, useState } from 'react';
-import { SPLINE_SCENE_URL } from '../../config';
 
 const Spline = lazy(() => import('@splinetool/react-spline'));
 
@@ -51,7 +50,7 @@ export function SplineHero() {
     <div className="w-full h-full min-h-[300px] lg:min-h-[400px]">
       <Suspense fallback={<SplineFallback />}>
         <Spline
-          scene={SPLINE_SCENE_URL}
+           scene="https://prod.spline.design/PiAhAOk04RB2in-4/scene.splinecode"
           onError={() => setHasError(true)}
           className="w-full h-full"
         />

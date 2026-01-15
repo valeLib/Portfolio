@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { NAV_LINKS } from '../../config';
+import { NAV_LINKS, isTechArt } from '../../config';
+import { CvDownloadButton } from '../ui';
+import { profile } from '../../content/profile';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -36,9 +38,9 @@ export function Navbar() {
             className="flex items-center gap-2 text-lg font-display font-bold text-white hover:text-accent-400 transition-colors"
           >
             <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-500 to-primary-500 flex items-center justify-center text-sm">
-              TA
+              {isTechArt ? 'TA' : 'VL'}
             </span>
-            <span className="hidden sm:inline">TechArtist</span>
+            <span className="hidden sm:inline">{profile.name.split(' ')[0]}</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -56,6 +58,8 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            {/* CV Download Button - shows when enabled */}
+            <CvDownloadButton variant="ghost" size="sm" className="ml-2" />
           </div>
 
           {/* Mobile Menu Button */}
@@ -107,6 +111,10 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              {/* CV Download Button in mobile menu */}
+              <div className="px-4 pt-2">
+                <CvDownloadButton variant="secondary" size="md" className="w-full" />
+              </div>
             </div>
           </div>
         )}

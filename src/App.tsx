@@ -19,6 +19,17 @@ const NotFound = lazy(() =>
   import('./pages/NotFound').then((m) => ({ default: m.NotFound }))
 );
 
+// Frontend profile specific pages
+const Experience = lazy(() =>
+  import('./pages/Experience').then((m) => ({ default: m.Experience }))
+);
+const Projects = lazy(() =>
+  import('./pages/Projects').then((m) => ({ default: m.Projects }))
+);
+const Skills = lazy(() =>
+  import('./pages/Skills').then((m) => ({ default: m.Skills }))
+);
+
 // Loading fallback
 function PageLoader() {
   return (
@@ -38,9 +49,15 @@ function App() {
         <Routes>
           <Route element={<AppShell />}>
             <Route path="/" element={<Home />} />
+            {/* Tech Art routes */}
             <Route path="/work" element={<Work />} />
             <Route path="/work/:slug" element={<CaseStudy />} />
             <Route path="/gallery" element={<Gallery />} />
+            {/* Frontend routes */}
+            <Route path="/experience" element={<Experience />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/skills" element={<Skills />} />
+            {/* Shared routes */}
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound />} />

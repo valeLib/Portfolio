@@ -1,9 +1,8 @@
-name: Deploy to GitHub Pages
+name: Deploy Portfolio Variants
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -12,8 +11,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
-  cancel-in-progress: true
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -31,8 +30,33 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      # Build Tech Art variant (root)
+      - name: Build Tech Art Portfolio
         run: npm run build
+        env:
+          VITE_PROFILE: tech-art
+          VITE_CV_ENABLED: 'false'
+
+      - name: Move Tech Art build
+        run: mv dist tech-art-dist
+
+      # Build Frontend variant (/Software-Engineer/)
+      - name: Build Frontend Portfolio
+        run: npm run build
+        env:
+          VITE_PROFILE: frontend
+          VITE_CV_ENABLED: 'true'
+
+      - name: Move Frontend build
+        run: mv dist frontend-dist
+
+      # Combine outputs
+      - name: Combine builds
+        run: |
+          mkdir -p combined
+          cp -r tech-art-dist/* combined/
+          mkdir -p combined/Software-Engineer
+          cp -r frontend-dist/* combined/Software-Engineer/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -40,7 +64,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './combined'
 
   deploy:
     environment:

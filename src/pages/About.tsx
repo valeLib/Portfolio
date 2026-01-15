@@ -1,9 +1,10 @@
 import type { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { Section } from '../components/layout';
-import { Tag } from '../components/ui';
+import { Tag, CvDownloadButton } from '../components/ui';
 import { useDocumentTitle, useGsapReveal } from '../hooks';
 import { profile } from '../content/profile';
+import { isTechArt, isFrontend } from '../config';
 
 export function About() {
   useDocumentTitle('About');
@@ -35,6 +36,13 @@ export function About() {
             <p data-gsap-reveal className="text-dark-400 leading-relaxed">
               {profile.bio}
             </p>
+
+            {/* CV Download for frontend profile */}
+            {isFrontend && (
+              <div data-gsap-reveal className="mt-6">
+                <CvDownloadButton variant="secondary" />
+              </div>
+            )}
           </div>
 
           {/* Profile image placeholder */}
@@ -77,7 +85,9 @@ export function About() {
         <div data-gsap-reveal className="text-center mb-12">
           <h2 className="heading-2 text-white mb-4">Focus Areas</h2>
           <p className="text-dark-400 max-w-2xl mx-auto">
-            My core specializations in real-time graphics and game development.
+            {isTechArt
+              ? 'My core specializations in real-time graphics and game development.'
+              : 'My core specializations in frontend engineering and web development.'}
           </p>
         </div>
 
@@ -100,81 +110,169 @@ export function About() {
           <div data-gsap-reveal className="text-center mb-12">
             <h2 className="heading-2 text-white mb-4">Tools & Skills</h2>
             <p className="text-dark-400 max-w-2xl mx-auto">
-              Technologies and software I use to bring creative visions to life.
+              {isTechArt
+                ? 'Technologies and software I use to bring creative visions to life.'
+                : 'Technologies and frameworks I use to build modern web applications.'}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Engines */}
-            <div data-gsap-reveal className="glass-card p-6">
-              <h3 className="text-white font-semibold mb-4">Game Engines</h3>
-              <ul className="space-y-3">
-                {profile.skills.engines.map((skill) => (
-                  <li key={skill.name} className="flex items-center justify-between">
-                    <span className="text-dark-300">{skill.name}</span>
-                    <Tag size="sm" variant={skill.primary ? 'accent' : 'default'}>
-                      {skill.level}
-                    </Tag>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {isTechArt ? (
+            // Tech Art Skills
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Engines */}
+              <div data-gsap-reveal className="glass-card p-6">
+                <h3 className="text-white font-semibold mb-4">Game Engines</h3>
+                <ul className="space-y-3">
+                  {profile.skills.engines?.map((skill) => (
+                    <li key={skill.name} className="flex items-center justify-between">
+                      <span className="text-dark-300">{skill.name}</span>
+                      <Tag size="sm" variant={skill.primary ? 'accent' : 'default'}>
+                        {skill.level}
+                      </Tag>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            {/* VFX */}
-            <div data-gsap-reveal className="glass-card p-6">
-              <h3 className="text-white font-semibold mb-4">VFX Systems</h3>
-              <ul className="space-y-3">
-                {profile.skills.vfx.map((skill) => (
-                  <li key={skill.name} className="flex items-center justify-between">
-                    <span className="text-dark-300">{skill.name}</span>
-                    <Tag size="sm">{skill.level}</Tag>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              {/* VFX */}
+              <div data-gsap-reveal className="glass-card p-6">
+                <h3 className="text-white font-semibold mb-4">VFX Systems</h3>
+                <ul className="space-y-3">
+                  {profile.skills.vfx?.map((skill) => (
+                    <li key={skill.name} className="flex items-center justify-between">
+                      <span className="text-dark-300">{skill.name}</span>
+                      <Tag size="sm">{skill.level}</Tag>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            {/* Shaders */}
-            <div data-gsap-reveal className="glass-card p-6">
-              <h3 className="text-white font-semibold mb-4">Shaders</h3>
-              <ul className="space-y-3">
-                {profile.skills.shaders.map((skill) => (
-                  <li key={skill.name} className="flex items-center justify-between">
-                    <span className="text-dark-300">{skill.name}</span>
-                    <Tag size="sm">{skill.level}</Tag>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              {/* Shaders */}
+              <div data-gsap-reveal className="glass-card p-6">
+                <h3 className="text-white font-semibold mb-4">Shaders</h3>
+                <ul className="space-y-3">
+                  {profile.skills.shaders?.map((skill) => (
+                    <li key={skill.name} className="flex items-center justify-between">
+                      <span className="text-dark-300">{skill.name}</span>
+                      <Tag size="sm">{skill.level}</Tag>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            {/* Programming */}
-            <div data-gsap-reveal className="glass-card p-6">
-              <h3 className="text-white font-semibold mb-4">Programming</h3>
-              <ul className="space-y-3">
-                {profile.skills.programming.map((skill) => (
-                  <li key={skill.name} className="flex items-center justify-between">
-                    <span className="text-dark-300">{skill.name}</span>
-                    <Tag size="sm">{skill.level}</Tag>
-                  </li>
-                ))}
-              </ul>
+              {/* Programming */}
+              <div data-gsap-reveal className="glass-card p-6">
+                <h3 className="text-white font-semibold mb-4">Programming</h3>
+                <ul className="space-y-3">
+                  {profile.skills.programming?.map((skill) => (
+                    <li key={skill.name} className="flex items-center justify-between">
+                      <span className="text-dark-300">{skill.name}</span>
+                      <Tag size="sm">{skill.level}</Tag>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
+          ) : (
+            // Frontend Skills
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Frontend */}
+              <div data-gsap-reveal className="glass-card p-6">
+                <h3 className="text-white font-semibold mb-4">Frontend</h3>
+                <ul className="space-y-3">
+                  {profile.skills.frontend?.map((skill) => (
+                    <li key={skill.name} className="flex items-center justify-between">
+                      <span className="text-dark-300">{skill.name}</span>
+                      <Tag size="sm" variant={skill.primary ? 'accent' : 'default'}>
+                        {skill.level}
+                      </Tag>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Animation */}
+              <div data-gsap-reveal className="glass-card p-6">
+                <h3 className="text-white font-semibold mb-4">Animation</h3>
+                <ul className="space-y-3">
+                  {profile.skills.animation?.map((skill) => (
+                    <li key={skill.name} className="flex items-center justify-between">
+                      <span className="text-dark-300">{skill.name}</span>
+                      <Tag size="sm">{skill.level}</Tag>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Backend */}
+              <div data-gsap-reveal className="glass-card p-6">
+                <h3 className="text-white font-semibold mb-4">Backend</h3>
+                <ul className="space-y-3">
+                  {profile.skills.backend?.map((skill) => (
+                    <li key={skill.name} className="flex items-center justify-between">
+                      <span className="text-dark-300">{skill.name}</span>
+                      <Tag size="sm">{skill.level}</Tag>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Tools */}
+              <div data-gsap-reveal className="glass-card p-6">
+                <h3 className="text-white font-semibold mb-4">Tools</h3>
+                <ul className="space-y-3">
+                  {profile.skills.tools?.map((skill) => (
+                    <li key={skill.name} className="flex items-center justify-between">
+                      <span className="text-dark-300">{skill.name}</span>
+                      <Tag size="sm">{skill.level}</Tag>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
         </div>
       </Section>
 
-      {/* Frontend Credibility (minimal) */}
+      {/* Secondary Skills Section */}
       <Section className="bg-dark-950/50">
         <div className="max-w-2xl mx-auto text-center">
           <h3 className="text-dark-400 text-sm uppercase tracking-wider mb-4">
             Also Experienced In
           </h3>
-          <h2 className="heading-3 text-white mb-4">Frontend Development</h2>
-          <p className="text-dark-400 mb-6">{profile.frontend.note}</p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {profile.frontend.skills.map((skill) => (
-              <Tag key={skill}>{skill}</Tag>
-            ))}
-          </div>
+          {isTechArt ? (
+            // Tech Art profile: Frontend credibility
+            <>
+              <h2 className="heading-3 text-white mb-4">Frontend Development</h2>
+              <p className="text-dark-400 mb-6">
+                {(profile as any).frontend?.note ||
+                  'While my primary focus is Tech Art, I also have experience building polished web interfaces.'}
+              </p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {((profile as any).frontend?.skills || ['React', 'TypeScript', 'Tailwind CSS', 'Three.js']).map(
+                  (skill: string) => (
+                    <Tag key={skill}>{skill}</Tag>
+                  )
+                )}
+              </div>
+            </>
+          ) : (
+            // Frontend profile: Tech Art/Game Dev credibility
+            <>
+              <h2 className="heading-3 text-white mb-4">Game Development & VR</h2>
+              <p className="text-dark-400 mb-6">
+                {(profile as any).techArt?.note ||
+                  'I also have hands-on experience with Unity, VR development, and technical art.'}
+              </p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {((profile as any).techArt?.skills || ['Unity', 'C#', 'Shaders', 'VFX', 'Meta Quest SDK']).map(
+                  (skill: string) => (
+                    <Tag key={skill}>{skill}</Tag>
+                  )
+                )}
+              </div>
+            </>
+          )}
         </div>
       </Section>
 
@@ -185,9 +283,12 @@ export function About() {
           <p className="text-dark-400 mb-6 max-w-md mx-auto">
             I'm always interested in hearing about new projects and opportunities.
           </p>
-          <Link to="/contact" className="btn-primary">
-            Get in Touch
-          </Link>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link to="/contact" className="btn-primary">
+              Get in Touch
+            </Link>
+            {isFrontend && <CvDownloadButton variant="secondary" />}
+          </div>
         </div>
       </Section>
     </>
@@ -216,6 +317,22 @@ function FocusIcon({ name }: { name: string }) {
       <svg className="w-6 h-6 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    ),
+    // Additional icons for frontend focus areas
+    code: (
+      <svg className="w-6 h-6 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+      </svg>
+    ),
+    accessibility: (
+      <svg className="w-6 h-6 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg>
+    ),
+    zap: (
+      <svg className="w-6 h-6 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>
     ),
   };
