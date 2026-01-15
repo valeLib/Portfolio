@@ -5,8 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   // Base URL for GitHub Pages deployment
-  // Change 'VFXPortafolio' to your actual repository name
-  base: '/Portafolio/',
+  base: '/Portfolio/',
   build: {
     // Generate source maps for debugging
     sourcemap: false,

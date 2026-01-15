@@ -8,7 +8,7 @@ export const SITE_CONFIG = {
   title: 'Tech Artist Portfolio',
   description: 'Tech Artist specializing in Magic VFX, Shaders, and Real-time Systems',
   author: 'Tech Artist',
-  siteUrl: 'https://valeLib.github.io/Portafolio',
+  siteUrl: 'https://valeLib.github.io/Portflio',
 };
 
 // Social links
