@@ -31,8 +31,7 @@ export const SITE_CONFIG = isTechArt
 export const SOCIAL_LINKS = {
   github: 'https://github.com/valeLib',
   linkedin: 'https://linkedin.com/in/valentina-liberona',
-  artstation: 'https://artstation.com/yourusername',
-  twitter: 'https://twitter.com/yourusername',
+  artstation: 'https://artstation.com/valentina_sofia',
   email: 'valentina.liberona@example.com',
 };
 
