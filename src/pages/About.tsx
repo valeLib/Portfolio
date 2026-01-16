@@ -33,7 +33,7 @@ export function About() {
               {profile.tagline}
             </p>
 
-            <p data-gsap-reveal className="text-dark-400 leading-relaxed">
+            <p data-gsap-reveal className="text-dark-400 leading-relaxed whitespace-pre-line">
               {profile.bio}
             </p>
 
@@ -74,7 +74,7 @@ export function About() {
       {/* Extended Bio */}
       <Section className="pt-0">
         <div ref={contentRef} className="max-w-3xl">
-          <p data-gsap-reveal className="text-dark-300 leading-relaxed whitespace-pre-line">
+          <p data-gsap-reveal className="text-dark-400 leading-relaxed whitespace-pre-line">
             {profile.bioExtended}
           </p>
         </div>

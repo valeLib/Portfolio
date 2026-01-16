@@ -8,17 +8,15 @@ export const frontendProfile = {
   heroHeadline: 'Frontend Engineer',
   heroSubheadline: 'Building accessible, performant, and beautiful user interfaces',
 
-  bio: `I'm a Frontend Engineer with expertise in React, TypeScript, and modern web technologies.
-  I specialize in building accessible, performant UIs with a focus on design systems,
-  data-heavy dashboards, and seamless user experiences.`,
+  bio: `I am a frontend engineer who enjoys building things with care and intention.
 
-  bioExtended: `With experience across healthcare, fintech, and education sectors, I bring a product-focused
-  mindset to frontend development. I'm passionate about accessibility (WCAG compliance),
-  performance optimization, and creating maintainable design systems.
+I bring a creative and artistic mindset to development, with strong attention to detail. I focus on delivering work that feels clean, solid, and well finished, while keeping a healthy balance between quality, clarity, and deadlines.
 
-  Beyond web development, I have hands-on experience with Unity WebGL integration and
-  VR development for Meta Quest, bridging the gap between web and immersive experiences.
-  I use GSAP, Framer Motion, and Lottie to create smooth, engaging interactions.`,
+I work well in teams with clear ownership and defined responsibilities. I value asynchronous workflows, where autonomy is respected and each person can focus on delivering their part with reliability.`,
+
+  bioExtended: `From a technical perspective, I focus on building interfaces that feel alive and intentional. I use tools such as GSAP, Lenis, Three.js or Spline, Lottie, and Tailwind to create interactive experiences that go beyond static layouts. Motion and depth are used with purpose, only when they improve flow, understanding, and usability.
+
+I care deeply about accessibility, performance, and maintainability. I enjoy working with systems that scale, code that is easy to read, and interfaces that feel intuitive to real users. My goal is to contribute work that raises the quality of both the product and the team.`,
 
   focusAreas: [
     {
