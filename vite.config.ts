@@ -20,7 +20,7 @@ export default defineConfig({
           vendor: ['react', 'react-dom', 'react-router-dom'],
           gsap: ['gsap'],
           spline: ['@splinetool/react-spline'],
-          lottie: ['@lottiefiles/react-lottie-player'],
+          lottie: ['@lottiefiles/dotlottie-react'],
         },
       },
     },

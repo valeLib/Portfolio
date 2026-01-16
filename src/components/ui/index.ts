@@ -4,3 +4,4 @@ export { ProjectCard } from './ProjectCard';
 export { Breadcrumbs } from './Breadcrumbs';
 export { SocialIcon } from './SocialIcon';
 export { CvDownloadButton } from './CvDownloadButton';
+export { ThemeToggle } from './ThemeToggle';

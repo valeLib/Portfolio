@@ -8,6 +8,7 @@ import { profile } from '../content/profile';
 import { isFrontend } from '../config';
 import catAnimation from '../assets/lottie/cat-decoration.json';
 import sparklesAnimation from '../assets/lottie/magic-sparkles.json';
+import programmingAnimation from '../assets/lottie/Programming Computer.lottie?url';
 
 // Skill categories for frontend profile
 const frontendSkillCategories = [
@@ -98,27 +99,38 @@ export function Skills() {
       {/* Header */}
       <Section className="pb-8 relative overflow-hidden">
         <div ref={headerRef}>
-          <div data-gsap-reveal className="max-w-3xl relative">
-            <h1 className="heading-1 text-white mb-4">
-              Skills & <span className="text-gradient">Technologies</span>
-            </h1>
-            <p className="text-xl text-dark-300 mb-6">
-              {isFrontend
-                ? 'A comprehensive overview of my technical skills and the technologies I work with daily.'
-                : 'Tools and technologies I use to create stunning visual effects and real-time graphics.'}
-            </p>
-            <div className="flex flex-wrap items-center gap-4">
-              <Link to={isFrontend ? '/experience' : '/work'} className="btn-secondary">
-                {isFrontend ? 'View Experience' : 'View Work'}
-              </Link>
-              {isFrontend && <CvDownloadButton variant="ghost" />}
+          <div data-gsap-reveal className="grid lg:grid-cols-2 gap-8 items-center">
+            {/* Content Column */}
+            <div className="relative">
+              <h1 className="heading-1 text-white mb-4">
+                Skills & <span className="text-gradient">Technologies</span>
+              </h1>
+              <p className="text-xl text-dark-300 mb-6">
+                {isFrontend
+                  ? 'A comprehensive overview of my technical skills and the technologies I work with daily.'
+                  : 'Tools and technologies I use to create stunning visual effects and real-time graphics.'}
+              </p>
+              <div className="flex flex-wrap items-center gap-4">
+                <Link to={isFrontend ? '/experience' : '/work'} className="btn-secondary">
+                  {isFrontend ? 'View Experience' : 'View Work'}
+                </Link>
+                {isFrontend && <CvDownloadButton variant="ghost" />}
+              </div>
+            </div>
+
+            {/* Animation Column */}
+            <div className="hidden lg:flex justify-center">
+              <LottieDecor
+                src={programmingAnimation}
+                className="w-72 h-72 xl:w-96 xl:h-96"
+              />
             </div>
           </div>
         </div>
 
         {/* Lottie decoration */}
         <LottieDecor
-          src={JSON.stringify(sparklesAnimation)}
+          data={JSON.stringify(sparklesAnimation)}
           className="absolute top-0 right-0 w-40 h-40 opacity-30"
         />
       </Section>
@@ -191,7 +203,7 @@ export function Skills() {
 
           {/* Lottie decoration */}
           <LottieDecor
-            src={JSON.stringify(catAnimation)}
+            data={JSON.stringify(catAnimation)}
             className="absolute bottom-0 right-1/4 w-24 h-24 opacity-20"
           />
         </div>

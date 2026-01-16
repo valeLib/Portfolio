@@ -25,6 +25,13 @@
     <title>Tech Artist Portfolio | Magic VFX, Shaders, Real-time Systems</title>
   </head>
   <body>
+    <script>
+      (function(){
+        const t = localStorage.getItem('theme') ||
+          (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

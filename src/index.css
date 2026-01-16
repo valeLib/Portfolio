@@ -1,6 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
+/* Theme variables - matcha light/dark palette */
+:root,
+[data-theme="dark"] {
+  --bg: #0f120c;
+  --surface: #171c12;
+  --surface-2: #1f2618;
+  --accent: #d05bf0;
+  --accent-2: #a492f4;
+  --text: #f3f3ed;
+  --muted: rgba(243, 243, 237, 0.68);
+  --border-color: rgba(243, 243, 237, 0.1);
+}
+
+[data-theme="light"] {
+  --bg: #efebdf;
+  --surface: #e5dac4;
+  --surface-2: #d2daa9;
+  --accent: #97a561;
+  --accent-2: #cadc99;
+  --text: #424027;
+  --muted: rgba(66, 64, 39, 0.65);
+  --border-color: rgba(66, 64, 39, 0.1);
+}
+
 @theme {
   /* Colors - Dark palette */
   --color-dark-50: #f8fafc;
@@ -63,15 +87,9 @@
 }
 
 /* Base styles */
-html {
-  scroll-behavior: smooth;
-}
+
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   *,
   *::before,
   *::after {
@@ -81,14 +99,41 @@ html {
   }
 }
 
+
 body {
-  @apply bg-dark-900 text-dark-50 font-sans antialiased;
+  @apply font-sans antialiased;
+  background-color: var(--bg);
+  color: var(--text);
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  height: -webkit-fill-available;
+}
+
+body.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Film grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+}
+
+
+[data-theme="light"] body::after {
+  opacity: 0.05;
+  mix-blend-mode: multiply;
 }
 
 ::selection {
-  background-color: oklch(from var(--color-accent-500) l c h / 0.3);
-  color: white;
+  background-color: var(--accent);
+  color: var(--bg);
 }
 
 /* Utility classes */
@@ -121,43 +166,166 @@ body {
 }
 
 @utility glass-card {
-  @apply bg-dark-800/50 backdrop-blur-lg border border-dark-700/50 rounded-2xl;
+  background-color: var(--surface);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
 }
 
 @utility glass-card-hover {
-  @apply bg-dark-800/50 backdrop-blur-lg border border-dark-700/50 rounded-2xl transition-all duration-300 hover:bg-dark-800/70 hover:border-accent-500/30 hover:shadow-lg hover:shadow-accent-500/10;
+  background-color: var(--surface);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+}
+
+.glass-card-hover:hover {
+  background-color: var(--surface-2);
+  border-color: var(--accent-2);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 @utility btn-primary {
-  @apply inline-flex items-center justify-center px-6 py-3 bg-accent-500 hover:bg-accent-600 text-white font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-dark-900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--accent);
+  color: var(--bg);
+  font-weight: 500;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-2);
+}
+
+.btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
 }
 
 @utility btn-secondary {
-  @apply inline-flex items-center justify-center px-6 py-3 bg-dark-700 hover:bg-dark-600 text-white font-medium rounded-xl border border-dark-600 hover:border-dark-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-dark-500 focus:ring-offset-2 focus:ring-offset-dark-900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--surface);
+  color: var(--text);
+  font-weight: 500;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--surface-2);
+  border-color: var(--accent-2);
+}
+
+.btn-secondary:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
 }
 
 @utility btn-ghost {
-  @apply inline-flex items-center justify-center px-4 py-2 text-dark-300 hover:text-white hover:bg-dark-800/50 font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-dark-500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  color: var(--muted);
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-ghost:hover {
+  color: var(--text);
+  background-color: var(--surface);
+}
+
+.btn-ghost:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent);
 }
 
 @utility tag {
-  @apply inline-flex items-center px-3 py-1 text-sm font-medium bg-dark-700/50 text-dark-300 rounded-full border border-dark-600/50;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: var(--surface);
+  color: var(--muted);
+  border-radius: 9999px;
+  border: 1px solid var(--border-color);
 }
 
 @utility tag-accent {
-  @apply inline-flex items-center px-3 py-1 text-sm font-medium bg-accent-500/10 text-accent-400 rounded-full border border-accent-500/30;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: color-mix(in srgb, var(--accent) 15%, transparent);
+  color: var(--accent);
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
 @utility filter-chip {
-  @apply inline-flex items-center px-4 py-2 text-sm font-medium bg-dark-800 text-dark-300 rounded-full border border-dark-700 transition-all duration-200 cursor-pointer hover:border-accent-500/50 hover:text-white;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: var(--surface);
+  color: var(--muted);
+  border-radius: 9999px;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.filter-chip:hover {
+  border-color: var(--accent-2);
+  color: var(--text);
 }
 
 @utility filter-chip-active {
-  @apply inline-flex items-center px-4 py-2 text-sm font-medium bg-accent-500/20 text-accent-400 rounded-full border border-accent-500/50 transition-all duration-200 cursor-pointer;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: color-mix(in srgb, var(--accent) 20%, transparent);
+  color: var(--accent);
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 @utility input-field {
-  @apply w-full px-4 py-3 bg-dark-800 border border-dark-700 rounded-xl text-white placeholder-dark-500 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+
+.input-field::placeholder {
+  color: var(--muted);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 /* Custom animation */
@@ -178,11 +346,11 @@ body {
 }
 
 @utility gradient-bg {
-  background: linear-gradient(135deg, var(--color-dark-900) 0%, var(--color-dark-800) 50%, var(--color-dark-900) 100%);
+  background: linear-gradient(135deg, var(--bg) 0%, var(--surface) 50%, var(--bg) 100%);
 }
 
 @utility gradient-accent {
-  background: linear-gradient(135deg, var(--color-accent-500) 0%, var(--color-primary-500) 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
 }
 
 @utility scrollbar-hide {

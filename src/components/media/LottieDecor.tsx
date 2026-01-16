@@ -1,11 +1,10 @@
-import { Suspense, lazy } from 'react';
-
-const Player = lazy(() =>
-  import('@lottiefiles/react-lottie-player').then((mod) => ({ default: mod.Player }))
-);
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 interface LottieDecorProps {
-  src: string;
+  /** JSON string data for inline lottie */
+  data?: string;
+  /** URL path for .lottie files */
+  src?: string;
   className?: string;
   loop?: boolean;
   autoplay?: boolean;
@@ -13,6 +12,7 @@ interface LottieDecorProps {
 }
 
 export function LottieDecor({
+  data,
   src,
   className = '',
   loop = true,
@@ -21,15 +21,14 @@ export function LottieDecor({
 }: LottieDecorProps) {
   return (
     <div className={className} aria-hidden="true">
-      <Suspense fallback={null}>
-        <Player
-          src={src}
-          loop={loop}
-          autoplay={autoplay}
-          speed={speed}
-          style={{ width: '100%', height: '100%' }}
-        />
-      </Suspense>
+      <DotLottieReact
+        data={data}
+        src={src}
+        loop={loop}
+        autoplay={autoplay}
+        speed={speed}
+        style={{ width: '100%', height: '100%' }}
+      />
     </div>
   );
 }
