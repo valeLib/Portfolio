@@ -23,11 +23,13 @@ export function ProjectsIntro() {
       const cta = containerRef.current.querySelector('[data-intro="cta"]');
       const decoration = containerRef.current.querySelector('[data-intro="decoration"]');
 
-      // Set initial states
-      gsap.set([title, description, cta], { opacity: 0, y: 40 });
-      gsap.set(decoration, { opacity: 0, scale: 0.8 });
+      // VISIBLE at scroll=0: title is shown immediately
+      // Scroll reveals secondary elements
+      gsap.set(title, { opacity: 1, y: 0 });
+      gsap.set([description, cta], { opacity: 0, y: 20 });
+      gsap.set(decoration, { opacity: 0, scale: 0.9 });
 
-      // Create timeline with short pin
+      // Create timeline with short pin - scroll reveals secondary content
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -39,10 +41,9 @@ export function ProjectsIntro() {
         },
       });
 
-      tl.to(title, { opacity: 1, y: 0, duration: 0.4 }, 0)
-        .to(description, { opacity: 1, y: 0, duration: 0.4 }, 0.15)
-        .to(cta, { opacity: 1, y: 0, duration: 0.4 }, 0.3)
-        .to(decoration, { opacity: 0.2, scale: 1, duration: 0.5 }, 0.2);
+      tl.to(description, { opacity: 1, y: 0, duration: 0.4 }, 0)
+        .to(cta, { opacity: 1, y: 0, duration: 0.4 }, 0.2)
+        .to(decoration, { opacity: 0.2, scale: 1, duration: 0.5 }, 0.1);
     },
     containerRef,
     [prefersReducedMotion]
@@ -58,7 +59,7 @@ export function ProjectsIntro() {
             <h1
               data-intro="title"
               className="heading-1 mb-4"
-              style={{ color: 'var(--text)', opacity: showAll ? 1 : undefined }}
+              style={{ color: 'var(--text)' }}
             >
               Featured <span className="text-gradient">Projects</span>
             </h1>

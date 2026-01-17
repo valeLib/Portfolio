@@ -15,32 +15,33 @@ export function SkillsSection() {
     () => {
       if (!containerRef.current || prefersReducedMotion) return;
 
-      const cards = containerRef.current.querySelectorAll('[data-skill-card]');
-      const header = containerRef.current.querySelector('[data-skill-header]');
+      const container = containerRef.current;
+      const cards = container.querySelectorAll('[data-skill-card]');
+      const header = container.querySelector('[data-skill-header]');
 
-      // Animate header
-      gsap.from(header, {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
+      // Set initial state - header visible, cards hidden
+      gsap.set(header, { opacity: 1, y: 0 });
+      gsap.set(cards, { opacity: 0, y: 30 });
+
+      // Create pinned section with progressive reveal
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: header,
-          start: 'top 85%',
-          once: true,
+          trigger: container,
+          start: 'top top',
+          end: '+=80%',
+          pin: true,
+          scrub: 0.8,
+          anticipatePin: 1,
         },
       });
 
-      // Batch reveal cards with stagger
-      gsap.from(cards, {
-        opacity: 0,
-        y: 40,
-        duration: 0.6,
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 75%',
-          once: true,
-        },
+      // Reveal cards during pin
+      tl.to(cards, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: 'power2.out',
       });
     },
     containerRef,
@@ -48,8 +49,8 @@ export function SkillsSection() {
   );
 
   return (
-    <Section>
-      <div ref={containerRef}>
+    <Section className="min-h-screen flex items-center" noPadding fullWidth>
+      <div ref={containerRef} className="container-main section-padding w-full py-16">
         <div data-skill-header className="text-center mb-12">
           <h2 className="heading-2 mb-4" style={{ color: 'var(--text)' }}>
             {isTechArt ? 'Core Capabilities' : 'Technical Expertise'}

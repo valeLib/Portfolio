@@ -17,44 +17,37 @@ export function ContactSection() {
     () => {
       if (!containerRef.current || prefersReducedMotion) return;
 
-      const card = containerRef.current.querySelector('[data-contact-card]');
-      const content = containerRef.current.querySelectorAll('[data-contact-reveal]');
+      const container = containerRef.current;
+      const card = container.querySelector('[data-contact-card]');
+      const content = container.querySelectorAll('[data-contact-reveal]');
 
-      // Card reveal
-      gsap.from(card, {
-        opacity: 0,
-        y: 60,
-        scale: 0.95,
-        duration: 0.8,
-        ease: 'power2.out',
+      // Set initial state - card hidden
+      gsap.set(card, { opacity: 0, y: 40, scale: 0.95 });
+      gsap.set(content, { opacity: 0, y: 15 });
+
+      // Create pinned section with card reveal
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: card,
-          start: 'top 85%',
-          once: true,
+          trigger: container,
+          start: 'top top',
+          end: '+=60%',
+          pin: true,
+          scrub: 0.8,
+          anticipatePin: 1,
         },
       });
 
-      // Content stagger
-      gsap.from(content, {
-        opacity: 0,
-        y: 20,
-        duration: 0.5,
-        stagger: 0.1,
-        delay: 0.3,
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 85%',
-          once: true,
-        },
-      });
+      // Reveal card and content during pin
+      tl.to(card, { opacity: 1, y: 0, scale: 1, duration: 0.5 })
+        .to(content, { opacity: 1, y: 0, duration: 0.3, stagger: 0.08 }, '-=0.2');
     },
     containerRef,
     [prefersReducedMotion]
   );
 
   return (
-    <Section>
-      <div ref={containerRef}>
+    <Section className="min-h-screen flex items-center" noPadding fullWidth>
+      <div ref={containerRef} className="container-main section-padding w-full py-16">
         <div
           data-contact-card
           className="relative glass-card p-8 md:p-12 text-center overflow-hidden"

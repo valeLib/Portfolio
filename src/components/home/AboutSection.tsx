@@ -17,21 +17,38 @@ export function AboutSection() {
     () => {
       if (!containerRef.current || prefersReducedMotion) return;
 
-      const cards = containerRef.current.querySelectorAll('[data-about-card]');
+      const container = containerRef.current;
+      const header = container.querySelector('[data-about-header]');
+      const cards = container.querySelectorAll('[data-about-card]');
 
-      // Staggered reveal on scroll
-      gsap.from(cards, {
+      // Set initial state - header visible, cards hidden with rotation
+      gsap.set(header, { opacity: 1 });
+      gsap.set(cards, {
         opacity: 0,
-        y: 50,
-        rotateZ: (i) => (i % 2 === 0 ? -2 : 2), // Subtle rotation for scrapbook effect
-        duration: 0.7,
-        stagger: 0.15,
-        ease: 'power2.out',
+        y: 40,
+        rotateZ: (i) => (i % 2 === 0 ? -3 : 3),
+      });
+
+      // Create pinned section with staggered card reveal
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 75%',
-          once: true,
+          trigger: container,
+          start: 'top top',
+          end: '+=70%',
+          pin: true,
+          scrub: 0.8,
+          anticipatePin: 1,
         },
+      });
+
+      // Reveal cards with rotation settling during pin
+      tl.to(cards, {
+        opacity: 1,
+        y: 0,
+        rotateZ: (i) => (i % 2 === 0 ? -1 : 1),
+        duration: 0.5,
+        stagger: 0.1,
+        ease: 'power2.out',
       });
     },
     containerRef,
@@ -74,9 +91,14 @@ export function AboutSection() {
   ];
 
   return (
-    <Section style={{ backgroundColor: 'color-mix(in srgb, var(--surface) 50%, transparent)' }}>
-      <div ref={containerRef}>
-        <div className="text-center mb-12">
+    <Section
+      className="min-h-screen flex items-center"
+      noPadding
+      fullWidth
+      style={{ backgroundColor: 'color-mix(in srgb, var(--surface) 50%, transparent)' }}
+    >
+      <div ref={containerRef} className="container-main section-padding w-full py-16">
+        <div data-about-header className="text-center mb-12">
           <h2 className="heading-2 mb-4" style={{ color: 'var(--text)' }}>
             A bit about me
           </h2>

@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Section } from '../layout';
@@ -20,75 +20,154 @@ export function ProjectsGallery({
   description = 'Production applications built with React, Vue, TypeScript, and modern web technologies. Focus on performance, accessibility, and scalable architecture.',
 }: ProjectsGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useGsapContext(
     () => {
-      if (!containerRef.current || prefersReducedMotion) return;
+      if (!containerRef.current || !trackRef.current || prefersReducedMotion) return;
 
-      const header = containerRef.current.querySelector('[data-gallery-header]');
-      const cards = containerRef.current.querySelectorAll('[data-project-card]');
+      const container = containerRef.current;
+      const track = trackRef.current;
+      const cards = track.querySelectorAll('[data-project-card]');
+      const totalCards = cards.length;
 
-      // Header reveal
-      gsap.from(header, {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
+      // Calculate scroll distance based on number of cards
+      const scrollDistance = (totalCards - 1) * 100; // percentage of viewport width per card
+
+      // Set initial state
+      gsap.set(cards, { opacity: 0.4, scale: 0.9 });
+      gsap.set(cards[0], { opacity: 1, scale: 1 });
+
+      // Create horizontal scroll animation
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: header,
-          start: 'top 85%',
-          once: true,
+          trigger: container,
+          start: 'top top',
+          end: `+=${totalCards * 50}%`,
+          pin: true,
+          scrub: 0.8,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            const newIndex = Math.round(self.progress * (totalCards - 1));
+            setActiveIndex(newIndex);
+          },
         },
       });
 
-      // Batch reveal cards (3 at a time)
-      const batchSize = 3;
-      for (let i = 0; i < cards.length; i += batchSize) {
-        const batch = Array.from(cards).slice(i, i + batchSize);
-        gsap.from(batch, {
-          opacity: 0,
-          y: 50,
-          duration: 0.6,
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: batch[0],
-            start: 'top 80%',
-            once: true,
-          },
-        });
-      }
+      // Animate horizontal position of track
+      tl.to(track, {
+        x: `-${scrollDistance}%`,
+        ease: 'none',
+      });
+
+      // Animate individual cards - scale up when active, down when not
+      cards.forEach((card, i) => {
+        const cardProgress = i / (totalCards - 1);
+
+        // Scale and opacity animation for each card
+        tl.to(card, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.5 / totalCards,
+        }, cardProgress - 0.1);
+
+        if (i < totalCards - 1) {
+          tl.to(card, {
+            opacity: 0.4,
+            scale: 0.9,
+            duration: 0.5 / totalCards,
+          }, cardProgress + 0.1);
+        }
+      });
     },
     containerRef,
     [prefersReducedMotion, projects]
   );
 
   return (
-    <Section>
-      <div ref={containerRef}>
-        <div data-gallery-header className="mb-8">
-          <h2 className="heading-2 mb-2" style={{ color: 'var(--text)' }}>
-            {title}
-          </h2>
-          <p className="max-w-2xl" style={{ color: 'var(--muted)' }}>
-            {description}
-          </p>
+    <Section className="min-h-screen overflow-hidden" noPadding fullWidth>
+      <div ref={containerRef} className="h-screen flex flex-col">
+        {/* Header */}
+        <div className="container-main pt-8 pb-4 flex-shrink-0">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
+            <div>
+              <h2 className="heading-2 mb-2" style={{ color: 'var(--text)' }}>
+                {title}
+              </h2>
+              <p className="max-w-2xl text-sm" style={{ color: 'var(--muted)' }}>
+                {description}
+              </p>
+            </div>
+            {/* Progress indicator */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-mono" style={{ color: 'var(--accent)' }}>
+                {String(activeIndex + 1).padStart(2, '0')}
+              </span>
+              <div
+                className="w-24 h-0.5 rounded-full overflow-hidden"
+                style={{ backgroundColor: 'var(--border-color)' }}
+              >
+                <div
+                  className="h-full rounded-full transition-all duration-300"
+                  style={{
+                    backgroundColor: 'var(--accent)',
+                    width: `${((activeIndex + 1) / projects.length) * 100}%`,
+                  }}
+                />
+              </div>
+              <span className="text-sm font-mono" style={{ color: 'var(--muted)' }}>
+                {String(projects.length).padStart(2, '0')}
+              </span>
+            </div>
+          </div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
-            <div key={project.id} data-project-card>
-              <ProjectCard project={project} />
-            </div>
-          ))}
+        {/* Horizontal scroll track */}
+        <div className="flex-1 flex items-center overflow-hidden">
+          <div
+            ref={trackRef}
+            className="flex gap-8 px-8"
+            style={{ width: `${projects.length * 85}vw` }}
+          >
+            {projects.map((project, index) => (
+              <div
+                key={project.id}
+                data-project-card
+                className="w-[75vw] md:w-[45vw] lg:w-[35vw] flex-shrink-0"
+              >
+                <ProjectCard project={project} isActive={index === activeIndex} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Scroll hint */}
+        <div className="container-main py-4 flex-shrink-0 text-center">
+          <p className="text-xs uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
+            Scroll to browse projects
+          </p>
         </div>
       </div>
     </Section>
   );
 }
 
-function ProjectCard({ project }: { project: FrontendProject }) {
+interface ProjectCardProps {
+  project: FrontendProject;
+  isActive?: boolean;
+}
+
+function ProjectCard({ project, isActive = false }: ProjectCardProps) {
   return (
-    <div className="glass-card p-6 h-full flex flex-col">
+    <div
+      className="glass-card p-6 h-full flex flex-col transition-all duration-300"
+      style={{
+        borderColor: isActive ? 'var(--accent)' : undefined,
+        borderWidth: isActive ? '1px' : undefined,
+      }}
+    >
       {/* Category Badge */}
       <div className="flex items-center gap-2 mb-4">
         <span

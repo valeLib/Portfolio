@@ -34,15 +34,21 @@ function ExperienceHeader() {
     () => {
       if (!containerRef.current || prefersReducedMotion) return;
 
-      const elements = containerRef.current.querySelectorAll('[data-header-reveal]');
+      // Only animate secondary elements - title is always visible
+      const secondaryElements = containerRef.current.querySelectorAll('[data-header-secondary]');
 
-      gsap.from(elements, {
-        opacity: 0,
-        y: 30,
-        duration: 0.7,
-        stagger: 0.15,
-        ease: 'power2.out',
-      });
+      gsap.fromTo(
+        secondaryElements,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: 'power2.out',
+          delay: 0.2,
+        }
+      );
     },
     containerRef,
     [prefersReducedMotion]
@@ -53,7 +59,6 @@ function ExperienceHeader() {
       <div ref={containerRef}>
         <div className="max-w-3xl">
           <h1
-            data-header-reveal
             className="heading-1 mb-4"
             style={{ color: 'var(--text)' }}
           >
@@ -61,7 +66,7 @@ function ExperienceHeader() {
           </h1>
 
           <p
-            data-header-reveal
+            data-header-secondary
             className="text-xl mb-6"
             style={{ color: 'var(--muted)' }}
           >
@@ -69,7 +74,7 @@ function ExperienceHeader() {
             applications.
           </p>
 
-          <div data-header-reveal className="flex flex-wrap items-center gap-4">
+          <div data-header-secondary className="flex flex-wrap items-center gap-4">
             <CvDownloadButton variant="secondary" />
           </div>
         </div>

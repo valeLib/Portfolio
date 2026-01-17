@@ -33,36 +33,28 @@ export function HeroSection() {
       const visual = content.querySelector('[data-hero="visual"]');
       const scrollHint = content.querySelector('[data-hero="scroll-hint"]');
 
-      // Initial states
-      gsap.set([badge, headline, subline, cta, scrollHint], {
-        opacity: 0,
-        y: 30,
-      });
-      gsap.set(visual, { opacity: 0, scale: 0.95 });
+      // VISIBLE at scroll=0: badge, headline, visual are shown immediately
+      // Scroll enhances by revealing subline, CTA, and scroll hint
+      gsap.set([badge, headline, visual], { opacity: 1, y: 0, scale: 1 });
+      gsap.set([subline, cta], { opacity: 0, y: 20 });
+      gsap.set(scrollHint, { opacity: 0 });
 
-      // Create pinned timeline with 3 beats
+      // Create pinned timeline - scroll reveals secondary elements
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
           start: 'top top',
-          end: '+=150%',
+          end: '+=100%',
           pin: true,
           scrub: 1,
           anticipatePin: 1,
         },
       });
 
-      // Beat 1 (0-33%): Headline reveal
-      tl.to(badge, { opacity: 1, y: 0, duration: 0.3 }, 0)
-        .to(headline, { opacity: 1, y: 0, duration: 0.4 }, 0.1)
-        .to(visual, { opacity: 1, scale: 1, duration: 0.5 }, 0.15);
-
-      // Beat 2 (33-66%): Subline appears
-      tl.to(subline, { opacity: 1, y: 0, duration: 0.4 }, 0.35);
-
-      // Beat 3 (66-100%): CTA + scroll hint
-      tl.to(cta, { opacity: 1, y: 0, duration: 0.4 }, 0.55)
-        .to(scrollHint, { opacity: 0.8, y: 0, duration: 0.3 }, 0.7);
+      // Scroll reveals subline, CTA, and hint progressively
+      tl.to(subline, { opacity: 1, y: 0, duration: 0.4 }, 0)
+        .to(cta, { opacity: 1, y: 0, duration: 0.4 }, 0.2)
+        .to(scrollHint, { opacity: 0.8, duration: 0.3 }, 0.4);
     },
     containerRef,
     [prefersReducedMotion]
@@ -96,7 +88,6 @@ export function HeroSection() {
               <div
                 data-hero="badge"
                 className="mb-4"
-                style={{ opacity: showAll ? 1 : undefined }}
               >
                 <span
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
@@ -117,7 +108,7 @@ export function HeroSection() {
               <h1
                 data-hero="headline"
                 className="heading-1 mb-4"
-                style={{ color: 'var(--text)', opacity: showAll ? 1 : undefined }}
+                style={{ color: 'var(--text)' }}
               >
                 {isTechArt ? (
                   <>
@@ -176,7 +167,6 @@ export function HeroSection() {
             <div
               data-hero="visual"
               className="order-1 lg:order-2 relative"
-              style={{ opacity: showAll ? 1 : undefined }}
             >
               <div className="aspect-square lg:aspect-auto lg:h-[500px] rounded-2xl overflow-hidden">
                 <SplineHero />
