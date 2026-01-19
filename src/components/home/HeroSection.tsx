@@ -261,21 +261,21 @@ export function HeroSection() {
   const showAll = prefersReducedMotion;
 
   return (
-    <Section className="relative overflow-hidden" noPadding>
-      <div ref={containerRef} className="min-h-screen">
-        <div className="container-main section-padding pt-24 md:pt-32">
-          {/* Background decoration */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div
-              className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full blur-3xl transition-colors"
-              style={{ backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)' }}
-            />
-            <div
-              className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full blur-3xl transition-colors"
-              style={{ backgroundColor: 'color-mix(in srgb, var(--accent-2) 10%, transparent)' }}
-            />
-          </div>
+    <Section className="relative overflow-hidden" noPadding fullWidth>
+      <div ref={containerRef} className="min-h-screen relative">
+        {/* Background decoration - outside container-main to span full width */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div
+            className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full blur-3xl transition-colors"
+            style={{ backgroundColor: 'color-mix(in srgb, var(--accent) 10%, transparent)' }}
+          />
+          <div
+            className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full blur-3xl transition-colors"
+            style={{ backgroundColor: 'color-mix(in srgb, var(--accent-2) 10%, transparent)' }}
+          />
+        </div>
 
+        <div className="container-main section-padding pt-24 md:pt-32 relative">
           <div
             ref={heroContentRef}
             className="relative grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[70vh]"

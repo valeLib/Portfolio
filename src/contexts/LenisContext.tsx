@@ -79,7 +79,21 @@ export function LenisProvider({ children }: LenisProviderProps) {
     // Refresh ScrollTrigger when Lenis updates
     ScrollTrigger.defaults({ scroller: document.body });
 
+    // Refresh ScrollTrigger after fonts are ready
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(() => {
+        ScrollTrigger.refresh();
+      });
+    }
+
+    // Refresh ScrollTrigger after window load (all images loaded)
+    const handleWindowLoad = () => {
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener('load', handleWindowLoad);
+
     return () => {
+      window.removeEventListener('load', handleWindowLoad);
       gsap.ticker.remove(tickerCallback);
       lenisInstance.destroy();
       lenisRef.current = null;
