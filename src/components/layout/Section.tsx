@@ -1,4 +1,4 @@
-import { type ReactNode, forwardRef } from 'react';
+import { type ReactNode, type CSSProperties, forwardRef } from 'react';
 
 interface SectionProps {
   children: ReactNode;
@@ -6,15 +6,17 @@ interface SectionProps {
   id?: string;
   fullWidth?: boolean;
   noPadding?: boolean;
+  style?: CSSProperties;
 }
 
 export const Section = forwardRef<HTMLElement, SectionProps>(
-  ({ children, className = '', id, fullWidth = false, noPadding = false }, ref) => {
+  ({ children, className = '', id, fullWidth = false, noPadding = false, style }, ref) => {
     return (
       <section
         ref={ref}
         id={id}
         className={`${noPadding ? '' : 'section-padding'} ${className}`}
+        style={style}
       >
         {fullWidth ? (
           children

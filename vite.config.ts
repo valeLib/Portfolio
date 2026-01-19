@@ -1,11 +1,15 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+// Determine base path based on profile
+const profile = process.env.VITE_PROFILE || 'tech-art';
+const basePath = profile === 'frontend' ? '/Portfolio/Software-Engineer/' : '/Portfolio/';
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // Base URL for GitHub Pages deployment
-  base: '/Portfolio/',
+  // Dynamic base URL based on profile for GitHub Pages deployment
+  base: basePath,
   build: {
     // Generate source maps for debugging
     sourcemap: false,
@@ -15,8 +19,7 @@ export default defineConfig({
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
           gsap: ['gsap'],
-          spline: ['@splinetool/react-spline'],
-          lottie: ['@lottiefiles/react-lottie-player'],
+          lottie: ['@lottiefiles/dotlottie-react'],
         },
       },
     },

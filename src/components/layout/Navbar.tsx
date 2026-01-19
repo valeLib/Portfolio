@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { NAV_LINKS } from '../../config';
+import { NAV_LINKS, isTechArt } from '../../config';
+import { CvDownloadButton, ThemeToggle } from '../ui';
+import { profile } from '../../content/profile';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -23,22 +25,30 @@ export function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-dark-900/90 backdrop-blur-lg border-b border-dark-800'
+        isScrolled || isMobileMenuOpen
+          ? 'backdrop-blur-lg border-b'
           : 'bg-transparent'
       }`}
+      style={{
+        backgroundColor: isScrolled || isMobileMenuOpen ? 'color-mix(in srgb, var(--bg) 95%, transparent)' : 'transparent',
+        borderColor: isScrolled || isMobileMenuOpen ? 'var(--border-color)' : 'transparent',
+      }}
     >
       <div className="container-main">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center gap-2 text-lg font-display font-bold text-white hover:text-accent-400 transition-colors"
+            className="flex items-center gap-2 text-lg font-display font-bold transition-colors"
+            style={{ color: 'var(--text)' }}
           >
-            <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-500 to-primary-500 flex items-center justify-center text-sm">
-              TA
+            <span
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-sm"
+              style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent-2))', color: 'var(--bg)' }}
+            >
+              {isTechArt ? 'TA' : 'VL'}
             </span>
-            <span className="hidden sm:inline">TechArtist</span>
+            <span className="hidden sm:inline">{profile.name.split(' ')[0]}</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -47,24 +57,42 @@ export function Navbar() {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                  location.pathname === link.path
-                    ? 'text-accent-400 bg-accent-500/10'
-                    : 'text-dark-300 hover:text-white hover:bg-dark-800/50'
-                }`}
+                className="px-4 py-2 rounded-lg font-medium transition-all duration-200"
+                style={{
+                  color: location.pathname === link.path ? 'var(--accent)' : 'var(--muted)',
+                  backgroundColor: location.pathname === link.path ? 'color-mix(in srgb, var(--accent) 10%, transparent)' : 'transparent',
+                }}
+                onMouseEnter={(e) => {
+                  if (location.pathname !== link.path) {
+                    e.currentTarget.style.color = 'var(--text)';
+                    e.currentTarget.style.backgroundColor = 'var(--surface)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (location.pathname !== link.path) {
+                    e.currentTarget.style.color = 'var(--muted)';
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }
+                }}
               >
                 {link.label}
               </Link>
             ))}
+            {/* CV Download Button - shows when enabled */}
+            <CvDownloadButton variant="ghost" size="sm" className="ml-2" />
+            {/* Theme Toggle */}
+            <ThemeToggle className="ml-1" />
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-dark-300 hover:text-white transition-colors"
-            aria-label="Toggle menu"
-            aria-expanded={isMobileMenuOpen}
-          >
+          {/* Mobile: Theme Toggle + Menu Button */}
+          <div className="md:hidden flex items-center gap-1">
+            <ThemeToggle />
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 text-[var(--muted)] hover:text-[var(--text)] transition-colors"
+              aria-label="Toggle menu"
+              aria-expanded={isMobileMenuOpen}
+            >
             <svg
               className="w-6 h-6"
               fill="none"
@@ -87,26 +115,34 @@ export function Navbar() {
                 />
               )}
             </svg>
-          </button>
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden pb-4 border-t border-dark-800 mt-2 pt-4">
+          <div
+            className="md:hidden pb-4 border-t mt-2 pt-4"
+            style={{ borderColor: 'var(--border-color)' }}
+          >
             <div className="flex flex-col gap-1">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
-                    location.pathname === link.path
-                      ? 'text-accent-400 bg-accent-500/10'
-                      : 'text-dark-300 hover:text-white hover:bg-dark-800/50'
-                  }`}
+                  className="px-4 py-3 rounded-lg font-medium transition-all duration-200"
+                  style={{
+                    color: location.pathname === link.path ? 'var(--accent)' : 'var(--muted)',
+                    backgroundColor: location.pathname === link.path ? 'color-mix(in srgb, var(--accent) 10%, transparent)' : 'transparent',
+                  }}
                 >
                   {link.label}
                 </Link>
               ))}
+              {/* CV Download Button in mobile menu */}
+              <div className="px-4 pt-2">
+                <CvDownloadButton variant="secondary" size="md" className="w-full" />
+              </div>
             </div>
           </div>
         )}

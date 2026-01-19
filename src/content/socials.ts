@@ -8,34 +8,34 @@ export interface SocialLink {
 export const socials: SocialLink[] = [
   {
     name: 'ArtStation',
-    url: 'https://artstation.com/yourusername',
+    url: 'https://artstation.com/valentina_sofia',
     icon: 'artstation',
     username: '@yourusername',
   },
   {
     name: 'GitHub',
-    url: 'https://github.com/yourusername',
+    url: 'https://github.com/valeLib',
     icon: 'github',
-    username: '@yourusername',
+    username: '@valeLib',
   },
   {
     name: 'LinkedIn',
-    url: 'https://linkedin.com/in/yourusername',
+    url: 'https://linkedin.com/in/valentina-liberona',
     icon: 'linkedin',
-    username: 'Your Name',
+    username: 'Valentina Liberona',
   },
-  {
-    name: 'Twitter',
-    url: 'https://twitter.com/yourusername',
-    icon: 'twitter',
-    username: '@yourusername',
-  },
-  {
-    name: 'YouTube',
-    url: 'https://youtube.com/@yourusername',
-    icon: 'youtube',
-    username: '@yourusername',
-  },
+  // {
+  //   name: 'Twitter',
+  //   url: 'https://twitter.com/yourusername',
+  //   icon: 'twitter',
+  //   username: '@yourusername',
+  // },
+  // {
+  //   name: 'YouTube',
+  //   url: 'https://youtube.com/@yourusername',
+  //   icon: 'youtube',
+  //   username: '@yourusername',
+  // },
 ];
 
 export const contactEmail = 'your.email@example.com';

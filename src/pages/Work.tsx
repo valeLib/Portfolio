@@ -14,7 +14,7 @@ export function Work() {
       <Section className="pb-8">
         <div ref={headerRef}>
           <div data-gsap-reveal className="max-w-3xl">
-            <h1 className="heading-1 text-white mb-4">
+            <h1 className="heading-1 mb-4" style={{ color: 'var(--text)' }}>
               Featured <span className="text-gradient">Projects</span>
             </h1>
             <p className="text-xl text-dark-400">
@@ -39,7 +39,7 @@ export function Work() {
       {/* Contact CTA */}
       <Section className="bg-dark-950/50">
         <div className="text-center">
-          <h2 className="heading-3 text-white mb-4">Interested in working together?</h2>
+          <h2 className="heading-3 mb-4" style={{ color: 'var(--text)' }}>Interested in working together?</h2>
           <p className="text-dark-400 mb-6 max-w-md mx-auto">
             I'm always looking for new challenges and opportunities to create amazing VFX.
           </p>

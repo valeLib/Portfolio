@@ -1,33 +1,59 @@
 // Configuration constants for the portfolio
 
-// Spline 3D scene URL - replace with your own scene
-export const SPLINE_SCENE_URL = 'https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode';
+// Profile configuration from build-time environment variables
+export const PROFILE = (import.meta.env.VITE_PROFILE || 'tech-art') as 'tech-art' | 'frontend'
+export const CV_ENABLED = import.meta.env.VITE_CV_ENABLED === 'true'
+export const isTechArt = PROFILE === 'tech-art'
+export const isFrontend = PROFILE === 'frontend'
 
-// Site metadata
-export const SITE_CONFIG = {
-  title: 'Tech Artist Portfolio',
-  description: 'Tech Artist specializing in Magic VFX, Shaders, and Real-time Systems',
-  author: 'Tech Artist',
-  siteUrl: 'https://valeLib.github.io/Portflio',
-};
+// CV PDF path - uses Vite's base path automatically
+export const CV_PDF_PATH = `${import.meta.env.BASE_URL}cv/Valentina_LZ_CV.pdf`
+
+// 3D Model path - place your .glb file in public/models/
+export const CAT_MODEL_URL = `${import.meta.env.BASE_URL}models/cat.glb`;
+
+// Site metadata - profile-aware
+export const SITE_CONFIG = isTechArt
+  ? {
+      title: 'Tech Artist Portfolio',
+      description: 'Tech Artist specializing in Magic VFX, Shaders, and Real-time Systems',
+      author: 'Valentina Liberona',
+      siteUrl: 'https://valelib.github.io/Portfolio',
+    }
+  : {
+      title: 'Valentina Liberona | Frontend Engineer',
+      description: 'Frontend Engineer specializing in React, TypeScript, accessibility, and performant UI systems',
+      author: 'Valentina Liberona',
+      siteUrl: 'https://valelib.github.io/Portfolio/Software-Engineer',
+    };
 
 // Social links
 export const SOCIAL_LINKS = {
-  github: 'https://github.com/yourusername',
-  linkedin: 'https://linkedin.com/in/yourusername',
-  artstation: 'https://artstation.com/yourusername',
-  twitter: 'https://twitter.com/yourusername',
-  email: 'your.email@example.com',
+  github: 'https://github.com/valeLib',
+  linkedin: 'https://linkedin.com/in/valentina-liberona',
+  artstation: 'https://artstation.com/valentina_sofia',
+  email: 'valentina.liberona@example.com',
 };
 
-// Navigation links
-export const NAV_LINKS = [
+// Navigation links - profile-aware
+const techArtNavLinks = [
   { label: 'Home', path: '/' },
   { label: 'Work', path: '/work' },
   { label: 'Gallery', path: '/gallery' },
   { label: 'About', path: '/about' },
   { label: 'Contact', path: '/contact' },
 ];
+
+const frontendNavLinks = [
+  { label: 'Home', path: '/' },
+  { label: 'Experience', path: '/experience' },
+  { label: 'Projects', path: '/projects' },
+  { label: 'Skills', path: '/skills' },
+  { label: 'About', path: '/about' },
+  { label: 'Contact', path: '/contact' },
+];
+
+export const NAV_LINKS = isTechArt ? techArtNavLinks : frontendNavLinks;
 
 // Gallery categories for filtering
 export const GALLERY_CATEGORIES = ['All', 'VFX', 'Shaders', '3D Models', 'Tools'] as const;
