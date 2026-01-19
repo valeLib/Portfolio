@@ -5,7 +5,7 @@ import { ProjectsSection } from '../components/home/ProjectsSection';
 import { SkillsSection } from '../components/home/SkillsSection';
 import { AboutSection } from '../components/home/AboutSection';
 import { ContactSection } from '../components/home/ContactSection';
-import { ScrollIndex, MarqueeBand } from '../components/ui';
+import { ScrollIndex } from '../components/ui';
 import { RhythmSection } from '../components/layout';
 
 const chapters = [
@@ -28,32 +28,10 @@ export function Home() {
       {/* Hero - Typography anchor */}
       <HeroSection />
 
-      {/* Transition marquee */}
-      {/* <RhythmSection rhythm="transition">
-        <MarqueeBand
-          label="EXPERIENCE"
-          items={['Frontend Engineer', 'Full-Stack Developer', 'XR Developer', 'Technical Artist']}
-          speed={25}
-          direction="right"
-          variant="secondary"
-        />
-      </RhythmSection> */}
-
       {/* Experience - Vertical timeline */}
       <RhythmSection rhythm="content" id="experience">
         <ExperienceSection />
       </RhythmSection>
-
-      {/* Transition marquee */}
-      {/* <RhythmSection rhythm="transition">
-        <MarqueeBand
-          label="WORK"
-          items={['React', 'TypeScript', 'Vue', 'Unity', 'Unreal Engine', 'GSAP', 'Three.js']}
-          speed={30}
-          direction="left"
-          variant="muted"
-        />
-      </RhythmSection> */}
 
       {/* Projects - Image wall rhythm */}
       <RhythmSection rhythm="image" id="projects">
