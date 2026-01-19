@@ -1,6 +1,6 @@
 import { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows, Bounds } from '@react-three/drei';
+import { OrbitControls, Environment, Bounds } from '@react-three/drei';
 import { CatModel } from './CatModel';
 import { CAT_MODEL_URL } from '../../config';
 

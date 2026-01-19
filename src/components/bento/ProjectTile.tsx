@@ -1,4 +1,4 @@
-import { useRef, useEffect, ReactNode } from 'react';
+import { useRef, useEffect, type ReactNode } from 'react';
 import VanillaTilt from 'vanilla-tilt';
 import { usePrefersReducedMotion } from '../../hooks';
 import { useTheme } from '../../hooks/useTheme';

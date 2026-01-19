@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, ReactNode } from 'react';
+import { useRef, useEffect, useState, type ReactNode } from 'react';
 import { gsap } from 'gsap';
 import { usePrefersReducedMotion } from '../../hooks';
 import { useTheme } from '../../hooks/useTheme';

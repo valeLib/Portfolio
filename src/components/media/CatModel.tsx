@@ -1,6 +1,6 @@
-import { useEffect, useRef, useMemo } from 'react';
+import { useEffect, useRef } from 'react';
 import { useGLTF, useAnimations } from '@react-three/drei';
-import { Group, Mesh, SkinnedMesh, LoopRepeat } from 'three';
+import { Group, Mesh, LoopRepeat } from 'three';
 
 interface CatModelProps {
   url: string;
