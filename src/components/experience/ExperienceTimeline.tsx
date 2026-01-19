@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Section } from '../layout';
@@ -8,16 +8,6 @@ import { experiences, type Experience } from '../../content/experience';
 
 gsap.registerPlugin(ScrollTrigger);
 
-type FilterType = 'all' | Experience['type'];
-
-const filterLabels: Record<FilterType, string> = {
-  all: 'All',
-  frontend: 'Frontend',
-  fullstack: 'Full-Stack',
-  xr: 'XR / Game Dev',
-  research: 'Research',
-};
-
 const typeColors: Record<Experience['type'], { bg: string; text: string; border: string }> = {
   frontend: { bg: 'var(--accent)', text: 'var(--accent)', border: 'var(--accent)' },
   fullstack: { bg: 'var(--accent-2)', text: 'var(--accent-2)', border: 'var(--accent-2)' },
@@ -25,242 +15,242 @@ const typeColors: Record<Experience['type'], { bg: string; text: string; border:
   research: { bg: '#22c55e', text: '#22c55e', border: '#22c55e' },
 };
 
+const typeLabels: Record<Experience['type'], string> = {
+  frontend: 'Frontend',
+  fullstack: 'Full-Stack',
+  xr: 'XR / Game Dev',
+  research: 'Research',
+};
+
 export function ExperienceTimeline() {
-  const [filter, setFilter] = useState<FilterType>('all');
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
-  const filteredExperiences =
-    filter === 'all' ? experiences : experiences.filter((exp) => exp.type === filter);
-
+  // Setup scroll-driven animations
   useGsapContext(
     () => {
-      if (!containerRef.current || !trackRef.current || prefersReducedMotion) return;
+      if (!containerRef.current || !timelineRef.current || prefersReducedMotion) return;
 
-      const container = containerRef.current;
-      const track = trackRef.current;
-      const cards = track.querySelectorAll('[data-timeline-item]');
-      const totalCards = cards.length;
+      const items = timelineRef.current.querySelectorAll('[data-timeline-item]');
+      const progressBar = progressRef.current;
 
-      if (totalCards === 0) return;
+      // Initial state for cards - visible but ready for reveal animation
+      gsap.set(items, { opacity: 0, y: 12 });
 
-      // Calculate scroll distance based on number of cards
-      const scrollDistance = (totalCards - 1) * 100;
-
-      // Set initial state
-      gsap.set(cards, { opacity: 0.4, scale: 0.9 });
-      gsap.set(cards[0], { opacity: 1, scale: 1 });
-
-      // Create horizontal scroll animation
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container,
-          start: 'top top',
-          end: `+=${totalCards * 50}%`,
-          pin: true,
-          scrub: 0.8,
-          anticipatePin: 1,
-          onUpdate: (self) => {
-            const newIndex = Math.round(self.progress * (totalCards - 1));
-            setActiveIndex(newIndex);
+      // Reveal animation for each card
+      items.forEach((item, index) => {
+        ScrollTrigger.create({
+          trigger: item,
+          start: 'top 80%',
+          end: 'top 30%',
+          onEnter: () => {
+            // Reveal card
+            gsap.to(item, {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              ease: 'power2.out',
+            });
+            setActiveIndex(index);
           },
-        },
+          onEnterBack: () => {
+            setActiveIndex(index);
+          },
+        });
       });
 
-      // Animate horizontal position of track
-      tl.to(track, {
-        x: `-${scrollDistance}%`,
-        ease: 'none',
-      });
-
-      // Animate individual cards
-      cards.forEach((card, i) => {
-        const cardProgress = i / (totalCards - 1);
-
-        tl.to(card, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.5 / totalCards,
-        }, cardProgress - 0.1);
-
-        if (i < totalCards - 1) {
-          tl.to(card, {
-            opacity: 0.4,
-            scale: 0.9,
-            duration: 0.5 / totalCards,
-          }, cardProgress + 0.1);
-        }
-      });
+      // Progress bar animation - fills as user scrolls through timeline
+      if (progressBar) {
+        ScrollTrigger.create({
+          trigger: timelineRef.current,
+          start: 'top 60%',
+          end: 'bottom 40%',
+          scrub: true,
+          onUpdate: (self) => {
+            gsap.set(progressBar, {
+              scaleY: self.progress,
+            });
+          },
+        });
+      }
     },
     containerRef,
-    [prefersReducedMotion, filteredExperiences]
+    [prefersReducedMotion]
   );
 
+  // For reduced motion, show all items immediately
+  useEffect(() => {
+    if (prefersReducedMotion && timelineRef.current) {
+      const items = timelineRef.current.querySelectorAll('[data-timeline-item]');
+      items.forEach((item) => {
+        (item as HTMLElement).style.opacity = '1';
+        (item as HTMLElement).style.transform = 'none';
+      });
+    }
+  }, [prefersReducedMotion]);
+
   return (
-    <Section className="min-h-screen overflow-hidden" noPadding fullWidth>
-      <div ref={containerRef} className="h-screen flex flex-col">
-        {/* Header with filters */}
-        <div className="container-main pt-8 pb-4 flex-shrink-0">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-            <div>
-              <h2 className="heading-3 mb-2" style={{ color: 'var(--text)' }}>
-                Timeline
-              </h2>
-              <p className="text-sm" style={{ color: 'var(--muted)' }}>
-                {filteredExperiences.length} {filter === 'all' ? 'positions' : filterLabels[filter] + ' roles'}
-              </p>
-            </div>
-
-            {/* Filters */}
-            <div className="flex flex-wrap gap-2">
-              {(Object.keys(filterLabels) as FilterType[]).map((type) => (
-                <button
-                  key={type}
-                  onClick={() => {
-                    setFilter(type);
-                    setActiveIndex(0);
-                  }}
-                  className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
-                  style={{
-                    backgroundColor:
-                      filter === type
-                        ? 'var(--accent)'
-                        : 'color-mix(in srgb, var(--surface) 50%, transparent)',
-                    color: filter === type ? 'var(--bg)' : 'var(--muted)',
-                  }}
-                >
-                  {filterLabels[type]}
-                </button>
-              ))}
-            </div>
-
-            {/* Progress indicator */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-mono" style={{ color: 'var(--accent)' }}>
-                {String(activeIndex + 1).padStart(2, '0')}
-              </span>
-              <div
-                className="w-24 h-0.5 rounded-full overflow-hidden"
-                style={{ backgroundColor: 'var(--border-color)' }}
-              >
-                <div
-                  className="h-full rounded-full transition-all duration-300"
-                  style={{
-                    backgroundColor: 'var(--accent)',
-                    width: `${((activeIndex + 1) / filteredExperiences.length) * 100}%`,
-                  }}
-                />
-              </div>
-              <span className="text-sm font-mono" style={{ color: 'var(--muted)' }}>
-                {String(filteredExperiences.length).padStart(2, '0')}
-              </span>
-            </div>
+    <Section>
+      <div ref={containerRef}>
+        {/* Timeline container */}
+        <div ref={timelineRef} className="relative">
+          {/* Vertical timeline line - left side on desktop, left edge on mobile */}
+          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px" style={{ backgroundColor: 'var(--border-color)' }}>
+            {/* Progress overlay */}
+            <div
+              ref={progressRef}
+              className="absolute top-0 left-0 w-full origin-top"
+              style={{
+                backgroundColor: 'var(--accent)',
+                height: '100%',
+                transform: 'scaleY(0)',
+              }}
+            />
           </div>
-        </div>
 
-        {/* Horizontal scroll track */}
-        <div className="flex-1 flex items-center overflow-hidden">
-          <div
-            ref={trackRef}
-            className="flex gap-8 px-8"
-            style={{ width: `${filteredExperiences.length * 85}vw` }}
-          >
-            {filteredExperiences.map((exp, index) => (
-              <div
+          {/* Timeline items */}
+          <div className="space-y-8 md:space-y-12">
+            {experiences.map((exp, index) => (
+              <TimelineItem
                 key={exp.id}
-                data-timeline-item
-                className="w-[75vw] md:w-[50vw] lg:w-[40vw] flex-shrink-0"
-              >
-                <ExperienceCard exp={exp} isActive={index === activeIndex} />
-              </div>
+                exp={exp}
+                isActive={index === activeIndex}
+                isCurrent={index === 0}
+              />
             ))}
           </div>
-        </div>
-
-        {/* Scroll hint */}
-        <div className="container-main py-4 flex-shrink-0 text-center">
-          <p className="text-xs uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
-            Scroll to browse experience
-          </p>
         </div>
       </div>
     </Section>
   );
 }
 
-interface ExperienceCardProps {
+interface TimelineItemProps {
   exp: Experience;
-  isActive?: boolean;
+  isActive: boolean;
+  isCurrent: boolean;
 }
 
-function ExperienceCard({ exp, isActive = false }: ExperienceCardProps) {
+function TimelineItem({ exp, isActive, isCurrent }: TimelineItemProps) {
+  const colors = typeColors[exp.type];
+
   return (
     <div
-      className="glass-card p-6 h-full flex flex-col transition-all duration-300"
-      style={{
-        borderColor: isActive ? typeColors[exp.type].border : undefined,
-        borderWidth: isActive ? '1px' : undefined,
-      }}
+      data-timeline-item
+      className="relative pl-12 md:pl-20"
     >
-      {/* Header */}
-      <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <span
-              className="px-2 py-1 text-xs font-medium rounded"
-              style={{
-                backgroundColor: `color-mix(in srgb, ${typeColors[exp.type].bg} 20%, transparent)`,
-                color: typeColors[exp.type].text,
-                border: `1px solid color-mix(in srgb, ${typeColors[exp.type].border} 30%, transparent)`,
-              }}
-            >
-              {filterLabels[exp.type]}
-            </span>
-            <span className="text-sm" style={{ color: 'var(--muted)' }}>
-              {exp.period}
-            </span>
-          </div>
-          <h3 className="text-xl font-semibold" style={{ color: 'var(--text)' }}>
-            {exp.role}
-          </h3>
-          <p style={{ color: 'var(--accent)' }}>{exp.company}</p>
-          <p className="text-sm" style={{ color: 'var(--muted)' }}>
-            {exp.location}
-          </p>
+      {/* Timeline node */}
+      <div
+        data-timeline-node
+        className="absolute left-4 md:left-8 w-3 h-3 rounded-full -translate-x-1/2 transition-all duration-300"
+        style={{
+          backgroundColor: isActive ? colors.bg : 'var(--surface)',
+          border: `2px solid ${isActive ? colors.border : 'var(--border-color)'}`,
+          boxShadow: isActive ? `0 0 12px ${colors.bg}` : 'none',
+          top: '1.5rem',
+        }}
+      />
+
+      {/* Current indicator */}
+      {isCurrent && (
+        <div
+          className="absolute left-4 md:left-8 -translate-x-1/2 -top-6 text-xs font-medium px-2 py-0.5 rounded"
+          style={{
+            backgroundColor: colors.bg,
+            color: 'var(--bg)',
+          }}
+        >
+          Current
         </div>
-      </div>
+      )}
 
-      {/* Description */}
-      <p className="mb-4 flex-shrink-0" style={{ color: 'var(--muted)' }}>
-        {exp.description}
-      </p>
+      {/* Experience card */}
+      <div
+        className="glass-card p-5 md:p-6 transition-all duration-300"
+        style={{
+          borderColor: isActive ? colors.border : 'transparent',
+          borderWidth: '1px',
+          boxShadow: isActive ? `0 0 20px color-mix(in srgb, ${colors.bg} 15%, transparent)` : 'none',
+          transform: isActive ? 'scale(1)' : 'scale(0.99)',
+          opacity: isActive ? 1 : 0.85, // Never below 70% as per spec
+        }}
+      >
+        {/* Card header */}
+        <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+          <div className="flex-1 min-w-0">
+            {/* Type badge and period */}
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <span
+                className="px-2 py-0.5 text-xs font-medium rounded"
+                style={{
+                  backgroundColor: `color-mix(in srgb, ${colors.bg} 15%, transparent)`,
+                  color: colors.text,
+                  border: `1px solid color-mix(in srgb, ${colors.border} 25%, transparent)`,
+                }}
+              >
+                {typeLabels[exp.type]}
+              </span>
+              <span className="text-sm font-medium" style={{ color: 'var(--muted)' }}>
+                {exp.period}
+              </span>
+            </div>
 
-      {/* Highlights */}
-      <ul className="space-y-2 mb-4 flex-1 overflow-auto">
-        {exp.highlights.map((highlight, i) => (
-          <li
-            key={i}
-            className="flex items-start gap-2 text-sm"
-            style={{ color: 'var(--muted)' }}
-          >
-            <span
-              className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0"
-              style={{ backgroundColor: 'var(--accent)' }}
-            />
-            {highlight}
-          </li>
-        ))}
-      </ul>
+            {/* Role and company */}
+            <h3 className="text-lg md:text-xl font-semibold mb-1" style={{ color: 'var(--text)' }}>
+              {exp.role}
+            </h3>
+            <p className="font-medium" style={{ color: colors.text }}>
+              {exp.company}
+            </p>
+            <p className="text-sm" style={{ color: 'var(--muted)' }}>
+              {exp.location}
+            </p>
+          </div>
+        </div>
 
-      {/* Technologies */}
-      <div className="flex flex-wrap gap-2 flex-shrink-0">
-        {exp.technologies.map((tech) => (
-          <Tag key={tech} size="sm">
-            {tech}
-          </Tag>
-        ))}
+        {/* Description */}
+        <p className="mb-4 text-sm md:text-base" style={{ color: 'var(--muted)' }}>
+          {exp.description}
+        </p>
+
+        {/* Highlights - show first 2 always, rest can expand */}
+        <ul className="space-y-1.5 mb-4">
+          {exp.highlights.slice(0, 3).map((highlight, i) => (
+            <li
+              key={i}
+              className="flex items-start gap-2 text-sm"
+              style={{ color: 'var(--muted)' }}
+            >
+              <span
+                className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+                style={{ backgroundColor: colors.bg }}
+              />
+              {highlight}
+            </li>
+          ))}
+          {exp.highlights.length > 3 && (
+            <li className="text-sm pl-3.5" style={{ color: 'var(--muted)' }}>
+              +{exp.highlights.length - 3} more achievements
+            </li>
+          )}
+        </ul>
+
+        {/* Technologies */}
+        <div className="flex flex-wrap gap-1.5">
+          {exp.technologies.slice(0, 6).map((tech) => (
+            <Tag key={tech} size="sm">
+              {tech}
+            </Tag>
+          ))}
+          {exp.technologies.length > 6 && (
+            <span className="text-xs px-2 py-1" style={{ color: 'var(--muted)' }}>
+              +{exp.technologies.length - 6}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
