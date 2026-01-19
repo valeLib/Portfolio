@@ -2,8 +2,17 @@
 
 export const frontendProfile = {
   name: 'Valentina Liberona',
+  fullName: 'Valentina Liberona Zuñiga',
   title: 'Frontend Engineer',
   tagline: 'React, TypeScript, Accessibility, Performance',
+
+  // Roles for cycling animation in hero
+  roles: [
+    'Frontend Engineer',
+    'Full-Stack Developer',
+    'Game / VR Developer',
+    'Technical Artist',
+  ],
 
   heroHeadline: 'Frontend Engineer',
   heroSubheadline: 'Building accessible, performant, and beautiful user interfaces',

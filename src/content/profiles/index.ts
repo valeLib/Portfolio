@@ -14,8 +14,10 @@ export interface Skill {
 // Common profile type for shared properties
 export interface ProfileBase {
   name: string;
+  fullName?: string;
   title: string;
   tagline: string;
+  roles?: string[];
   heroHeadline: string;
   heroSubheadline: string;
   bio: string;

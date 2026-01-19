@@ -1,33 +1,79 @@
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { HeroSection, HomeScrollStack } from '../components/home';
+import { HeroSection } from '../components/home';
 import { useDocumentTitle } from '../hooks';
-import { getFeaturedProjects } from '../content/projects';
-import { getAllFrontendProjects } from '../content/frontend-projects';
-import { getLatestGalleryItems } from '../content/gallery';
-import { isFrontend } from '../config';
+import { ExperienceSection } from '../components/home/ExperienceSection';
+import { ProjectsSection } from '../components/home/ProjectsSection';
+import { SkillsSection } from '../components/home/SkillsSection';
+import { AboutSection } from '../components/home/AboutSection';
+import { ContactSection } from '../components/home/ContactSection';
+import { ScrollIndex, MarqueeBand } from '../components/ui';
+import { RhythmSection } from '../components/layout';
 
-gsap.registerPlugin(ScrollTrigger);
+const chapters = [
+  { id: 'hero', label: 'Intro', element: '#hero' },
+  { id: 'experience', label: 'Experience', element: '#experience' },
+  { id: 'projects', label: 'Work', element: '#projects' },
+  { id: 'skills', label: 'Skills', element: '#skills' },
+  { id: 'about', label: 'About', element: '#about' },
+  { id: 'contact', label: 'Contact', element: '#contact' },
+];
 
 export function Home() {
   useDocumentTitle();
 
-  // Get projects based on profile
-  const featuredProjects = isFrontend ? null : getFeaturedProjects();
-  const frontendProjects = isFrontend ? getAllFrontendProjects().slice(0, 3) : null;
-  const latestGallery = getLatestGalleryItems(6);
-
   return (
     <>
-      {/* Hero Section with pinned scroll animation */}
+      {/* Scroll Index - Chapter navigation */}
+      <ScrollIndex chapters={chapters} />
+
+      {/* Hero - Typography anchor */}
       <HeroSection />
 
-      {/* Post-hero scroll stack - all sections in one pinned container */}
-      <HomeScrollStack
-        featuredProjects={featuredProjects}
-        frontendProjects={frontendProjects}
-        latestGallery={latestGallery}
-      />
+      {/* Transition marquee */}
+      {/* <RhythmSection rhythm="transition">
+        <MarqueeBand
+          label="EXPERIENCE"
+          items={['Frontend Engineer', 'Full-Stack Developer', 'XR Developer', 'Technical Artist']}
+          speed={25}
+          direction="right"
+          variant="secondary"
+        />
+      </RhythmSection> */}
+
+      {/* Experience - Vertical timeline */}
+      <RhythmSection rhythm="content" id="experience">
+        <ExperienceSection />
+      </RhythmSection>
+
+      {/* Transition marquee */}
+      {/* <RhythmSection rhythm="transition">
+        <MarqueeBand
+          label="WORK"
+          items={['React', 'TypeScript', 'Vue', 'Unity', 'Unreal Engine', 'GSAP', 'Three.js']}
+          speed={30}
+          direction="left"
+          variant="muted"
+        />
+      </RhythmSection> */}
+
+      {/* Projects - Image wall rhythm */}
+      <RhythmSection rhythm="image" id="projects">
+        <ProjectsSection />
+      </RhythmSection>
+
+      {/* Skills - Content rhythm */}
+      <RhythmSection rhythm="content" id="skills">
+        <SkillsSection />
+      </RhythmSection>
+
+      {/* About - Content rhythm */}
+      <RhythmSection rhythm="content" id="about">
+        <AboutSection />
+      </RhythmSection>
+
+      {/* Contact - CTA rhythm (special emphasis) */}
+      <RhythmSection rhythm="cta" id="contact">
+        <ContactSection />
+      </RhythmSection>
     </>
   );
 }

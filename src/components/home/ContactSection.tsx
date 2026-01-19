@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Section } from '../layout';
 import { CvDownloadButton } from '../ui';
 import { useGsapContext, usePrefersReducedMotion } from '../../hooks';
 import { isTechArt, isFrontend } from '../../config';
@@ -13,6 +12,7 @@ export function ContactSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
+  // Simple reveal animation - no pinning, editorial style
   useGsapContext(
     () => {
       if (!containerRef.current || prefersReducedMotion) return;
@@ -21,33 +21,39 @@ export function ContactSection() {
       const card = container.querySelector('[data-contact-card]');
       const content = container.querySelectorAll('[data-contact-reveal]');
 
-      // Set initial state - card hidden
-      gsap.set(card, { opacity: 0, y: 40, scale: 0.95 });
-      gsap.set(content, { opacity: 0, y: 15 });
+      // Set initial state
+      gsap.set(card, { opacity: 0, y: 12 });
+      gsap.set(content, { opacity: 0, y: 8 });
 
-      // Create pinned section with card reveal
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container,
-          start: 'top top',
-          end: '+=60%',
-          pin: true,
-          scrub: 0.8,
-          anticipatePin: 1,
+      // Simple scroll-triggered fade-in
+      ScrollTrigger.create({
+        trigger: container,
+        start: 'top 75%',
+        onEnter: () => {
+          gsap.to(card, {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            ease: 'power2.out',
+          });
+
+          gsap.to(content, {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: 'power2.out',
+            delay: 0.2,
+          });
         },
       });
-
-      // Reveal card and content during pin
-      tl.to(card, { opacity: 1, y: 0, scale: 1, duration: 0.5 })
-        .to(content, { opacity: 1, y: 0, duration: 0.3, stagger: 0.08 }, '-=0.2');
     },
     containerRef,
     [prefersReducedMotion]
   );
 
   return (
-    <Section className="min-h-screen flex items-center" noPadding fullWidth>
-      <div ref={containerRef} className="container-main section-padding w-full py-16">
+    <div ref={containerRef}>
         <div
           data-contact-card
           className="relative glass-card p-8 md:p-12 text-center overflow-hidden"
@@ -56,14 +62,15 @@ export function ContactSection() {
           <div
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent, color-mix(in srgb, var(--accent-2) 10%, transparent))',
+              background:
+                'linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent, color-mix(in srgb, var(--accent-2) 10%, transparent))',
             }}
           />
 
           <div className="relative">
             <h2
               data-contact-reveal
-              className="heading-2 mb-4"
+              className="text-2xl md:text-3xl font-bold mb-4"
               style={{ color: 'var(--text)' }}
             >
               {isTechArt ? (
@@ -79,7 +86,7 @@ export function ContactSection() {
 
             <p
               data-contact-reveal
-              className="max-w-xl mx-auto mb-8"
+              className="max-w-xl mx-auto mb-8 text-base md:text-lg"
               style={{ color: 'var(--muted)' }}
             >
               {isTechArt
@@ -87,10 +94,7 @@ export function ContactSection() {
                 : "Looking for a Frontend Engineer to build your next product? Let's discuss how I can help."}
             </p>
 
-            <div
-              data-contact-reveal
-              className="flex flex-wrap justify-center gap-4"
-            >
+            <div data-contact-reveal className="flex flex-wrap justify-center gap-4">
               <Link to="/contact" className="btn-primary">
                 Get in Touch
               </Link>
@@ -98,7 +102,6 @@ export function ContactSection() {
             </div>
           </div>
         </div>
-      </div>
-    </Section>
+    </div>
   );
 }
