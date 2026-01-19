@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { NAV_LINKS, isTechArt } from '../../config';
+import { NAV_LINKS, isUnified, isGameDev } from '../../config';
 import { CvDownloadButton, ThemeToggle } from '../ui';
 import { profile } from '../../content/profile';
 
@@ -46,38 +46,47 @@ export function Navbar() {
               className="w-8 h-8 rounded-lg flex items-center justify-center text-sm"
               style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent-2))', color: 'var(--bg)' }}
             >
-              {isTechArt ? 'TA' : 'VL'}
+              {isGameDev ? 'TA' : 'VL'}
             </span>
             <span className="hidden sm:inline">{profile.name.split(' ')[0]}</span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className="px-4 py-2 rounded-lg font-medium transition-all duration-200"
-                style={{
-                  color: location.pathname === link.path ? 'var(--accent)' : 'var(--muted)',
-                  backgroundColor: location.pathname === link.path ? 'color-mix(in srgb, var(--accent) 10%, transparent)' : 'transparent',
-                }}
-                onMouseEnter={(e) => {
-                  if (location.pathname !== link.path) {
-                    e.currentTarget.style.color = 'var(--text)';
-                    e.currentTarget.style.backgroundColor = 'var(--surface)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (location.pathname !== link.path) {
-                    e.currentTarget.style.color = 'var(--muted)';
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                  }
-                }}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const isActive = location.pathname === link.path;
+              const isSecondary = 'secondary' in link && link.secondary === true;
+              
+              return (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className="px-4 py-2 rounded-lg font-medium transition-all duration-200"
+                  style={{
+                    color: isActive ? 'var(--accent)' : 'var(--muted)',
+                    backgroundColor: isActive
+                      ? 'color-mix(in srgb, var(--accent) 10%, transparent)'
+                      : 'transparent',
+                    fontSize: isSecondary && isUnified ? '0.875rem' : undefined,
+                    opacity: isSecondary && isUnified ? 0.9 : 1,
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.color = 'var(--text)';
+                      e.currentTarget.style.backgroundColor = 'var(--surface)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.color = 'var(--muted)';
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }
+                  }}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
             {/* CV Download Button - shows when enabled */}
             <CvDownloadButton variant="ghost" size="sm" className="ml-2" />
             {/* Theme Toggle */}
@@ -89,7 +98,16 @@ export function Navbar() {
             <ThemeToggle />
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 text-[var(--muted)] hover:text-[var(--text)] transition-colors"
+              className="p-2 transition-colors"
+              style={{
+                color: 'var(--muted)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = 'var(--text)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--muted)';
+              }}
               aria-label="Toggle menu"
               aria-expanded={isMobileMenuOpen}
             >

@@ -4,7 +4,7 @@ import { AppShell } from './components/layout';
 import { LenisProvider } from './contexts';
 
 // Lazy load pages for code splitting
-const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })));
+const Home = lazy(() => import('./pages/HomePinned').then((m) => ({ default: m.HomePinned })));
 const Work = lazy(() => import('./pages/Work').then((m) => ({ default: m.Work })));
 const CaseStudy = lazy(() =>
   import('./pages/CaseStudy').then((m) => ({ default: m.CaseStudy }))
@@ -20,7 +20,7 @@ const NotFound = lazy(() =>
   import('./pages/NotFound').then((m) => ({ default: m.NotFound }))
 );
 
-// Frontend profile specific pages
+// Unified profile pages
 const Experience = lazy(() =>
   import('./pages/Experience').then((m) => ({ default: m.Experience }))
 );
@@ -29,6 +29,9 @@ const Projects = lazy(() =>
 );
 const Skills = lazy(() =>
   import('./pages/Skills').then((m) => ({ default: m.Skills }))
+);
+const TechArt = lazy(() =>
+  import('./pages/TechArt').then((m) => ({ default: m.TechArt }))
 );
 
 // Loading fallback
@@ -51,14 +54,18 @@ function App() {
           <Routes>
             <Route element={<AppShell />}>
               <Route path="/" element={<Home />} />
-              {/* Tech Art routes */}
-              <Route path="/work" element={<Work />} />
-              <Route path="/work/:slug" element={<CaseStudy />} />
-              <Route path="/gallery" element={<Gallery />} />
-              {/* Frontend routes */}
+              
+              {/* Unified routes */}
               <Route path="/experience" element={<Experience />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/skills" element={<Skills />} />
+              <Route path="/tech-art" element={<TechArt />} />
+              
+              {/* Legacy Tech Art routes (for backward compatibility) */}
+              <Route path="/work" element={<Work />} />
+              <Route path="/work/:slug" element={<CaseStudy />} />
+              <Route path="/gallery" element={<Gallery />} />
+              
               {/* Shared routes */}
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />

@@ -2,11 +2,11 @@ import { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { Section } from '../layout';
-import { CvDownloadButton, MarqueeBand } from '../ui';
+import { CvDownloadButton, ScrollIndicator } from '../ui';
 import { CatScene } from '../media';
 import { useGsapContext, usePrefersReducedMotion } from '../../hooks';
 import { profile } from '../../content/profile';
-import { isTechArt } from '../../config';
+import { isGameDev } from '../../config';
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -156,18 +156,12 @@ export function HeroSection() {
                 className="mb-6 h-8 md:h-10"
                 style={{ opacity: showAll ? 1 : undefined }}
               >
-                {isTechArt ? (
-                  <p className="text-xl md:text-2xl font-medium text-gradient">
-                    Tech Artist & VFX Developer
-                  </p>
-                ) : (
-                  <p
-                    data-current-role
-                    className="text-xl md:text-2xl font-medium text-gradient"
-                  >
-                    {roles[currentRoleIndex]}
-                  </p>
-                )}
+                <p
+                  data-current-role
+                  className="text-xl md:text-2xl font-medium text-gradient"
+                >
+                  {roles[currentRoleIndex]}
+                </p>
               </div>
 
               {/* Subline */}
@@ -176,9 +170,7 @@ export function HeroSection() {
                 className="text-lg md:text-xl mb-8 max-w-lg leading-relaxed"
                 style={{ color: 'var(--muted)', opacity: showAll ? 1 : undefined }}
               >
-                {isTechArt
-                  ? 'Creating immersive visual experiences and real-time effects for games.'
-                  : 'Building accessible, performant, and beautiful user interfaces with React, TypeScript, and modern tooling.'}
+                {profile.heroSubheadline}
               </p>
 
               {/* CTA - One primary action */}
@@ -187,9 +179,9 @@ export function HeroSection() {
                 className="flex flex-wrap items-center gap-4"
                 style={{ opacity: showAll ? 1 : undefined }}
               >
-                {isTechArt ? (
-                  <Link to="/work" className="btn-primary">
-                    View Projects
+                {isGameDev ? (
+                  <Link to="/tech-art" className="btn-primary">
+                    View Gallery
                   </Link>
                 ) : (
                   <>
@@ -212,16 +204,8 @@ export function HeroSection() {
         </div>
         </div>
 
-        {/* Marquee bands - looping labels at bottom of hero */}
-        <div className="relative">
-          <MarqueeBand
-            label="ROLES"
-            items={roles}
-            speed={30}
-            direction="left"
-            variant="muted"
-          />
-        </div>
+        {/* Scroll Indicator - appears at bottom, fades on scroll */}
+        <ScrollIndicator />
       </div>
     </Section>
   );

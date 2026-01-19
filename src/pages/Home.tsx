@@ -1,21 +1,39 @@
-import { HeroSection } from '../components/home';
+import {
+  HeroSection,
+  ExperienceSection,
+  ProjectsSection,
+  SkillsSection,
+  AboutSection,
+  ContactSection,
+  TechArtPreview,
+} from '../components/home';
 import { useDocumentTitle } from '../hooks';
-import { ExperienceSection } from '../components/home/ExperienceSection';
-import { ProjectsSection } from '../components/home/ProjectsSection';
-import { SkillsSection } from '../components/home/SkillsSection';
-import { AboutSection } from '../components/home/AboutSection';
-import { ContactSection } from '../components/home/ContactSection';
 import { ScrollIndex } from '../components/ui';
 import { RhythmSection } from '../components/layout';
+import { isUnified } from '../config';
 
-const chapters = [
+// Profile-aware chapter navigation
+const unifiedChapters = [
   { id: 'hero', label: 'Intro', element: '#hero' },
   { id: 'experience', label: 'Experience', element: '#experience' },
-  { id: 'projects', label: 'Work', element: '#projects' },
+  { id: 'projects', label: 'Projects', element: '#projects' },
+  { id: 'tech-art', label: 'Tech Art', element: '#tech-art' },
   { id: 'skills', label: 'Skills', element: '#skills' },
   { id: 'about', label: 'About', element: '#about' },
   { id: 'contact', label: 'Contact', element: '#contact' },
 ];
+
+const gamedevChapters = [
+  { id: 'hero', label: 'Intro', element: '#hero' },
+  { id: 'gallery', label: 'Gallery', element: '#gallery' },
+  { id: 'projects', label: 'Projects', element: '#projects' },
+  { id: 'experience', label: 'Experience', element: '#experience' },
+  { id: 'skills', label: 'Skills', element: '#skills' },
+  { id: 'about', label: 'About', element: '#about' },
+  { id: 'contact', label: 'Contact', element: '#contact' },
+];
+
+const chapters = isUnified ? unifiedChapters : gamedevChapters;
 
 export function Home() {
   useDocumentTitle();
@@ -28,30 +46,79 @@ export function Home() {
       {/* Hero - Typography anchor */}
       <HeroSection />
 
-      {/* Experience - Vertical timeline */}
-      <RhythmSection rhythm="content" id="experience">
-        <ExperienceSection />
-      </RhythmSection>
+      {isUnified ? (
+        <>
+          {/* ================================================
+               UNIFIED BUILD: Software-First Layout
+               ================================================ */}
 
-      {/* Projects - Image wall rhythm */}
-      <RhythmSection rhythm="image" id="projects">
-        <ProjectsSection />
-      </RhythmSection>
+          {/* Experience - Primary focus */}
+          <RhythmSection rhythm="content" id="experience">
+            <ExperienceSection />
+          </RhythmSection>
 
-      {/* Skills - Content rhythm */}
-      <RhythmSection rhythm="content" id="skills">
-        <SkillsSection />
-      </RhythmSection>
+          {/* Projects - Primary focus */}
+          <RhythmSection rhythm="image" id="projects">
+            <ProjectsSection />
+          </RhythmSection>
 
-      {/* About - Content rhythm */}
-      <RhythmSection rhythm="content" id="about">
-        <AboutSection />
-      </RhythmSection>
+          {/* Tech Art Preview - Secondary section */}
+          <RhythmSection rhythm="content" id="tech-art">
+            <TechArtPreview />
+          </RhythmSection>
 
-      {/* Contact - CTA rhythm (special emphasis) */}
-      <RhythmSection rhythm="cta" id="contact">
-        <ContactSection />
-      </RhythmSection>
+          {/* Skills */}
+          <RhythmSection rhythm="content" id="skills">
+            <SkillsSection />
+          </RhythmSection>
+
+          {/* About */}
+          <RhythmSection rhythm="content" id="about">
+            <AboutSection />
+          </RhythmSection>
+
+          {/* Contact - CTA */}
+          <RhythmSection rhythm="cta" id="contact">
+            <ContactSection />
+          </RhythmSection>
+        </>
+      ) : (
+        <>
+          {/* ================================================
+               GAMEDEV BUILD: Tech Art-First Layout
+               ================================================ */}
+
+          {/* Tech Art Gallery - Primary focus */}
+          <RhythmSection rhythm="image" id="gallery">
+            <TechArtPreview featured />
+          </RhythmSection>
+
+          {/* Projects */}
+          <RhythmSection rhythm="content" id="projects">
+            <ProjectsSection />
+          </RhythmSection>
+
+          {/* Experience */}
+          <RhythmSection rhythm="content" id="experience">
+            <ExperienceSection />
+          </RhythmSection>
+
+          {/* Skills */}
+          <RhythmSection rhythm="content" id="skills">
+            <SkillsSection />
+          </RhythmSection>
+
+          {/* About */}
+          <RhythmSection rhythm="content" id="about">
+            <AboutSection />
+          </RhythmSection>
+
+          {/* Contact - CTA */}
+          <RhythmSection rhythm="cta" id="contact">
+            <ContactSection />
+          </RhythmSection>
+        </>
+      )}
     </>
   );
 }
