@@ -61,13 +61,12 @@ export function HomeScrollStack({ featuredProjects, frontendProjects, latestGall
       const stack = stackRef.current;
       const panelEls = stack.querySelectorAll<HTMLElement>('[data-panel]');
 
-      // Set initial state - first panel visible, rest hidden
+      // Set initial state - first panel visible, rest below (ready to slide up and cover)
       panelEls.forEach((panel, i) => {
         gsap.set(panel, {
-          autoAlpha: i === 0 ? 1 : 0,
           yPercent: i === 0 ? 0 : 100,
           pointerEvents: i === 0 ? 'auto' : 'none',
-          zIndex: totalPanels - i,
+          zIndex: i + 1, // Higher index = higher z-index (covers previous)
         });
       });
 
@@ -83,24 +82,21 @@ export function HomeScrollStack({ featuredProjects, frontendProjects, latestGall
         },
       });
 
-      // Animate panels in sequence
+      // Animate panels in sequence - next panel slides up to cover current
       panelEls.forEach((panel, i) => {
         if (i === totalPanels - 1) return; // Last panel doesn't animate out
 
         const nextPanel = panelEls[i + 1];
         const progress = i / (totalPanels - 1);
 
-        // Current panel fades out and moves up
+        // Current panel: disable pointer events when covered
         tl.to(panel, {
-          autoAlpha: 0,
-          yPercent: -30,
           pointerEvents: 'none',
           duration: 0.5,
         }, progress);
 
-        // Next panel fades in and moves to center
+        // Next panel slides up from below to cover current (fully opaque)
         tl.to(nextPanel, {
-          autoAlpha: 1,
           yPercent: 0,
           pointerEvents: 'auto',
           duration: 0.5,
@@ -125,18 +121,20 @@ export function HomeScrollStack({ featuredProjects, frontendProjects, latestGall
   }
 
   return (
-    <div ref={stackRef} className="relative h-screen overflow-hidden">
+    <div ref={stackRef} className="relative h-screen overflow-hidden" style={{ backgroundColor: 'var(--bg)' }}>
       {panels.map((panel, index) => (
         <div
           key={panel.id}
           data-panel
-          className="absolute inset-0 h-screen overflow-hidden"
+          className="absolute inset-0 h-screen overflow-hidden will-change-transform"
           style={{
             backgroundColor: 'var(--bg)',
-            zIndex: totalPanels - index,
+            zIndex: index + 1, // Higher index = higher z-index (covers previous)
           }}
         >
-          {panel.content}
+          <div className="h-full w-full" style={{ backgroundColor: 'inherit' }}>
+            {panel.content}
+          </div>
         </div>
       ))}
     </div>
