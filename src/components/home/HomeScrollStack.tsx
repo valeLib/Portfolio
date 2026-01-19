@@ -7,17 +7,19 @@ import { ShowreelPlayer } from '../media';
 import { useGsapContext, usePrefersReducedMotion } from '../../hooks';
 import { getFeaturedProjects } from '../../content/projects';
 import { getLatestGalleryItems } from '../../content/gallery';
+import { type FrontendProject } from '../../content/frontend-projects';
 import { profile } from '../../content/profile';
 import { isTechArt, isFrontend, TOOLS } from '../../config';
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface HomeScrollStackProps {
-  featuredProjects: ReturnType<typeof getFeaturedProjects>;
+  featuredProjects: ReturnType<typeof getFeaturedProjects> | null;
+  frontendProjects?: FrontendProject[] | null;
   latestGallery: ReturnType<typeof getLatestGalleryItems>;
 }
 
-export function HomeScrollStack({ featuredProjects, latestGallery }: HomeScrollStackProps) {
+export function HomeScrollStack({ featuredProjects, frontendProjects, latestGallery }: HomeScrollStackProps) {
   const stackRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -29,8 +31,12 @@ export function HomeScrollStack({ featuredProjects, latestGallery }: HomeScrollS
     panels.push({ id: 'showreel', content: <ShowreelPanel /> });
   }
 
-  // Featured Projects
-  panels.push({ id: 'projects', content: <ProjectsPanel projects={featuredProjects} /> });
+  // Featured Projects - use frontend or tech art projects based on profile
+  if (isFrontend && frontendProjects) {
+    panels.push({ id: 'projects', content: <FrontendProjectsPanel projects={frontendProjects} /> });
+  } else if (featuredProjects) {
+    panels.push({ id: 'projects', content: <ProjectsPanel projects={featuredProjects} /> });
+  }
 
   // Skills
   panels.push({ id: 'skills', content: <SkillsPanel /> });
@@ -170,15 +176,13 @@ function ProjectsPanel({ projects }: { projects: ReturnType<typeof getFeaturedPr
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
           <div>
             <h2 className="heading-2 mb-2" style={{ color: 'var(--text)' }}>
-              {isTechArt ? 'Featured Projects' : 'Featured Work'}
+              Featured Projects
             </h2>
             <p style={{ color: 'var(--muted)' }}>
-              {isTechArt
-                ? 'Case studies showcasing my approach to VFX and shader development.'
-                : 'Projects showcasing frontend architecture, UI systems, and performance.'}
+              Case studies showcasing my approach to VFX and shader development.
             </p>
           </div>
-          <Link to={isTechArt ? '/work' : '/projects'} className="btn-ghost">
+          <Link to="/work" className="btn-ghost">
             View all projects
             <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -188,6 +192,64 @@ function ProjectsPanel({ projects }: { projects: ReturnType<typeof getFeaturedPr
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
             <ProjectCard key={project.slug} project={project} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FrontendProjectsPanel({ projects }: { projects: FrontendProject[] }) {
+  return (
+    <div className="h-full flex items-center" style={{ backgroundColor: 'var(--surface)' }}>
+      <div className="container-main section-padding w-full">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
+          <div>
+            <h2 className="heading-2 mb-2" style={{ color: 'var(--text)' }}>
+              Featured Work
+            </h2>
+            <p style={{ color: 'var(--muted)' }}>
+              Projects showcasing frontend architecture, UI systems, and performance.
+            </p>
+          </div>
+          <Link to="/projects" className="btn-ghost">
+            View all projects
+            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project) => (
+            <div
+              key={project.id}
+              className="glass-card-hover p-6 flex flex-col"
+            >
+              {project.image && (
+                <div className="aspect-video rounded-lg overflow-hidden mb-4">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <span className="text-xs font-medium mb-2" style={{ color: 'var(--accent)' }}>
+                {project.company}
+              </span>
+              <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text)' }}>
+                {project.title}
+              </h3>
+              <p className="text-sm mb-4 flex-1" style={{ color: 'var(--muted)' }}>
+                {project.contribution}
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {project.technologies.slice(0, 4).map((tech) => (
+                  <span key={tech} className="tag text-xs">{tech}</span>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>

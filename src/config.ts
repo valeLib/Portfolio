@@ -9,8 +9,8 @@ export const isFrontend = PROFILE === 'frontend'
 // CV PDF path - uses Vite's base path automatically
 export const CV_PDF_PATH = `${import.meta.env.BASE_URL}cv/Valentina_LZ_CV.pdf`
 
-// Spline 3D scene URL - replace with your own scene
-export const SPLINE_SCENE_URL = 'https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode';
+// 3D Model path - place your .glb file in public/models/
+export const CAT_MODEL_URL = `${import.meta.env.BASE_URL}models/cat.glb`;
 
 // Site metadata - profile-aware
 export const SITE_CONFIG = isTechArt

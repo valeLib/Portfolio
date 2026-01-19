@@ -47,10 +47,13 @@ export function LenisProvider({ children }: LenisProviderProps) {
     // Disable GSAP lag smoothing for better sync
     gsap.ticker.lagSmoothing(0);
 
-    // Connect Lenis to GSAP ticker
-    gsap.ticker.add((time) => {
+    // Store ticker callback reference for proper cleanup
+    const tickerCallback = (time: number) => {
       lenisInstance.raf(time * 1000);
-    });
+    };
+
+    // Connect Lenis to GSAP ticker
+    gsap.ticker.add(tickerCallback);
 
     // Sync Lenis with ScrollTrigger
     lenisInstance.on('scroll', ScrollTrigger.update);
@@ -77,9 +80,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
     ScrollTrigger.defaults({ scroller: document.body });
 
     return () => {
-      gsap.ticker.remove((time) => {
-        lenisInstance.raf(time * 1000);
-      });
+      gsap.ticker.remove(tickerCallback);
       lenisInstance.destroy();
       lenisRef.current = null;
       setLenis(null);

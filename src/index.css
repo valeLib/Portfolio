@@ -1,69 +1,118 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
-/* Theme variables - bluish dark / soft light palette */
+/* Theme variables - Cyber-Soda (dark) / Matcha-Strawberry (light) */
 :root,
 [data-theme="dark"] {
-  --bg: #020617;
-  --surface: #0f172a;
-  --surface-2: #1e293b;
-  --accent: #d05bf0;
-  --accent-2: #a492f4;
-  --text: #f1f5f9;
-  --muted: rgba(241, 245, 249, 0.65);
-  --border-color: rgba(241, 245, 249, 0.1);
+  /* Dark Mode: Cyber-Soda / Night Market - More Purple */
+  --bg: #0A0612;           /* Deep Purple-Black */
+  --surface: #150D1E;      /* Dark purple surface */
+  --surface-2: #231530;    /* Card backgrounds - purple tint */
+  --primary: #A855F7;      /* Vibrant Purple - headers */
+  --secondary: #C084FC;    /* Light Purple - buttons */
+  --accent: #E879F9;       /* Fuchsia/Magenta - details */
+  --accent-2: #9333EA;     /* Deep Purple for gradients */
+  --text: #F5F0FF;         /* Light purple-tinted white */
+  --muted: rgba(245, 240, 255, 0.65);
+  --border-color: rgba(168, 85, 247, 0.2);
+  --glass: rgba(10, 6, 18, 0.85);
 }
 
 [data-theme="light"] {
-  --bg: #efebdf;
-  --surface: #e5dac4;
-  --surface-2: #d2daa9;
-  --accent: #97a561;
-  --accent-2: #cadc99;
-  --text: #424027;
-  --muted: rgba(66, 64, 39, 0.65);
-  --border-color: rgba(66, 64, 39, 0.1);
+  /* Light Mode: Matcha Strawberry Latte */
+  --bg: #FDFCF0;           /* Cream background */
+  --surface: #F5F3E7;      /* Slightly darker cream */
+  --surface-2: #EBE8D9;    /* Card backgrounds */
+  --primary: #96A178;      /* Matcha Green - main elements */
+  --secondary: #FFB7B7;    /* Strawberry Pink - highlights */
+  --accent: #4B5335;       /* Matcha Deep - contrast text */
+  --accent-2: #7A8B5A;     /* Mid matcha for gradients */
+  --text: #4B5335;         /* Main text color */
+  --muted: rgba(75, 83, 53, 0.65);
+  --border-color: rgba(75, 83, 53, 0.12);
+  --glass: rgba(253, 252, 240, 0.7);
 }
 
 @theme {
-  /* Colors - Dark palette */
-  --color-dark-50: #f8fafc;
-  --color-dark-100: #f1f5f9;
-  --color-dark-200: #e2e8f0;
-  --color-dark-300: #cbd5e1;
-  --color-dark-400: #94a3b8;
-  --color-dark-500: #64748b;
-  --color-dark-600: #475569;
-  --color-dark-700: #334155;
-  --color-dark-800: #1e293b;
-  --color-dark-900: #0f172a;
-  --color-dark-950: #020617;
+  /* Colors - Cyber/Dark palette (grape-based) */
+  --color-dark-50: #F8F0FF;
+  --color-dark-100: #E8D5F0;
+  --color-dark-200: #C9A8D6;
+  --color-dark-300: #A87BC0;
+  --color-dark-400: #7D4A9A;
+  --color-dark-500: #5C2D7A;
+  --color-dark-600: #461F5F;
+  --color-dark-700: #2D1535;
+  --color-dark-800: #1A0A1F;
+  --color-dark-900: #0F0510;
+  --color-dark-950: #080208;
 
-  /* Colors - Primary */
-  --color-primary-50: #f0f9ff;
-  --color-primary-100: #e0f2fe;
-  --color-primary-200: #bae6fd;
-  --color-primary-300: #7dd3fc;
-  --color-primary-400: #38bdf8;
-  --color-primary-500: #0ea5e9;
-  --color-primary-600: #0284c7;
-  --color-primary-700: #0369a1;
-  --color-primary-800: #075985;
-  --color-primary-900: #0c4a6e;
-  --color-primary-950: #082f49;
+  /* Colors - Primary (Neon Pink / Electric) */
+  --color-primary-50: #FFF0F7;
+  --color-primary-100: #FFD6E8;
+  --color-primary-200: #FFB3D6;
+  --color-primary-300: #FF80BE;
+  --color-primary-400: #FF4DA6;
+  --color-primary-500: #FF2D95;
+  --color-primary-600: #E0197C;
+  --color-primary-700: #B81363;
+  --color-primary-800: #8F0F4D;
+  --color-primary-900: #660B37;
+  --color-primary-950: #400722;
 
-  /* Colors - Accent */
-  --color-accent-50: #fdf4ff;
-  --color-accent-100: #fae8ff;
-  --color-accent-200: #f5d0fe;
-  --color-accent-300: #f0abfc;
-  --color-accent-400: #e879f9;
-  --color-accent-500: #d946ef;
-  --color-accent-600: #c026d3;
-  --color-accent-700: #a21caf;
-  --color-accent-800: #86198f;
-  --color-accent-900: #701a75;
-  --color-accent-950: #4a044e;
+  /* Colors - Accent (Cyan/Ice for dark, Matcha for light) */
+  --color-accent-50: #ECFEFF;
+  --color-accent-100: #CFFAFE;
+  --color-accent-200: #A5F3FC;
+  --color-accent-300: #67E8F9;
+  --color-accent-400: #22D3EE;
+  --color-accent-500: #00F5FF;
+  --color-accent-600: #00C4CC;
+  --color-accent-700: #0891A2;
+  --color-accent-800: #0E7490;
+  --color-accent-900: #155E75;
+  --color-accent-950: #083344;
+
+  /* Colors - Matcha palette */
+  --color-matcha-cream: #FDFCF0;
+  --color-matcha-light: #F5F3E7;
+  --color-matcha-50: #EBE8D9;
+  --color-matcha-100: #D2DBA9;
+  --color-matcha-200: #CADC99;
+  --color-matcha-300: #B5C87A;
+  --color-matcha-400: #96A178;
+  --color-matcha-500: #7A8B5A;
+  --color-matcha-600: #5F6D45;
+  --color-matcha-700: #4B5335;
+  --color-matcha-800: #3A4029;
+  --color-matcha-900: #2A2F1E;
+  --color-matcha-950: #1A1D12;
+
+  /* Colors - Strawberry palette */
+  --color-strawberry-50: #FFF5F5;
+  --color-strawberry-100: #FFE8E8;
+  --color-strawberry-200: #FFD4D4;
+  --color-strawberry-300: #FFB7B7;
+  --color-strawberry-400: #FF9B9B;
+  --color-strawberry-500: #E58A8A;
+  --color-strawberry-600: #CC7A7A;
+  --color-strawberry-700: #A65F5F;
+  --color-strawberry-800: #804A4A;
+  --color-strawberry-900: #593535;
+  --color-strawberry-950: #332020;
+
+  /* Colors - Neon Purple (secondary for dark mode) */
+  --color-neon-50: #F5F3FF;
+  --color-neon-100: #EDE9FE;
+  --color-neon-200: #DDD6FE;
+  --color-neon-300: #C4B5FD;
+  --color-neon-400: #A78BFA;
+  --color-neon-500: #8B5CF6;
+  --color-neon-600: #7C3AED;
+  --color-neon-700: #6D28D9;
+  --color-neon-800: #5B21B6;
+  --color-neon-900: #4C1D95;
+  --color-neon-950: #2E1065;
 
   /* Fonts */
   --font-sans: 'Inter', system-ui, sans-serif;
@@ -113,21 +162,41 @@ body.overflow-hidden {
   overflow: hidden;
 }
 
-/* Film grain overlay */
+/* Texture overlays */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: 0.03;
-  mix-blend-mode: overlay;
 }
 
+/* Dark mode: Scanline/grid overlay for Cyber-Soda effect - More Purple */
+[data-theme="dark"] body::after,
+:root body::after {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(168, 85, 247, 0.02) 2px,
+      rgba(168, 85, 247, 0.02) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 50px,
+      rgba(192, 132, 252, 0.015) 50px,
+      rgba(192, 132, 252, 0.015) 51px
+    );
+  opacity: 0.5;
+  mix-blend-mode: screen;
+}
 
+/* Light mode: Subtle paper/grain texture for Matcha effect */
 [data-theme="light"] body::after {
-  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.04;
   mix-blend-mode: multiply;
 }
 
@@ -360,4 +429,168 @@ body::after {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* ===========================================
+   THEME-SPECIFIC BUTTON STYLES
+   =========================================== */
+
+/* Light Mode: Squishy, Rounded Buttons */
+[data-theme="light"] .btn-primary {
+  background: linear-gradient(135deg, var(--secondary), #FF9B9B);
+  color: var(--accent);
+  border-radius: 9999px;
+  box-shadow: 0 4px 0 #E5A3A3, 0 6px 12px rgba(255, 183, 183, 0.3);
+  transform: translateY(0);
+  transition: all 0.15s ease;
+}
+
+[data-theme="light"] .btn-primary:hover {
+  background: linear-gradient(135deg, #FFD4D4, var(--secondary));
+  transform: translateY(-1px);
+  box-shadow: 0 5px 0 #E5A3A3, 0 8px 16px rgba(255, 183, 183, 0.4);
+}
+
+[data-theme="light"] .btn-primary:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #E5A3A3, 0 3px 6px rgba(255, 183, 183, 0.2);
+}
+
+[data-theme="light"] .btn-secondary {
+  background-color: var(--surface);
+  border: 2px solid var(--primary);
+  border-radius: 9999px;
+  color: var(--primary);
+}
+
+[data-theme="light"] .btn-secondary:hover {
+  background-color: color-mix(in srgb, var(--primary) 10%, var(--surface));
+  border-color: var(--accent);
+}
+
+/* Dark Mode: Sharp, Glowing Neon Buttons */
+[data-theme="dark"] .btn-primary,
+:root .btn-primary {
+  background: transparent;
+  border: 2px solid var(--primary);
+  border-radius: 4px;
+  color: var(--primary);
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--primary) 50%, transparent),
+    inset 0 0 10px color-mix(in srgb, var(--primary) 10%, transparent);
+  animation: neonPulse 2s ease-in-out infinite;
+}
+
+[data-theme="dark"] .btn-primary:hover,
+:root .btn-primary:hover {
+  background: color-mix(in srgb, var(--primary) 15%, transparent);
+  box-shadow:
+    0 0 20px color-mix(in srgb, var(--primary) 70%, transparent),
+    0 0 40px color-mix(in srgb, var(--primary) 30%, transparent),
+    inset 0 0 15px color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+[data-theme="dark"] .btn-secondary,
+:root .btn-secondary {
+  background: transparent;
+  border: 1px solid var(--secondary);
+  border-radius: 4px;
+  color: var(--secondary);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--secondary) 30%, transparent);
+}
+
+[data-theme="dark"] .btn-secondary:hover,
+:root .btn-secondary:hover {
+  background: color-mix(in srgb, var(--secondary) 10%, transparent);
+  box-shadow:
+    0 0 15px color-mix(in srgb, var(--secondary) 50%, transparent),
+    0 0 30px color-mix(in srgb, var(--secondary) 20%, transparent);
+}
+
+@keyframes neonPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 10px color-mix(in srgb, var(--primary) 50%, transparent),
+      inset 0 0 10px color-mix(in srgb, var(--primary) 10%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 20px color-mix(in srgb, var(--primary) 70%, transparent),
+      0 0 35px color-mix(in srgb, var(--primary) 30%, transparent),
+      inset 0 0 15px color-mix(in srgb, var(--primary) 15%, transparent);
+  }
+}
+
+/* ===========================================
+   CUSTOM SCROLLBAR STYLES
+   =========================================== */
+
+/* Light Mode: Minimalist Matcha Scrollbar */
+[data-theme="light"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: var(--surface);
+  border-radius: 4px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Dark Mode: Neon Purple Flowing Scrollbar */
+[data-theme="dark"] ::-webkit-scrollbar,
+:root ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track,
+:root ::-webkit-scrollbar-track {
+  background: var(--surface);
+  border-radius: 4px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb,
+:root ::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--secondary) 0%,
+    var(--primary) 50%,
+    var(--secondary) 100%
+  );
+  background-size: 100% 200%;
+  border-radius: 4px;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--secondary) 50%, transparent);
+  animation: scrollbarFlow 3s ease infinite;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover,
+:root ::-webkit-scrollbar-thumb:hover {
+  box-shadow: 0 0 12px color-mix(in srgb, var(--primary) 70%, transparent);
+}
+
+@keyframes scrollbarFlow {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 0% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* Firefox scrollbar support */
+[data-theme="light"] * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--surface);
+}
+
+[data-theme="dark"] *,
+:root * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary) var(--surface);
 }

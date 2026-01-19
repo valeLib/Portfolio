@@ -1,14 +1,14 @@
-import { useRef } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Section } from '../layout';
 import { CvDownloadButton } from '../ui';
-import { SplineHero, LottieDecor } from '../media';
+import { CatScene, LottieDecor } from '../media';
 import { useGsapContext, usePrefersReducedMotion } from '../../hooks';
+import { useTheme } from '../../hooks/useTheme';
 import { profile } from '../../content/profile';
 import { isTechArt } from '../../config';
-import sparklesAnimation from '../../assets/lottie/magic-sparkles.json';
 import mouseScrollAnimation from '../../assets/lottie/Mouse scroll animation.lottie?url';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,7 +16,200 @@ gsap.registerPlugin(ScrollTrigger);
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroContentRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const progressRef = useRef(0);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const { theme } = useTheme();
+
+  // Animation colors based on theme
+  const colors = theme === 'light'
+    ? {
+        liquid: '#96A178',      // Matcha green
+        secondary: '#FFB7B7',   // Strawberry pink
+        bubbles: '#7A8B5A',     // Darker matcha
+        background: 'transparent',
+      }
+    : {
+        liquid: '#A855F7',      // Vibrant Purple
+        secondary: '#C084FC',   // Light Purple
+        bubbles: '#E879F9',     // Fuchsia/Magenta bubbles
+        background: 'transparent',
+      };
+
+  // Draw the pour animation frame
+  const drawFrame = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number, progress: number, timestamp: number) => {
+    ctx.clearRect(0, 0, width, height);
+
+    // Cup dimensions - centered in the smaller canvas
+    const cupWidth = Math.min(width * 0.6, 100);
+    const cupHeight = Math.min(height * 0.55, 160);
+    const cupX = (width - cupWidth) / 2;
+    const cupY = height * 0.25;
+    const cupBottom = cupY + cupHeight;
+
+    // Draw cup outline (glass effect)
+    ctx.strokeStyle = theme === 'light'
+      ? 'rgba(75, 83, 53, 0.25)'
+      : 'rgba(255, 45, 149, 0.25)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cupX, cupY);
+    ctx.lineTo(cupX - 8, cupBottom);
+    ctx.lineTo(cupX + cupWidth + 8, cupBottom);
+    ctx.lineTo(cupX + cupWidth, cupY);
+    ctx.stroke();
+
+    // Glass reflection
+    ctx.strokeStyle = theme === 'light'
+      ? 'rgba(255, 255, 255, 0.4)'
+      : 'rgba(255, 255, 255, 0.1)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cupX + 10, cupY + 20);
+    ctx.lineTo(cupX + 5, cupBottom - 20);
+    ctx.stroke();
+
+    // Calculate liquid level based on progress
+    const liquidHeight = cupHeight * Math.min(progress, 1);
+    const liquidTop = cupBottom - liquidHeight;
+
+    if (liquidHeight > 0) {
+      // Create gradient for liquid
+      const gradient = ctx.createLinearGradient(cupX, liquidTop, cupX, cupBottom);
+      gradient.addColorStop(0, colors.liquid);
+      gradient.addColorStop(1, theme === 'light' ? '#5F6D45' : '#4C1D95');
+
+      // Draw liquid with wave effect
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.moveTo(cupX - 6, cupBottom);
+
+      // Wave at top of liquid
+      const waveAmplitude = 6 * (1 - progress * 0.5);
+      const waveFrequency = 3;
+      for (let x = cupX - 6; x <= cupX + cupWidth + 6; x += 2) {
+        const waveY = liquidTop + Math.sin((x / cupWidth) * Math.PI * waveFrequency + timestamp * 0.003) * waveAmplitude;
+        ctx.lineTo(x, waveY);
+      }
+
+      ctx.lineTo(cupX + cupWidth + 6, cupBottom);
+      ctx.closePath();
+      ctx.fill();
+
+      // Add strawberry swirl (light) or neon glow (dark) at 50%+ progress
+      if (progress > 0.5) {
+        const swirlProgress = (progress - 0.5) * 2;
+        ctx.globalAlpha = swirlProgress * 0.7;
+
+        if (theme === 'light') {
+          // Strawberry syrup swirl
+          ctx.fillStyle = colors.secondary;
+          const swirlY = cupBottom - liquidHeight * 0.3;
+          for (let i = 0; i < 4; i++) {
+            const swirlX = cupX + cupWidth * 0.2 + (cupWidth * 0.6 * i / 3);
+            const radius = 12 + Math.sin(i + timestamp * 0.002) * 4;
+            ctx.beginPath();
+            ctx.arc(swirlX, swirlY + Math.sin(i * 2) * 8, radius, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        } else {
+          // Neon glow particles
+          ctx.shadowColor = colors.secondary;
+          ctx.shadowBlur = 15 * swirlProgress;
+          ctx.fillStyle = colors.secondary;
+          for (let i = 0; i < 6; i++) {
+            const glowX = cupX + 15 + (i * 37) % (cupWidth - 30);
+            const glowY = liquidTop + 20 + (i * 47) % (liquidHeight - 40);
+            ctx.beginPath();
+            ctx.arc(glowX, glowY, 3 + (i % 3) * 2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.shadowBlur = 0;
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      // Draw bubbles
+      ctx.fillStyle = theme === 'light'
+        ? 'rgba(255, 255, 255, 0.5)'
+        : colors.bubbles;
+
+      if (theme === 'dark') {
+        ctx.shadowColor = colors.bubbles;
+        ctx.shadowBlur = 8;
+      }
+
+      const numBubbles = Math.floor(progress * 12);
+      for (let i = 0; i < numBubbles; i++) {
+        const bubbleX = cupX + 15 + (i * 19) % (cupWidth - 30);
+        const bubbleY = liquidTop + 8 + ((i * 27 + timestamp * 0.015) % (liquidHeight - 16));
+        const bubbleRadius = 2 + (i % 3) * 1.5;
+
+        ctx.beginPath();
+        ctx.arc(bubbleX, bubbleY, bubbleRadius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+    }
+
+    // Pour stream (visible during filling)
+    if (progress < 0.9 && progress > 0.05) {
+      const streamWidth = 12 - progress * 8;
+      const streamX = cupX + cupWidth / 2;
+
+      ctx.fillStyle = colors.liquid;
+      if (theme === 'dark') {
+        ctx.shadowColor = colors.liquid;
+        ctx.shadowBlur = 12;
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(streamX - streamWidth / 2, 0);
+      ctx.quadraticCurveTo(
+        streamX + Math.sin(timestamp * 0.004) * 8,
+        liquidTop / 2,
+        streamX,
+        liquidTop
+      );
+      ctx.quadraticCurveTo(
+        streamX - Math.sin(timestamp * 0.004) * 8,
+        liquidTop / 2,
+        streamX + streamWidth / 2,
+        0
+      );
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  }, [colors, theme]);
+
+  // Animation loop for canvas
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || prefersReducedMotion) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationId: number;
+
+    const animate = (timestamp: number) => {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+
+      drawFrame(ctx, rect.width, rect.height, progressRef.current, timestamp);
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animationId = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+    };
+  }, [drawFrame, prefersReducedMotion]);
 
   useGsapContext(
     () => {
@@ -39,22 +232,26 @@ export function HeroSection() {
       gsap.set([subline, cta], { opacity: 0, y: 20 });
       gsap.set(scrollHint, { opacity: 0 });
 
-      // Create pinned timeline - scroll reveals secondary elements
+      // Create pinned timeline - scroll reveals secondary elements AND controls pour animation
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
           start: 'top top',
-          end: '+=100%',
+          end: '+=150%',
           pin: true,
           scrub: 1,
           anticipatePin: 1,
+          onUpdate: (self) => {
+            // Update pour animation progress
+            progressRef.current = self.progress;
+          },
         },
       });
 
       // Scroll reveals subline, CTA, and hint progressively
-      tl.to(subline, { opacity: 1, y: 0, duration: 0.4 }, 0)
-        .to(cta, { opacity: 1, y: 0, duration: 0.4 }, 0.2)
-        .to(scrollHint, { opacity: 0.8, duration: 0.3 }, 0.4);
+      tl.to(subline, { opacity: 1, y: 0, duration: 0.3 }, 0)
+        .to(cta, { opacity: 1, y: 0, duration: 0.3 }, 0.15)
+        .to(scrollHint, { opacity: 0.8, duration: 0.2 }, 0.3);
     },
     containerRef,
     [prefersReducedMotion]
@@ -105,25 +302,59 @@ export function HeroSection() {
                 </span>
               </div>
 
-              <h1
+              <div
                 data-hero="headline"
-                className="heading-1 mb-4"
-                style={{ color: 'var(--text)' }}
+                className="mb-4"
               >
                 {isTechArt ? (
-                  <>
+                  <h1
+                    className="heading-1"
+                    style={{ color: 'var(--text)' }}
+                  >
                     Tech Artist,{' '}
                     <span className="text-gradient">Magic VFX</span>,{' '}
                     Shaders, Tools
-                  </>
+                  </h1>
                 ) : (
                   <>
-                    <span className="text-gradient">Frontend Engineer</span>
-                    <br />
-                    Building Modern Web Experiences
+                    {/* First line: Pour Animation + Frontend Engineer */}
+                    <div className="flex items-end gap-2 lg:gap-3">
+                      {/* Pour Animation */}
+                      <div className="relative w-12 h-16 md:w-14 md:h-20 lg:w-16 lg:h-24 flex-shrink-0 mb-1 lg:mb-2">
+                        <canvas
+                          ref={canvasRef}
+                          className="absolute inset-0 w-full h-full"
+                          aria-hidden="true"
+                        />
+                        {prefersReducedMotion && (
+                          <div className="absolute inset-0 flex items-end justify-center">
+                            <div
+                              className="w-8 h-12 rounded-b-lg"
+                              style={{
+                                backgroundColor: colors.liquid,
+                                boxShadow: theme === 'dark' ? `0 0 20px ${colors.liquid}` : '0 4px 15px rgba(0,0,0,0.1)'
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                      <h1
+                        className="heading-1"
+                        style={{ color: 'var(--text)' }}
+                      >
+                        <span className="text-gradient">Frontend Engineer</span>
+                      </h1>
+                    </div>
+                    {/* Second line: Building Modern Web Experiences */}
+                    <h1
+                      className="heading-1"
+                      style={{ color: 'var(--text)' }}
+                    >
+                      Building Modern Web Experiences
+                    </h1>
                   </>
                 )}
-              </h1>
+              </div>
 
               <p
                 data-hero="subline"
@@ -163,19 +394,14 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* Spline 3D Scene */}
+            {/* Visual: 3D Cat Model */}
             <div
               data-hero="visual"
               className="order-1 lg:order-2 relative"
             >
-              <div className="aspect-square lg:aspect-auto lg:h-[500px] rounded-2xl overflow-hidden">
-                <SplineHero />
+              <div className="aspect-square lg:aspect-auto lg:h-[560px] rounded-2xl overflow-visible">
+                <CatScene />
               </div>
-              {/* Sparkles decoration */}
-              <LottieDecor
-                data={JSON.stringify(sparklesAnimation)}
-                className="absolute -top-8 -right-8 w-48 h-48 opacity-80"
-              />
             </div>
           </div>
 
