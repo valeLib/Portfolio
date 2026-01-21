@@ -5,7 +5,7 @@
 :root,
 [data-theme="dark"] {
   /* Dark Mode: Cyber-Soda / Night Market - More Purple */
-  --bg: #0A0612;           /* Deep Purple-Black */
+  --bg: #281248;           /* Deep Purple-Black */
   --surface: #150D1E;      /* Dark purple surface */
   --surface-2: #231530;    /* Card backgrounds - purple tint */
   --primary: #A855F7;      /* Vibrant Purple - headers */
@@ -19,7 +19,7 @@
   --glass: rgba(10, 6, 18, 0.85);
 
   /* Dark Mode: Cosmic hero tokens */
-  --bg-0: #020617;     /* base */
+  --bg-0: #241042;     /* base */
   --violet-0: #2A0A4A; /* deep violet */
   --indigo-0: #4F1B7A; /* deep indigo */
   --magenta-0: #A855F7;/* accent */
@@ -218,11 +218,11 @@ body.overflow-hidden {
 :root .glass-nav {
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--bg-0) 55%, transparent) 0%,
-    color-mix(in srgb, var(--bg-0) 45%, transparent) 100%
+    color-mix(in srgb, var(--bg-0) 75%, transparent) 0%,
+    color-mix(in srgb, var(--bg-0) 75%, transparent) 100%
   );
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(80px) saturate(180%);
+  -webkit-backdrop-filter: blur(80px) saturate(180%);
   border: 1px solid color-mix(in srgb, var(--text-0) 15%, transparent);
   box-shadow: 
     0 0 0 0.5px color-mix(in srgb, var(--text-0) 8%, transparent) inset,
@@ -241,7 +241,7 @@ body.overflow-hidden {
   left: 0;
   right: 0;
   height: 50%;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--text-0) 8%, transparent) 0%, transparent 100%);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--text-0) 10%, transparent) 0%, transparent 100%);
   border-radius: 999px 999px 0 0;
   pointer-events: none;
 }
@@ -250,11 +250,11 @@ body.overflow-hidden {
 [data-theme="light"] .glass-nav {
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--cream-base) 75%, transparent) 0%,
-    color-mix(in srgb, var(--cream-base) 65%, transparent) 100%
+    color-mix(in srgb, var(--surface-2) 75%, transparent) 0%,
+    color-mix(in srgb, var(--surface-2) 75%, transparent) 100%
   );
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(60px) saturate(180%);
+  -webkit-backdrop-filter: blur(60px) saturate(180%);
   border: 1px solid color-mix(in srgb, var(--primary) 20%, transparent);
   box-shadow:
     0 0 0 0.5px color-mix(in srgb, var(--primary) 12%, transparent) inset,

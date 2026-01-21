@@ -147,7 +147,7 @@ export function HomeScrollStack({ featuredProjects, frontendProjects, latestGall
 
 function ShowreelPanel() {
   return (
-    <div className="h-full flex items-center" style={{ backgroundColor: 'var(--bg)' }}>
+    <div className="h-full flex items-start" style={{ backgroundColor: 'var(--bg)' }}>
       <div className="container-main section-padding w-full">
         <div className="text-center mb-8">
           <h2 className="heading-2 mb-4" style={{ color: 'var(--text)' }}>
@@ -169,7 +169,7 @@ function ShowreelPanel() {
 
 function ProjectsPanel({ projects }: { projects: ReturnType<typeof getFeaturedProjects> }) {
   return (
-    <div className="h-full flex items-center" style={{ backgroundColor: 'var(--surface)' }}>
+    <div className="h-full flex items-start" style={{ backgroundColor: 'var(--surface)' }}>
       <div className="container-main section-padding w-full">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
           <div>
@@ -199,7 +199,7 @@ function ProjectsPanel({ projects }: { projects: ReturnType<typeof getFeaturedPr
 
 function FrontendProjectsPanel({ projects }: { projects: FrontendProject[] }) {
   return (
-    <div className="h-full flex items-center" style={{ backgroundColor: 'var(--surface)' }}>
+    <div className="h-full flex items-start" style={{ backgroundColor: 'var(--surface)' }}>
       <div className="container-main section-padding w-full">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
           <div>
@@ -299,7 +299,7 @@ function SkillsPanel() {
       ];
 
   return (
-    <div className="h-full flex items-center" style={{ backgroundColor: 'var(--bg)' }}>
+    <div className="h-full flex items-start" style={{ backgroundColor: 'var(--bg)' }}>
       <div className="container-main section-padding w-full">
         <div className="text-center mb-12">
           <h2 className="heading-2 mb-4" style={{ color: 'var(--text)' }}>
@@ -393,7 +393,7 @@ function AboutPanel() {
   ];
 
   return (
-    <div className="h-full flex items-center" style={{ backgroundColor: 'var(--surface)' }}>
+    <div className="h-full flex items-start" style={{ backgroundColor: 'var(--surface)' }}>
       <div className="container-main section-padding w-full">
         <div className="text-center mb-12">
           <h2 className="heading-2 mb-4" style={{ color: 'var(--text)' }}>
@@ -443,7 +443,7 @@ function AboutPanel() {
 
 function GalleryPanel({ items }: { items: ReturnType<typeof getLatestGalleryItems> }) {
   return (
-    <div className="h-full flex items-center" style={{ backgroundColor: 'var(--bg)' }}>
+    <div className="h-full flex items-start" style={{ backgroundColor: 'var(--bg)' }}>
       <div className="container-main section-padding w-full">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
           <div>
@@ -483,7 +483,7 @@ function GalleryPanel({ items }: { items: ReturnType<typeof getLatestGalleryItem
 
 function ContactPanel() {
   return (
-    <div className="h-full flex items-center" style={{ backgroundColor: 'var(--surface)' }}>
+    <div className="h-full flex items-start" style={{ backgroundColor: 'var(--surface)' }}>
       <div className="container-main section-padding w-full">
         <div
           className="relative glass-card p-8 md:p-12 text-center overflow-hidden max-w-3xl mx-auto"
