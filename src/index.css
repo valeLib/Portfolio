@@ -16,6 +16,16 @@
   --muted: rgba(245, 240, 255, 0.65);
   --border-color: rgba(168, 85, 247, 0.2);
   --glass: rgba(10, 6, 18, 0.85);
+
+  /* Dark Mode: Cosmic hero tokens */
+  --bg-0: #020617;     /* base */
+  --violet-0: #2A0A4A; /* deep violet */
+  --indigo-0: #1B2A7A; /* deep indigo */
+  --magenta-0: #A855F7;/* accent */
+  --pink-0: #F472B6;   /* accent */
+  --cyan-0: #22D3EE;   /* small highlight */
+  --text-0: #F8FAFC;   /* main text */
+  --text-1: #CBD5E1;   /* secondary */
 }
 
 [data-theme="light"] {
@@ -160,6 +170,61 @@ body {
 
 body.overflow-hidden {
   overflow: hidden;
+}
+
+/* Hero cosmic background layers */
+.hero-bg {
+  background:
+    radial-gradient(900px 600px at 70% 25%, rgba(244, 114, 182, 0.18), transparent 60%),
+    radial-gradient(900px 600px at 25% 55%, rgba(168, 85, 247, 0.22), transparent 65%),
+    radial-gradient(1100px 700px at 55% 90%, rgba(34, 211, 238, 0.1), transparent 70%),
+    linear-gradient(135deg, #020617 0%, #0B1028 35%, #1B2A7A 70%, #2A0A4A 100%);
+}
+
+.hero-stars {
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(248, 250, 252, 0.35), transparent 60%),
+    radial-gradient(1.5px 1.5px at 28% 32%, rgba(248, 250, 252, 0.25), transparent 65%),
+    radial-gradient(1px 1px at 42% 12%, rgba(248, 250, 252, 0.3), transparent 60%),
+    radial-gradient(1px 1px at 60% 28%, rgba(248, 250, 252, 0.28), transparent 60%),
+    radial-gradient(1.5px 1.5px at 75% 20%, rgba(248, 250, 252, 0.35), transparent 65%),
+    radial-gradient(1px 1px at 18% 72%, rgba(248, 250, 252, 0.25), transparent 60%),
+    radial-gradient(1px 1px at 36% 82%, rgba(248, 250, 252, 0.3), transparent 60%),
+    radial-gradient(1.5px 1.5px at 58% 72%, rgba(248, 250, 252, 0.24), transparent 60%),
+    radial-gradient(1px 1px at 78% 78%, rgba(248, 250, 252, 0.3), transparent 60%);
+  opacity: 0.45;
+}
+
+.hero-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.08;
+  mix-blend-mode: soft-light;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 0.9;
+  color: var(--text-0);
+}
+
+.hero-title-word {
+  background: linear-gradient(90deg, #5B5CEB 0%, #8B5CF6 45%, #F472B6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.glass-nav {
+  background: rgba(2, 6, 23, 0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(248, 250, 252, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  border-radius: 999px;
 }
 
 /* Texture overlays */

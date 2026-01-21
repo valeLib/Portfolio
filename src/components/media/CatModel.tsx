@@ -11,7 +11,7 @@ interface CatModelProps {
 
 export function CatModel({
   url,
-  scale = 0.9,
+  scale = 0.8,
   position = [0, 0, 0],
   rotation = [0, 0, 0],
 }: CatModelProps) {

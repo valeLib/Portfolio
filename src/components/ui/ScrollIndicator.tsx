@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LottieDecor } from '../media';
+import mouseScrollAnimation from '../../assets/lottie/Mouse scroll animation.lottie?url';
 import { usePrefersReducedMotion } from '../../hooks';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -54,7 +55,7 @@ export function ScrollIndicator() {
     >
       <div className="w-12 h-12 md:w-16 md:h-16">
         <LottieDecor
-          src="/src/assets/lottie/Mouse scroll animation.lottie"
+          src={mouseScrollAnimation}
           loop
           autoplay
           className="w-full h-full"

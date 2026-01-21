@@ -1,22 +1,61 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { NAV_LINKS, isUnified, isGameDev } from '../../config';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { NAV_LINKS, isUnified } from '../../config';
 import { CvDownloadButton, ThemeToggle } from '../ui';
-import { profile } from '../../content/profile';
+import { usePrefersReducedMotion } from '../../hooks';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function Navbar() {
+  const navRef = useRef<HTMLElement>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const isHome = location.pathname === '/';
+
+  useLayoutEffect(() => {
+    if (!navRef.current) return;
+    const nav = navRef.current;
+
+    if (prefersReducedMotion || !isHome) {
+      setIsScrolled(true);
+      gsap.set(nav, { opacity: 1, y: 0, pointerEvents: 'auto' });
+      return;
+    }
+
+    setIsScrolled(false);
+    gsap.set(nav, { opacity: 0, y: -12, pointerEvents: 'none' });
+  }, [isHome, prefersReducedMotion]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    if (!navRef.current || prefersReducedMotion || !isHome) return;
+    const nav = navRef.current;
+
+    const showNav = () => {
+      setIsScrolled(true);
+      gsap.to(nav, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out', pointerEvents: 'auto' });
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const hideNav = () => {
+      setIsScrolled(false);
+      gsap.to(nav, { opacity: 0, y: -12, duration: 0.2, ease: 'power2.out', pointerEvents: 'none' });
+    };
+
+    const trigger = ScrollTrigger.create({
+      trigger: document.body,
+      start: 'top top+=1',
+      end: 'bottom bottom',
+      onEnter: showNav,
+      onLeaveBack: hideNav,
+    });
+
+    return () => {
+      trigger.kill();
+    };
+  }, [isHome, prefersReducedMotion]);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -24,31 +63,19 @@ export function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled || isMobileMenuOpen
-          ? 'backdrop-blur-lg border-b'
-          : 'bg-transparent'
-      }`}
-      style={{
-        backgroundColor: isScrolled || isMobileMenuOpen ? 'color-mix(in srgb, var(--bg) 95%, transparent)' : 'transparent',
-        borderColor: isScrolled || isMobileMenuOpen ? 'var(--border-color)' : 'transparent',
-      }}
+      ref={navRef}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
     >
-      <div className="container-main">
-        <div className="flex items-center justify-between h-16 md:h-20">
+      <div className={`mx-4 md:mx-6 ${isScrolled || isMobileMenuOpen ? 'glass-nav' : ''}`}>
+        <div className="container-main">
+          <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center gap-2 text-lg font-display font-bold transition-colors"
+            className="flex items-center text-lg font-display font-bold transition-colors"
             style={{ color: 'var(--text)' }}
           >
-            <span
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-sm"
-              style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent-2))', color: 'var(--bg)' }}
-            >
-              {isGameDev ? 'TA' : 'VL'}
-            </span>
-            <span className="hidden sm:inline">{profile.name.split(' ')[0]}</span>
+            Home
           </Link>
 
           {/* Desktop Navigation */}
@@ -135,7 +162,7 @@ export function Navbar() {
             </svg>
             </button>
           </div>
-        </div>
+          </div>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
@@ -164,6 +191,7 @@ export function Navbar() {
             </div>
           </div>
         )}
+        </div>
       </div>
     </nav>
   );
