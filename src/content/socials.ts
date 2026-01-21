@@ -38,4 +38,4 @@ export const socials: SocialLink[] = [
   // },
 ];
 
-export const contactEmail = 'your.email@example.com';
+export const contactEmail = 'vliberonazuniga@gmail.com';
