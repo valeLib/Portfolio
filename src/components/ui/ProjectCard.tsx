@@ -47,7 +47,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {/* Content */}
       <div className="p-4 pt-0">
-        <h3 className="heading-4 text-white mb-2 group-hover:text-accent-400 transition-colors">
+        <h3 className="heading-4 mb-2 group-hover:text-accent-400 transition-colors" style={{ color: 'var(--text-heading)' }}>
           {project.title}
         </h3>
         <p className="text-dark-400 text-sm mb-4 line-clamp-2">

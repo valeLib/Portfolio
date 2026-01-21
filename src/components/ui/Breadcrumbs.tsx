@@ -33,7 +33,9 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
             {item.path ? (
               <Link
                 to={item.path}
-                className="text-dark-400 hover:text-white transition-colors"
+                className="text-dark-400 transition-colors"
+                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-heading)'}
+                onMouseLeave={(e) => e.currentTarget.style.color = ''}
               >
                 {item.label}
               </Link>

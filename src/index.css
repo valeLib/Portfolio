@@ -13,6 +13,7 @@
   --accent: #E879F9;       /* Fuchsia/Magenta - details */
   --accent-2: #9333EA;     /* Deep Purple for gradients */
   --text: #F5F0FF;         /* Light purple-tinted white */
+  --text-heading: #F5F5F5; /* Strong text / headings */
   --muted: rgba(245, 240, 255, 0.65);
   --border-color: rgba(168, 85, 247, 0.2);
   --glass: rgba(10, 6, 18, 0.85);
@@ -38,6 +39,7 @@
   --accent: #2F3A1F;       /* Olive text - contrast */
   --accent-2: #C4D6A4;     /* Mid green for gradients */
   --text: #2F3A1F;         /* Main olive text */
+  --text-heading: #2F3A1F; /* Strong olive for headings */
   --muted: rgba(85, 98, 58, 0.65);  /* Secondary text */
   --border-color: rgba(159, 179, 109, 0.15);
   --glass: rgba(251, 246, 228, 0.7);
@@ -54,104 +56,15 @@
 }
 
 @theme {
-  /* Colors - Cyber/Dark palette (grape-based) */
-  --color-dark-50: #F8F0FF;
-  --color-dark-100: #E8D5F0;
-  --color-dark-200: #C9A8D6;
-  --color-dark-300: #A87BC0;
-  --color-dark-400: #7D4A9A;
-  --color-dark-500: #5C2D7A;
-  --color-dark-600: #461F5F;
-  --color-dark-700: #2D1535;
-  --color-dark-800: #1A0A1F;
-  --color-dark-900: #0F0510;
-  --color-dark-950: #080208;
-
-  /* Colors - Primary (Neon Pink / Electric) */
-  --color-primary-50: #FFF0F7;
-  --color-primary-100: #FFD6E8;
-  --color-primary-200: #FFB3D6;
-  --color-primary-300: #FF80BE;
-  --color-primary-400: #FF4DA6;
-  --color-primary-500: #FF2D95;
-  --color-primary-600: #E0197C;
-  --color-primary-700: #B81363;
-  --color-primary-800: #8F0F4D;
-  --color-primary-900: #660B37;
-  --color-primary-950: #400722;
-
-  /* Colors - Accent (Cyan/Ice for dark, Matcha for light) */
-  --color-accent-50: #ECFEFF;
-  --color-accent-100: #CFFAFE;
-  --color-accent-200: #A5F3FC;
-  --color-accent-300: #67E8F9;
-  --color-accent-400: #22D3EE;
-  --color-accent-500: #00F5FF;
-  --color-accent-600: #00C4CC;
-  --color-accent-700: #0891A2;
-  --color-accent-800: #0E7490;
-  --color-accent-900: #155E75;
-  --color-accent-950: #083344;
-
-  /* Colors - Matcha palette */
-  --color-matcha-cream: #FDFCF0;
-  --color-matcha-light: #F5F3E7;
-  --color-matcha-50: #EBE8D9;
-  --color-matcha-100: #D2DBA9;
-  --color-matcha-200: #CADC99;
-  --color-matcha-300: #B5C87A;
-  --color-matcha-400: #96A178;
-  --color-matcha-500: #7A8B5A;
-  --color-matcha-600: #5F6D45;
-  --color-matcha-700: #4B5335;
-  --color-matcha-800: #3A4029;
-  --color-matcha-900: #2A2F1E;
-  --color-matcha-950: #1A1D12;
-
-  /* Colors - Strawberry palette */
-  --color-strawberry-50: #FFF5F5;
-  --color-strawberry-100: #FFE8E8;
-  --color-strawberry-200: #FFD4D4;
-  --color-strawberry-300: #FFB7B7;
-  --color-strawberry-400: #FF9B9B;
-  --color-strawberry-500: #E58A8A;
-  --color-strawberry-600: #CC7A7A;
-  --color-strawberry-700: #A65F5F;
-  --color-strawberry-800: #804A4A;
-  --color-strawberry-900: #593535;
-  --color-strawberry-950: #332020;
-
-  /* Colors - Neon Purple (secondary for dark mode) */
-  --color-neon-50: #F5F3FF;
-  --color-neon-100: #EDE9FE;
-  --color-neon-200: #DDD6FE;
-  --color-neon-300: #C4B5FD;
-  --color-neon-400: #A78BFA;
-  --color-neon-500: #8B5CF6;
-  --color-neon-600: #7C3AED;
-  --color-neon-700: #6D28D9;
-  --color-neon-800: #5B21B6;
-  --color-neon-900: #4C1D95;
-  --color-neon-950: #2E1065;
-
   /* Fonts */
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
   /* Animations */
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-glow: glow 2s ease-in-out infinite alternate;
-
   @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
-  }
-
-  @keyframes glow {
-    0% { box-shadow: 0 0 5px oklch(from var(--color-accent-500) l c h / 0.5); }
-    100% { box-shadow: 0 0 20px oklch(from var(--color-accent-500) l c h / 0.8); }
   }
 }
 
@@ -374,7 +287,11 @@ body::after {
 }
 
 @utility text-gradient {
-  @apply bg-gradient-to-r from-accent-400 via-accent-500 to-primary-400 bg-clip-text text-transparent;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 50%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 @utility glass-card {

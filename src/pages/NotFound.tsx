@@ -19,7 +19,7 @@ export function NotFound() {
           />
         </div>
 
-        <h1 className="heading-2 text-white mb-4">Page Not Found</h1>
+        <h1 className="heading-2 mb-4" style={{ color: 'var(--text-heading)' }}>Page Not Found</h1>
 
         <p className="text-dark-400 max-w-md mx-auto mb-8">
           Oops! The page you're looking for seems to have vanished into the void.

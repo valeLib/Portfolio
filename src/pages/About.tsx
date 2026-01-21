@@ -25,7 +25,7 @@ export function About() {
               </span>
             </div>
 
-            <h1 data-gsap-reveal className="heading-1 text-white mb-4">
+            <h1 data-gsap-reveal className="heading-1 mb-4" style={{ color: 'var(--text-heading)' }}>
               About <span className="text-gradient">Me</span>
             </h1>
 
@@ -83,7 +83,7 @@ export function About() {
       {/* Focus Areas */}
       <Section className="bg-dark-950/50">
         <div data-gsap-reveal className="text-center mb-12">
-          <h2 className="heading-2 text-white mb-4">Focus Areas</h2>
+          <h2 className="heading-2 mb-4" style={{ color: 'var(--text-heading)' }}>Focus Areas</h2>
           <p className="text-dark-400 max-w-2xl mx-auto">
             {isTechArt
               ? 'My core specializations in real-time graphics and game development.'
@@ -97,7 +97,7 @@ export function About() {
               <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-accent-500/20 flex items-center justify-center">
                 <FocusIcon name={area.icon} />
               </div>
-              <h3 className="text-white font-semibold mb-2">{area.title}</h3>
+              <h3 className="font-semibold mb-2" style={{ color: 'var(--text-heading)' }}>{area.title}</h3>
               <p className="text-dark-400 text-sm">{area.description}</p>
             </div>
           ))}
@@ -108,7 +108,7 @@ export function About() {
       <Section>
         <div ref={skillsRef}>
           <div data-gsap-reveal className="text-center mb-12">
-            <h2 className="heading-2 text-white mb-4">Tools & Skills</h2>
+            <h2 className="heading-2 mb-4" style={{ color: 'var(--text-heading)' }}>Tools & Skills</h2>
             <p className="text-dark-400 max-w-2xl mx-auto">
               {isTechArt
                 ? 'Technologies and software I use to bring creative visions to life.'
@@ -121,7 +121,7 @@ export function About() {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Engines */}
               <div data-gsap-reveal className="glass-card p-6">
-                <h3 className="text-white font-semibold mb-4">Game Engines</h3>
+                <h3 className="font-semibold mb-4" style={{ color: 'var(--text-heading)' }}>Game Engines</h3>
                 <ul className="space-y-3">
                   {profile.skills.engines?.map((skill) => (
                     <li key={skill.name} className="flex items-center justify-between">
@@ -136,7 +136,7 @@ export function About() {
 
               {/* VFX */}
               <div data-gsap-reveal className="glass-card p-6">
-                <h3 className="text-white font-semibold mb-4">VFX Systems</h3>
+                <h3 className="font-semibold mb-4" style={{ color: 'var(--text-heading)' }}>VFX Systems</h3>
                 <ul className="space-y-3">
                   {profile.skills.vfx?.map((skill) => (
                     <li key={skill.name} className="flex items-center justify-between">
@@ -149,7 +149,7 @@ export function About() {
 
               {/* Shaders */}
               <div data-gsap-reveal className="glass-card p-6">
-                <h3 className="text-white font-semibold mb-4">Shaders</h3>
+                <h3 className="font-semibold mb-4" style={{ color: 'var(--text-heading)' }}>Shaders</h3>
                 <ul className="space-y-3">
                   {profile.skills.shaders?.map((skill) => (
                     <li key={skill.name} className="flex items-center justify-between">
@@ -162,7 +162,7 @@ export function About() {
 
               {/* Programming */}
               <div data-gsap-reveal className="glass-card p-6">
-                <h3 className="text-white font-semibold mb-4">Programming</h3>
+                <h3 className="font-semibold mb-4" style={{ color: 'var(--text-heading)' }}>Programming</h3>
                 <ul className="space-y-3">
                   {profile.skills.programming?.map((skill) => (
                     <li key={skill.name} className="flex items-center justify-between">
@@ -178,7 +178,7 @@ export function About() {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Frontend */}
               <div data-gsap-reveal className="glass-card p-6">
-                <h3 className="text-white font-semibold mb-4">Frontend</h3>
+                <h3 className="font-semibold mb-4" style={{ color: 'var(--text-heading)' }}>Frontend</h3>
                 <ul className="space-y-3">
                   {profile.skills.frontend?.map((skill) => (
                     <li key={skill.name} className="flex items-center justify-between">
@@ -193,7 +193,7 @@ export function About() {
 
               {/* Animation */}
               <div data-gsap-reveal className="glass-card p-6">
-                <h3 className="text-white font-semibold mb-4">Animation</h3>
+                <h3 className="font-semibold mb-4" style={{ color: 'var(--text-heading)' }}>Animation</h3>
                 <ul className="space-y-3">
                   {profile.skills.animation?.map((skill) => (
                     <li key={skill.name} className="flex items-center justify-between">
@@ -206,7 +206,7 @@ export function About() {
 
               {/* Backend */}
               <div data-gsap-reveal className="glass-card p-6">
-                <h3 className="text-white font-semibold mb-4">Backend</h3>
+                <h3 className="font-semibold mb-4" style={{ color: 'var(--text-heading)' }}>Backend</h3>
                 <ul className="space-y-3">
                   {profile.skills.backend?.map((skill) => (
                     <li key={skill.name} className="flex items-center justify-between">
@@ -219,7 +219,7 @@ export function About() {
 
               {/* Tools */}
               <div data-gsap-reveal className="glass-card p-6">
-                <h3 className="text-white font-semibold mb-4">Tools</h3>
+                <h3 className="font-semibold mb-4" style={{ color: 'var(--text-heading)' }}>Tools</h3>
                 <ul className="space-y-3">
                   {profile.skills.tools?.map((skill) => (
                     <li key={skill.name} className="flex items-center justify-between">
@@ -243,7 +243,7 @@ export function About() {
           {isTechArt ? (
             // Tech Art profile: Frontend credibility
             <>
-              <h2 className="heading-3 text-white mb-4">Frontend Development</h2>
+              <h2 className="heading-3 mb-4" style={{ color: 'var(--text-heading)' }}>Frontend Development</h2>
               <p className="text-dark-400 mb-6">
                 {(profile as any).frontend?.note ||
                   'While my primary focus is Tech Art, I also have experience building polished web interfaces.'}
@@ -259,7 +259,7 @@ export function About() {
           ) : (
             // Frontend profile: Tech Art/Game Dev credibility
             <>
-              <h2 className="heading-3 text-white mb-4">Game Development & VR</h2>
+              <h2 className="heading-3 mb-4" style={{ color: 'var(--text-heading)' }}>Game Development & VR</h2>
               <p className="text-dark-400 mb-6">
                 {(profile as any).techArt?.note ||
                   'I also have hands-on experience with Unity, VR development, and technical art.'}
@@ -279,7 +279,7 @@ export function About() {
       {/* CTA */}
       <Section>
         <div className="text-center">
-          <h2 className="heading-3 text-white mb-4">Let's Work Together</h2>
+          <h2 className="heading-3 mb-4" style={{ color: 'var(--text-heading)' }}>Let's Work Together</h2>
           <p className="text-dark-400 mb-6 max-w-md mx-auto">
             I'm always interested in hearing about new projects and opportunities.
           </p>

@@ -102,7 +102,7 @@ export function Skills() {
           <div data-gsap-reveal className="grid lg:grid-cols-2 gap-8 items-center">
             {/* Content Column */}
             <div className="relative">
-              <h1 className="heading-1 text-white mb-4">
+              <h1 className="heading-1 mb-4" style={{ color: 'var(--text-heading)' }}>
                 Skills & <span className="text-gradient">Technologies</span>
               </h1>
               <p className="text-xl text-dark-300 mb-6">
@@ -145,7 +145,7 @@ export function Skills() {
                 <div className={`w-12 h-12 mb-4 rounded-xl ${colors.bg} flex items-center justify-center`}>
                   <SkillIcon name={category.icon} className={colors.text} />
                 </div>
-                <h3 className="text-white font-semibold mb-4">{category.title}</h3>
+                <h3 className="font-semibold mb-4" style={{ color: 'var(--text-heading)' }}>{category.title}</h3>
                 <div className="flex flex-wrap gap-2">
                   {category.skills.map((skill) => (
                     <Tag key={skill} size="sm">
@@ -162,7 +162,7 @@ export function Skills() {
       {/* Detailed Skills from Profile */}
       <Section className="bg-dark-950/50">
         <div className="text-center mb-12">
-          <h2 className="heading-2 text-white mb-4">Proficiency Levels</h2>
+          <h2 className="heading-2 mb-4" style={{ color: 'var(--text-heading)' }}>Proficiency Levels</h2>
           <p className="text-dark-400 max-w-2xl mx-auto">
             A detailed breakdown of my expertise across different areas.
           </p>
@@ -171,7 +171,7 @@ export function Skills() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {Object.entries(profile.skills).map(([category, skills]) => (
             <div key={category} className="glass-card p-6">
-              <h3 className="text-white font-semibold mb-4 capitalize">{category}</h3>
+              <h3 className="font-semibold mb-4 capitalize" style={{ color: 'var(--text-heading)' }}>{category}</h3>
               <ul className="space-y-3">
                 {skills?.map((skill) => (
                   <li key={skill.name} className="flex items-center justify-between">
@@ -190,7 +190,7 @@ export function Skills() {
       {/* CTA */}
       <Section>
         <div className="relative text-center">
-          <h2 className="heading-3 text-white mb-4">Ready to Work Together?</h2>
+          <h2 className="heading-3 mb-4" style={{ color: 'var(--text-heading)' }}>Ready to Work Together?</h2>
           <p className="text-dark-400 mb-6 max-w-md mx-auto">
             Let's discuss how my skills can help bring your project to life.
           </p>

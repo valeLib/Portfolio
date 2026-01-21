@@ -49,7 +49,7 @@ export function Contact() {
             </span>
           </div>
 
-          <h1 data-gsap-reveal className="heading-1 text-white mb-4">
+          <h1 data-gsap-reveal className="heading-1 mb-4" style={{ color: 'var(--text-heading)' }}>
             Get in <span className="text-gradient">Touch</span>
           </h1>
 
@@ -66,7 +66,7 @@ export function Contact() {
           {/* Contact Form */}
           <div ref={formRef}>
             <div data-gsap-reveal className="glass-card p-6 md:p-8">
-              <h2 className="heading-4 text-white mb-6">Send a Message</h2>
+              <h2 className="heading-4 mb-6" style={{ color: 'var(--text-heading)' }}>Send a Message</h2>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -173,10 +173,13 @@ export function Contact() {
           {/* Contact Info */}
           <div>
             <div data-gsap-reveal className="mb-8">
-              <h2 className="heading-4 text-white mb-4">Direct Contact</h2>
+              <h2 className="heading-4 mb-4" style={{ color: 'var(--text-heading)' }}>Direct Contact</h2>
               <a
                 href={`mailto:${contactEmail}`}
-                className="group flex items-center gap-3 text-dark-300 hover:text-white transition-colors"
+                className="group flex items-center gap-3 text-dark-300 transition-colors"
+                style={{ ['--hover-color' as string]: 'var(--text-heading)' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-heading)'}
+                onMouseLeave={(e) => e.currentTarget.style.color = ''}
               >
                 <div className="w-10 h-10 rounded-lg bg-dark-800 flex items-center justify-center group-hover:bg-accent-500/20 transition-colors">
                   <SocialIcon name="email" className="w-5 h-5" />
@@ -186,12 +189,12 @@ export function Contact() {
             </div>
 
             <div data-gsap-reveal className="mb-8">
-              <h2 className="heading-4 text-white mb-4">Location</h2>
+              <h2 className="heading-4 mb-4" style={{ color: 'var(--text-heading)' }}>Location</h2>
               <p className="text-dark-400">{profile.location}</p>
             </div>
 
             <div data-gsap-reveal>
-              <h2 className="heading-4 text-white mb-4">Connect</h2>
+              <h2 className="heading-4 mb-4" style={{ color: 'var(--text-heading)' }}>Connect</h2>
               <div className="flex flex-wrap gap-3">
                 {socials.map((social) => (
                   <a
@@ -205,7 +208,7 @@ export function Contact() {
                       <SocialIcon name={social.icon} className="w-4 h-4" />
                     </div>
                     <div className="text-left">
-                      <p className="text-white text-sm font-medium">{social.name}</p>
+                      <p className="text-sm font-medium" style={{ color: 'var(--text-heading)' }}>{social.name}</p>
                       <p className="text-dark-500 text-xs">{social.username}</p>
                     </div>
                   </a>

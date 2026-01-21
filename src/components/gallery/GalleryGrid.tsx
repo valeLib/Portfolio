@@ -65,7 +65,7 @@ function GalleryCard({ item, onClick }: GalleryCardProps) {
       {/* Video indicator */}
       {isVideo && (
         <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-dark-900/60 backdrop-blur-sm flex items-center justify-center">
-          <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--text-heading)' }}>
             <path d="M8 5v14l11-7z" />
           </svg>
         </div>
@@ -78,7 +78,7 @@ function GalleryCard({ item, onClick }: GalleryCardProps) {
 
       {/* Content (shown on hover) */}
       <div className="absolute inset-x-0 bottom-0 p-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-        <h3 className="text-white font-semibold mb-1 line-clamp-1">{item.title}</h3>
+        <h3 className="font-semibold mb-1 line-clamp-1" style={{ color: 'var(--text-heading)' }}>{item.title}</h3>
         <p className="text-dark-300 text-sm line-clamp-2">{item.caption}</p>
         {item.engine && (
           <span className="inline-block mt-2 px-2 py-0.5 text-xs bg-accent-500/20 text-accent-400 rounded">

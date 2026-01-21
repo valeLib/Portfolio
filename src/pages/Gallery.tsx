@@ -46,7 +46,7 @@ export function Gallery() {
       <Section className="pb-8">
         <div ref={headerRef}>
           <div data-gsap-reveal className="max-w-3xl mb-8">
-            <h1 className="heading-1 text-white mb-4">
+            <h1 className="heading-1 mb-4" style={{ color: 'var(--text-heading)' }}>
               <span className="text-gradient">Gallery</span>
             </h1>
             <p className="text-xl text-dark-400">
