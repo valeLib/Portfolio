@@ -41,7 +41,7 @@ export function CustomCursor() {
     if (prefersReducedMotion || isTouchDevice) return;
 
     let lastTrailTime = 0;
-    const trailInterval = theme === 'light' ? 50 : 100;
+    const trailInterval = 100;
 
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
@@ -51,9 +51,7 @@ export function CustomCursor() {
       const target = e.target as HTMLElement;
       const isInteractive = target.closest('a, button, [role="button"], input, textarea, select, [data-cursor="pointer"]');
       setIsPointer(!!isInteractive);
-
-      // Add trail dots (light mode: strawberry seeds)
-      if (theme === 'light') {
+     
         const now = Date.now();
         if (now - lastTrailTime > trailInterval) {
           lastTrailTime = now;
@@ -63,7 +61,6 @@ export function CustomCursor() {
             { x: e.clientX, y: e.clientY, id: trailIdRef.current }
           ]);
         }
-      }
     };
 
     const handleMouseLeave = () => {
@@ -84,11 +81,11 @@ export function CustomCursor() {
       document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
       document.documentElement.removeEventListener('mouseenter', handleMouseEnter);
     };
-  }, [prefersReducedMotion, isTouchDevice, theme]);
+  }, [prefersReducedMotion, isTouchDevice]);
 
   // Click ripple effect (dark mode)
   useEffect(() => {
-    if (prefersReducedMotion || isTouchDevice || theme !== 'dark') return;
+    if (prefersReducedMotion || isTouchDevice ) return;
 
     const handleClick = (e: MouseEvent) => {
       rippleIdRef.current++;
@@ -105,7 +102,7 @@ export function CustomCursor() {
 
     document.addEventListener('click', handleClick);
     return () => document.removeEventListener('click', handleClick);
-  }, [prefersReducedMotion, isTouchDevice, theme]);
+  }, [prefersReducedMotion, isTouchDevice]);
 
   // Clean up old trail dots
   useEffect(() => {
@@ -113,7 +110,7 @@ export function CustomCursor() {
 
     const timeout = setTimeout(() => {
       setTrail(prev => prev.slice(1));
-    }, 300);
+    }, 100);
 
     return () => clearTimeout(timeout);
   }, [trail]);
@@ -121,7 +118,12 @@ export function CustomCursor() {
   // Don't render on touch devices or if reduced motion
   if (prefersReducedMotion || isTouchDevice) return null;
 
-  const cursorSize = isPointer ? 40 : 24;
+  const cursorSize = isPointer ? 40 : 18;
+
+  // Get CSS variables for theme-aware colors
+  const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+  const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+  const secondaryColor = getComputedStyle(document.documentElement).getPropertyValue('--secondary').trim();
 
   return (
     <>
@@ -144,9 +146,9 @@ export function CustomCursor() {
             style={{
               width: cursorSize,
               height: cursorSize,
-              backgroundColor: 'rgba(150, 161, 120, 0.4)',
-              border: '2px solid rgba(75, 83, 53, 0.6)',
-              boxShadow: '0 2px 10px rgba(75, 83, 53, 0.2)',
+              backgroundColor: 'transparent',
+              border: `2px solid ${accentColor}99`,
+              boxShadow: `0 2px 15px ${accentColor}33`,
             }}
           />
         ) : (
@@ -157,15 +159,15 @@ export function CustomCursor() {
               width: cursorSize,
               height: cursorSize,
               backgroundColor: 'transparent',
-              border: '2px solid #A855F7',
-              boxShadow: '0 0 15px rgba(168, 85, 247, 0.5), inset 0 0 10px rgba(168, 85, 247, 0.2)',
+              border: `2px solid ${primaryColor}`,
+              boxShadow: `0 0 15px ${primaryColor}80, inset 0 0 10px ${primaryColor}33`,
             }}
           />
         )}
       </div>
 
       {/* Trail dots (light mode: strawberry seeds) */}
-      {theme === 'light' && trail.map((dot, index) => (
+      {trail.map((dot, index) => (
         <div
           key={dot.id}
           className="fixed pointer-events-none z-[9999] rounded-full"
@@ -175,7 +177,7 @@ export function CustomCursor() {
             transform: 'translate(-50%, -50%)',
             width: 4 + index * 0.5,
             height: 4 + index * 0.5,
-            backgroundColor: '#FFB7B7',
+            backgroundColor: secondaryColor,
             opacity: (index + 1) / trail.length * 0.6,
             transition: 'opacity 0.3s ease',
           }}
@@ -183,7 +185,7 @@ export function CustomCursor() {
       ))}
 
       {/* Ripples (dark mode: click effect) */}
-      {theme === 'dark' && ripples.map(ripple => (
+      {ripples.map(ripple => (
         <div
           key={ripple.id}
           className="fixed pointer-events-none z-[9998] rounded-full animate-ripple"
@@ -193,8 +195,8 @@ export function CustomCursor() {
             transform: 'translate(-50%, -50%)',
             width: 10,
             height: 10,
-            border: '2px solid #A855F7',
-            boxShadow: '0 0 20px rgba(168, 85, 247, 0.4)',
+            border: `2px solid ${primaryColor}`,
+            boxShadow: `0 0 20px ${primaryColor}66`,
           }}
         />
       ))}
