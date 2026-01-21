@@ -116,7 +116,9 @@ export function GalleryModal({
           <button
             ref={closeButtonRef}
             onClick={onClose}
-            className="w-10 h-10 rounded-lg bg-dark-800 flex items-center justify-center text-dark-400 hover:text-white hover:bg-dark-700 transition-colors"
+            className="w-10 h-10 rounded-lg bg-dark-800 flex items-center justify-center text-dark-400 hover:bg-dark-700 transition-colors"
+            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-heading)'}
+            onMouseLeave={(e) => e.currentTarget.style.color = ''}
             aria-label="Close modal"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,11 +155,12 @@ export function GalleryModal({
           <button
             onClick={onPrev}
             disabled={!hasPrev}
-            className={`absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-dark-900/80 backdrop-blur-sm flex items-center justify-center text-white transition-all ${
+            className={`absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-dark-900/80 backdrop-blur-sm flex items-center justify-center transition-all ${
               hasPrev
                 ? 'hover:bg-dark-800 hover:scale-110'
                 : 'opacity-30 cursor-not-allowed'
             }`}
+            style={{ color: 'var(--text-heading)' }}
             aria-label="Previous item"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -173,11 +176,12 @@ export function GalleryModal({
           <button
             onClick={onNext}
             disabled={!hasNext}
-            className={`absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-dark-900/80 backdrop-blur-sm flex items-center justify-center text-white transition-all ${
+            className={`absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-dark-900/80 backdrop-blur-sm flex items-center justify-center transition-all ${
               hasNext
                 ? 'hover:bg-dark-800 hover:scale-110'
                 : 'opacity-30 cursor-not-allowed'
             }`}
+            style={{ color: 'var(--text-heading)' }}
             aria-label="Next item"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -193,7 +197,7 @@ export function GalleryModal({
 
         {/* Footer Info */}
         <div className="mt-4 px-2">
-          <h2 id="modal-title" className="text-xl font-display font-semibold text-white mb-2">
+          <h2 id="modal-title" className="text-xl font-display font-semibold mb-2" style={{ color: 'var(--text-heading)' }}>
             {item.title}
           </h2>
           <p className="text-dark-400 mb-3">{item.caption}</p>

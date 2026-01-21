@@ -1,7 +1,7 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Section } from '../layout';
 import { Tag } from '../ui';
 import { useGsapContext, usePrefersReducedMotion } from '../../hooks';
 import { experiences, type Experience } from '../../content/experience';
@@ -22,14 +22,14 @@ const typeLabels: Record<Experience['type'], string> = {
   research: 'Research',
 };
 
-export function ExperienceTimeline() {
+export function ExperienceSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
-  // Setup scroll-driven animations
+  // Setup scroll-driven animations - restrained, editorial
   useGsapContext(
     () => {
       if (!containerRef.current || !timelineRef.current || prefersReducedMotion) return;
@@ -37,17 +37,16 @@ export function ExperienceTimeline() {
       const items = timelineRef.current.querySelectorAll('[data-timeline-item]');
       const progressBar = progressRef.current;
 
-      // Initial state for cards - visible but ready for reveal animation
+      // Initial state for cards - hidden, small upward motion only
       gsap.set(items, { opacity: 0, y: 12 });
 
-      // Reveal animation for each card
+      // Reveal animation for each card - simple, calm
       items.forEach((item, index) => {
         ScrollTrigger.create({
           trigger: item,
           start: 'top 80%',
           end: 'top 30%',
           onEnter: () => {
-            // Reveal card
             gsap.to(item, {
               opacity: 1,
               y: 0,
@@ -81,24 +80,37 @@ export function ExperienceTimeline() {
     [prefersReducedMotion]
   );
 
-  // For reduced motion, show all items immediately
-  useEffect(() => {
-    if (prefersReducedMotion && timelineRef.current) {
-      const items = timelineRef.current.querySelectorAll('[data-timeline-item]');
-      items.forEach((item) => {
-        (item as HTMLElement).style.opacity = '1';
-        (item as HTMLElement).style.transform = 'none';
-      });
-    }
-  }, [prefersReducedMotion]);
-
   return (
-    <Section>
-      <div ref={containerRef}>
+    <div ref={containerRef}>
+        {/* Section header */}
+        <div className="flex items-end justify-between gap-4 mb-12">
+          <div>
+            <h2
+              className="text-2xl md:text-3xl font-bold mb-2"
+              style={{ color: 'var(--text)' }}
+            >
+              Experience
+            </h2>
+            <p style={{ color: 'var(--muted)' }}>
+              Professional journey across frontend, full-stack, and XR development
+            </p>
+          </div>
+          <Link
+            to="/experience"
+            className="text-sm font-medium hover:underline"
+            style={{ color: 'var(--accent)' }}
+          >
+            Full timeline
+          </Link>
+        </div>
+
         {/* Timeline container */}
         <div ref={timelineRef} className="relative">
-          {/* Vertical timeline line - left side on desktop, left edge on mobile */}
-          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px" style={{ backgroundColor: 'var(--border-color)' }}>
+          {/* Vertical timeline line - left side */}
+          <div
+            className="absolute left-4 md:left-8 top-0 bottom-0 w-px"
+            style={{ backgroundColor: 'var(--border-color)' }}
+          >
             {/* Progress overlay */}
             <div
               ref={progressRef}
@@ -111,9 +123,9 @@ export function ExperienceTimeline() {
             />
           </div>
 
-          {/* Timeline items */}
+          {/* Timeline items - show first 3 experiences */}
           <div className="space-y-8 md:space-y-12">
-            {experiences.map((exp, index) => (
+            {experiences.slice(0, 3).map((exp, index) => (
               <TimelineItem
                 key={exp.id}
                 exp={exp}
@@ -122,9 +134,22 @@ export function ExperienceTimeline() {
               />
             ))}
           </div>
+
+          {/* View more link */}
+          <div className="mt-8 pl-12 md:pl-20">
+            <Link
+              to="/experience"
+              className="inline-flex items-center gap-2 text-sm font-medium"
+              style={{ color: 'var(--accent)' }}
+            >
+              View all {experiences.length} positions
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
         </div>
-      </div>
-    </Section>
+    </div>
   );
 }
 
@@ -138,10 +163,7 @@ function TimelineItem({ exp, isActive, isCurrent }: TimelineItemProps) {
   const colors = typeColors[exp.type];
 
   return (
-    <div
-      data-timeline-item
-      className="relative pl-12 md:pl-20"
-    >
+    <div data-timeline-item className="relative pl-12 md:pl-20">
       {/* Timeline node */}
       <div
         data-timeline-node
@@ -167,15 +189,16 @@ function TimelineItem({ exp, isActive, isCurrent }: TimelineItemProps) {
         </div>
       )}
 
-      {/* Experience card */}
+      {/* Experience card - always readable, never disabled-looking */}
       <div
         className="glass-card p-5 md:p-6 transition-all duration-300"
         style={{
           borderColor: isActive ? colors.border : 'transparent',
           borderWidth: '1px',
-          boxShadow: isActive ? `0 0 20px color-mix(in srgb, ${colors.bg} 15%, transparent)` : 'none',
-          transform: isActive ? 'scale(1)' : 'scale(0.99)',
-          opacity: isActive ? 1 : 0.85, // Never below 70% as per spec
+          boxShadow: isActive
+            ? `0 0 20px color-mix(in srgb, ${colors.bg} 15%, transparent)`
+            : 'none',
+          opacity: isActive ? 1 : 0.85,
         }}
       >
         {/* Card header */}
@@ -216,38 +239,38 @@ function TimelineItem({ exp, isActive, isCurrent }: TimelineItemProps) {
           {exp.description}
         </p>
 
-        {/* Highlights - show first 2 always, rest can expand */}
+        {/* Highlights - show first 2 only on home page */}
         <ul className="space-y-1.5 mb-4">
-          {exp.highlights.slice(0, 3).map((highlight, i) => (
+          {exp.highlights.slice(0, 2).map((highlight, i) => (
             <li
               key={i}
               className="flex items-start gap-2 text-sm"
               style={{ color: 'var(--muted)' }}
             >
               <span
-                className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+                className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
                 style={{ backgroundColor: colors.bg }}
               />
               {highlight}
             </li>
           ))}
-          {exp.highlights.length > 3 && (
+          {exp.highlights.length > 2 && (
             <li className="text-sm pl-3.5" style={{ color: 'var(--muted)' }}>
-              +{exp.highlights.length - 3} more achievements
+              +{exp.highlights.length - 2} more achievements
             </li>
           )}
         </ul>
 
-        {/* Technologies */}
+        {/* Technologies - show first 5 */}
         <div className="flex flex-wrap gap-1.5">
-          {exp.technologies.slice(0, 6).map((tech) => (
+          {exp.technologies.slice(0, 5).map((tech) => (
             <Tag key={tech} size="sm">
               {tech}
             </Tag>
           ))}
-          {exp.technologies.length > 6 && (
+          {exp.technologies.length > 5 && (
             <span className="text-xs px-2 py-1" style={{ color: 'var(--muted)' }}>
-              +{exp.technologies.length - 6}
+              +{exp.technologies.length - 5}
             </span>
           )}
         </div>

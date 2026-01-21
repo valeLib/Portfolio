@@ -1,4 +1,4 @@
-import { CV_ENABLED, CV_PDF_PATH } from '../../config';
+import { CV_CONFIG } from '../../config';
 
 interface CvDownloadButtonProps {
   variant?: 'primary' | 'secondary' | 'ghost';
@@ -14,7 +14,7 @@ export function CvDownloadButton({
   showDisabled = false,
 }: CvDownloadButtonProps) {
   // If CV is not enabled and we don't want to show disabled state, render nothing
-  if (!CV_ENABLED && !showDisabled) {
+  if (!CV_CONFIG.enabled && !showDisabled) {
     return null;
   }
 
@@ -55,7 +55,7 @@ export function CvDownloadButton({
   );
 
   // If CV is disabled, show "Coming soon" button
-  if (!CV_ENABLED) {
+  if (!CV_CONFIG.enabled) {
     return (
       <button
         type="button"
@@ -75,12 +75,12 @@ export function CvDownloadButton({
     );
   }
 
-  // CV is enabled - show download link
+  // CV is enabled - show download link with correct variant
   return (
     <a
-      href={CV_PDF_PATH}
-      download="Valentina_LZ_CV.pdf"
-      aria-label="Download CV as PDF"
+      href={CV_CONFIG.path}
+      download={CV_CONFIG.filename}
+      aria-label={`Download ${CV_CONFIG.variant === 'gamedev' ? 'GameDev' : 'Software Engineering'} CV as PDF`}
       className={`
         inline-flex items-center justify-center
         ${sizeClasses[size]}

@@ -1,6 +1,8 @@
-// Frontend / Software Engineer profile content
+// Unified Software-First Profile
+// Primary: Frontend / Software Engineering
+// Secondary: Technical Art & Game Development
 
-export const frontendProfile = {
+export const unifiedProfile = {
   name: 'Valentina Liberona',
   fullName: 'Valentina Liberona Zuñiga',
   title: 'Frontend Engineer',
@@ -17,16 +19,27 @@ export const frontendProfile = {
   heroHeadline: 'Frontend Engineer',
   heroSubheadline: 'Building accessible, performant, and beautiful user interfaces',
 
+  // Primary focus (featured prominently)
+  primaryFocus: 'Frontend Engineering',
+  
+  // Secondary focus (acknowledged but not dominant)
+  secondaryFocus: 'Technical Art & Game Development',
+
+  // Main bio - Software engineering focused
   bio: `I am a frontend engineer who enjoys building things with care and intention.
 
 I bring a creative and artistic mindset to development, with strong attention to detail. I focus on delivering work that feels clean, solid, and well finished, while keeping a healthy balance between quality, clarity, and deadlines.
 
 I work well in teams with clear ownership and defined responsibilities. I value asynchronous workflows, where autonomy is respected and each person can focus on delivering their part with reliability.`,
 
+  // Extended bio - Includes tech art context
   bioExtended: `From a technical perspective, I focus on building interfaces that feel alive and intentional. I use tools such as GSAP, Lenis, Three.js or Spline, Lottie, and Tailwind to create interactive experiences that go beyond static layouts. Motion and depth are used with purpose, only when they improve flow, understanding, and usability.
 
-I care deeply about accessibility, performance, and maintainability. I enjoy working with systems that scale, code that is easy to read, and interfaces that feel intuitive to real users. My goal is to contribute work that raises the quality of both the product and the team.`,
+I care deeply about accessibility, performance, and maintainability. I enjoy working with systems that scale, code that is easy to read, and interfaces that feel intuitive to real users. My goal is to contribute work that raises the quality of both the product and the team.
 
+I also have a background in Technical Art and Game Development, working with Unity, Unreal Engine, VFX systems, and real-time rendering. This experience informs my approach to frontend development, particularly when it comes to animation, 3D integration, and performance optimization.`,
+
+  // Focus areas (for About page or Skills section)
   focusAreas: [
     {
       title: 'Frontend Development',
@@ -48,8 +61,19 @@ I care deeply about accessibility, performance, and maintainability. I enjoy wor
       description: 'Core Web Vitals optimization, lazy loading, and efficient rendering',
       icon: 'zap',
     },
+    {
+      title: 'Animation & Motion',
+      description: 'GSAP, Three.js, Lottie for rich interactive experiences',
+      icon: 'sparkles',
+    },
+    {
+      title: 'Technical Art (Secondary)',
+      description: 'Unity, Unreal, VFX, and real-time rendering experience',
+      icon: 'gamepad',
+    },
   ],
 
+  // Skills grouped by category
   skills: {
     frontend: [
       { name: 'React', level: 'Expert', primary: true },
@@ -79,22 +103,31 @@ I care deeply about accessibility, performance, and maintainability. I enjoy wor
       { name: 'Redux', level: 'Advanced' },
       { name: 'Testing (Jest/Vitest)', level: 'Proficient' },
     ],
+    techArt: [
+      { name: 'Unity', level: 'Advanced' },
+      { name: 'Unreal Engine', level: 'Intermediate' },
+      { name: 'C#', level: 'Proficient' },
+      { name: 'VFX Graph / Niagara', level: 'Intermediate' },
+      { name: 'Shader Programming', level: 'Intermediate' },
+    ],
   },
 
-  // Small tech art mention for this profile
-  techArt: {
-    note: 'I also have experience in game development, VFX, and technical art.',
-    skills: ['Unity', 'C#', 'Shaders', 'VFX', 'Meta Quest SDK'],
+  // Tech art note (secondary mention)
+  techArtNote: {
+    title: 'Technical Art & Game Development',
+    description: 'I also have experience in game development, real-time VFX, and technical art pipelines. This background informs my approach to frontend animation and 3D integration.',
+    skills: ['Unity', 'Unreal Engine', 'C#', 'VFX Systems', 'Shader Programming', 'Meta Quest SDK'],
   },
 
   // Profile-specific visibility flags
   showShowreel: false,
-  showGallery: false,
+  showGallery: false,        // Gallery is secondary in unified
   showExperience: true,
   showProjects: true,
+  showTechArtSection: true,  // Included as secondary section
 
   availability: 'Open to opportunities',
   location: 'Remote',
 };
 
-export type FrontendProfile = typeof frontendProfile;
+export type UnifiedProfile = typeof unifiedProfile;

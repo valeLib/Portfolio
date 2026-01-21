@@ -6,3 +6,6 @@ export { SocialIcon } from './SocialIcon';
 export { CvDownloadButton } from './CvDownloadButton';
 export { ThemeToggle } from './ThemeToggle';
 export { ErrorBoundary } from './ErrorBoundary';
+export { ScrollIndex } from './ScrollIndex';
+export { ImageWall } from './ImageWall';
+export { ScrollIndicator } from './ScrollIndicator';

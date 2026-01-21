@@ -6,20 +6,16 @@ import { CAT_MODEL_URL } from '../../config';
 
 function SceneFallback() {
   return (
-    <div className="w-full h-full rounded-2xl bg-gradient-to-br from-accent-500/20 via-dark-800 to-primary-500/20 flex items-center justify-center">
-      <div className="text-center">
-        <div className="w-12 h-12 mx-auto mb-3 border-2 border-accent-500/30 border-t-accent-500 rounded-full animate-spin" />
-        <p className="text-dark-400 text-sm">Loading 3D Scene...</p>
-      </div>
+    <div className="w-full h-full rounded-2xl bg-gradient-to-br  flex items-center justify-center">
     </div>
   );
 }
 
 function SceneError() {
   return (
-    <div className="w-full h-full rounded-2xl bg-gradient-to-br from-accent-500/10 via-dark-800 to-primary-500/10 border border-dark-700 flex items-center justify-center">
+    <div className="w-full h-full rounded-2xl border  flex items-center justify-center">
       <div className="text-center p-6">
-        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-dark-700/50 flex items-center justify-center">
+        <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center">
           <svg
             className="w-8 h-8 text-accent-400"
             fill="none"
@@ -45,7 +41,7 @@ function SceneError() {
 function SceneContent() {
   return (
     <>
-      <ambientLight intensity={0.5} />
+      <ambientLight intensity={1} />
       <directionalLight position={[5, 5, 5]} intensity={1} castShadow shadow-mapSize={[1024, 1024]} />
       <directionalLight position={[-5, 5, -5]} intensity={0.3} />
 
@@ -55,7 +51,7 @@ function SceneContent() {
         <Bounds fit clip observe margin={1.25}>
           <CatModel
             url={CAT_MODEL_URL}
-            scale={0.9}
+            scale={1}
             position={[0, 0, 0]}
             rotation={[0, 0, 0]}
           />
@@ -63,7 +59,7 @@ function SceneContent() {
       </Suspense>
 
       {/* <ContactShadows position={[0, -1, 0]} opacity={0.4} scale={10} blur={2} far={4} /> */}
-      <OrbitControls enableZoom={false} enablePan={false}/>
+      <OrbitControls enableZoom={false} enablePan={false}  minDistance={14}/>
 
     </>
   );
@@ -80,7 +76,7 @@ export function CatScene() {
     <div className="w-full h-full min-h-[300px] lg:min-h-[400px]">
       <Suspense fallback={<SceneFallback />}>
         <Canvas
-          camera={{ position: [0, 1, 10], fov: 45, near: 0.01, far: 2000 }}
+          camera={{ position: [0, 0, 10], fov: 45 }}
           shadows
           dpr={[1, 2]}
           onError={() => setHasError(true)}

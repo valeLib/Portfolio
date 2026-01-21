@@ -1,0 +1,104 @@
+name: Deploy Dual Portfolio
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      # ============================================
+      # Build A: Unified (Software-First)
+      # ============================================
+      - name: Build Unified Portfolio
+        run: npm run build:unified
+        
+      - name: Move Unified Build to Deploy Folder
+        run: |
+          echo "📦 Moving unified build to deploy root..."
+          mkdir -p deploy
+          cp -r dist/* deploy/
+          ls -la deploy/
+      
+      # ============================================
+      # Build B: GameDev (Tech Art-First)
+      # ============================================
+      - name: Clean dist folder
+        run: rm -rf dist
+      
+      - name: Build GameDev Portfolio
+        run: npm run build:gamedev
+        
+      - name: Move GameDev Build to Deploy/Gamedev Folder
+        run: |
+          echo "📦 Moving gamedev build to deploy/Gamedev..."
+          mkdir -p deploy/Gamedev
+          cp -r dist/* deploy/Gamedev/
+          ls -la deploy/Gamedev/
+      
+      # ============================================
+      # Verify Deployment Structure
+      # ============================================
+      - name: Verify Deploy Structure
+        run: |
+          echo "🔍 Verifying deployment structure..."
+          echo ""
+          echo "📁 Deploy folder contents:"
+          ls -la deploy/
+          echo ""
+          echo "📁 Deploy/Gamedev folder contents:"
+          ls -la deploy/Gamedev/
+          echo ""
+          echo "✅ Deployment structure verified!"
+          echo ""
+          echo "Public URLs after deployment:"
+          echo "  1. Unified: https://valelib.github.io/Portfolio/"
+          echo "  2. GameDev: https://valelib.github.io/Portfolio/Gamedev/"
+      
+      # ============================================
+      # Deploy to GitHub Pages
+      # ============================================
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./deploy
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      
+      - name: Deployment Summary
+        run: |
+          echo "🚀 Deployment complete!"
+          echo ""
+          echo "✅ Unified Portfolio: https://valelib.github.io/Portfolio/"
+          echo "✅ GameDev Portfolio: https://valelib.github.io/Portfolio/Gamedev/"

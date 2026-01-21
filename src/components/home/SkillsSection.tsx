@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Section } from '../layout';
 import { useGsapContext, usePrefersReducedMotion } from '../../hooks';
 import { isTechArt, isFrontend, TOOLS } from '../../config';
 
@@ -11,6 +10,7 @@ export function SkillsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
+  // Simple reveal animation - no pinning, editorial style
   useGsapContext(
     () => {
       if (!containerRef.current || prefersReducedMotion) return;
@@ -19,29 +19,30 @@ export function SkillsSection() {
       const cards = container.querySelectorAll('[data-skill-card]');
       const header = container.querySelector('[data-skill-header]');
 
-      // Set initial state - header visible, cards hidden
-      gsap.set(header, { opacity: 1, y: 0 });
-      gsap.set(cards, { opacity: 0, y: 30 });
+      // Set initial state
+      gsap.set([header, ...Array.from(cards)], { opacity: 0, y: 12 });
 
-      // Create pinned section with progressive reveal
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container,
-          start: 'top top',
-          end: '+=80%',
-          pin: true,
-          scrub: 0.8,
-          anticipatePin: 1,
+      // Simple scroll-triggered fade-in
+      ScrollTrigger.create({
+        trigger: container,
+        start: 'top 75%',
+        onEnter: () => {
+          gsap.to(header, {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            ease: 'power2.out',
+          });
+
+          gsap.to(cards, {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: 'power2.out',
+            delay: 0.2,
+          });
         },
-      });
-
-      // Reveal cards during pin
-      tl.to(cards, {
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        stagger: 0.08,
-        ease: 'power2.out',
       });
     },
     containerRef,
@@ -49,31 +50,28 @@ export function SkillsSection() {
   );
 
   return (
-    <Section className="min-h-screen flex items-center" noPadding fullWidth>
-      <div ref={containerRef} className="container-main section-padding w-full py-16">
-        <div data-skill-header className="text-center mb-12">
-          <h2 className="heading-2 mb-4" style={{ color: 'var(--text)' }}>
-            {isTechArt ? 'Core Capabilities' : 'Technical Expertise'}
+    <div ref={containerRef}>
+        <div data-skill-header className="mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold mb-2" style={{ color: 'var(--text)' }}>
+            {isTechArt ? 'Core Capabilities' : 'Skills'}
           </h2>
-          <p className="max-w-2xl mx-auto" style={{ color: 'var(--muted)' }}>
+          <p style={{ color: 'var(--muted)' }}>
             {isTechArt
-              ? 'Specialized in real-time VFX across multiple engines, with deep expertise in Unreal Engine.'
-              : 'Modern frontend development with a focus on performance, accessibility, and developer experience.'}
+              ? 'Specialized in real-time VFX across multiple engines'
+              : 'Modern frontend with focus on accessibility and performance'}
           </p>
         </div>
 
-        {isTechArt ? (
-          <TechArtCapabilities />
-        ) : (
-          <FrontendCapabilities />
-        )}
+        {isTechArt ? <TechArtCapabilities /> : <FrontendCapabilities />}
 
         {/* Frontend: Game dev mention */}
         {isFrontend && (
           <div
             data-skill-card
             className="mt-8 p-6 glass-card"
-            style={{ borderLeft: '4px solid color-mix(in srgb, var(--accent) 50%, transparent)' }}
+            style={{
+              borderLeft: '4px solid color-mix(in srgb, var(--accent) 50%, transparent)',
+            }}
           >
             <h4 className="text-lg font-semibold mb-2" style={{ color: 'var(--text)' }}>
               Also experienced in Game Development
@@ -90,8 +88,7 @@ export function SkillsSection() {
             </div>
           </div>
         )}
-      </div>
-    </Section>
+    </div>
   );
 }
 

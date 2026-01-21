@@ -36,7 +36,7 @@ export function CaseStudy() {
             <span className="text-dark-400">{project.role}</span>
           </div>
 
-          <h1 data-gsap-reveal className="heading-1 text-white mb-4">
+          <h1 data-gsap-reveal className="heading-1 mb-4" style={{ color: 'var(--text-heading)' }}>
             {project.title}
           </h1>
 
@@ -81,13 +81,13 @@ export function CaseStudy() {
         <div ref={contentRef} className="max-w-4xl mx-auto">
           {/* Goal */}
           <div data-gsap-reveal className="mb-12">
-            <h2 className="heading-3 text-white mb-4">Goal</h2>
+            <h2 className="heading-3 mb-4" style={{ color: 'var(--text-heading)' }}>Goal</h2>
             <p className="text-dark-300 text-lg leading-relaxed">{project.goal}</p>
           </div>
 
           {/* What I Built */}
           <div data-gsap-reveal className="mb-12">
-            <h2 className="heading-3 text-white mb-4">What I Built</h2>
+            <h2 className="heading-3 mb-4" style={{ color: 'var(--text-heading)' }}>What I Built</h2>
             <ul className="space-y-3">
               {project.whatIBuilt.map((item, index) => (
                 <li key={index} className="flex gap-3 text-dark-300">
@@ -140,7 +140,7 @@ export function CaseStudy() {
           {/* Performance Table */}
           {project.performance && project.performance.length > 0 && (
             <div data-gsap-reveal className="mb-12">
-              <h2 className="heading-3 text-white mb-4">Performance</h2>
+              <h2 className="heading-3 mb-4" style={{ color: 'var(--text-heading)' }}>Performance</h2>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -179,7 +179,7 @@ export function CaseStudy() {
           {/* Gallery */}
           {project.gallery.length > 0 && (
             <div data-gsap-reveal className="mb-12">
-              <h2 className="heading-3 text-white mb-4">Breakdown Gallery</h2>
+              <h2 className="heading-3 mb-4" style={{ color: 'var(--text-heading)' }}>Breakdown Gallery</h2>
               <div className="grid grid-cols-2 gap-4">
                 {project.gallery.map((item, index) => (
                   <div key={index} className="rounded-xl overflow-hidden bg-dark-800">
@@ -210,7 +210,7 @@ export function CaseStudy() {
 
           {/* Takeaways */}
           <div data-gsap-reveal className="mb-12">
-            <h2 className="heading-3 text-white mb-4">Key Takeaways</h2>
+            <h2 className="heading-3 mb-4" style={{ color: 'var(--text-heading)' }}>Key Takeaways</h2>
             <ul className="space-y-4">
               {project.takeaways.map((takeaway, index) => (
                 <li key={index} className="flex gap-3 text-dark-300">
@@ -249,7 +249,7 @@ export function CaseStudy() {
                 </svg>
                 Previous Project
               </span>
-              <span className="text-white font-medium group-hover:text-accent-400 transition-colors">
+              <span className="font-medium group-hover:text-accent-400 transition-colors" style={{ color: 'var(--text-heading)' }}>
                 {prev.title}
               </span>
             </Link>
@@ -268,7 +268,7 @@ export function CaseStudy() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </span>
-              <span className="text-white font-medium group-hover:text-accent-400 transition-colors">
+              <span className="font-medium group-hover:text-accent-400 transition-colors" style={{ color: 'var(--text-heading)' }}>
                 {next.title}
               </span>
             </Link>
@@ -292,7 +292,7 @@ interface BreakdownSectionProps {
 function BreakdownSection({ title, description, items, media }: BreakdownSectionProps) {
   return (
     <div data-gsap-reveal className="mb-12">
-      <h2 className="heading-3 text-white mb-4">{title}</h2>
+      <h2 className="heading-3 mb-4" style={{ color: 'var(--text-heading)' }}>{title}</h2>
       <p className="text-dark-300 mb-4">{description}</p>
 
       {items && items.length > 0 && (

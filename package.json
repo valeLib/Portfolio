@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:tech-art": "cross-env VITE_PROFILE=tech-art vite",
-    "dev:frontend": "cross-env VITE_PROFILE=frontend VITE_CV_ENABLED=true vite",
+    "dev:unified": "vite --mode unified",
+    "dev:gamedev": "vite --mode gamedev",
     "build": "tsc -b && vite build",
-    "build:tech-art": "cross-env VITE_PROFILE=tech-art tsc -b && cross-env VITE_PROFILE=tech-art vite build",
-    "build:frontend": "cross-env VITE_PROFILE=frontend VITE_CV_ENABLED=true tsc -b && cross-env VITE_PROFILE=frontend VITE_CV_ENABLED=true vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "build:unified": "tsc -b && vite build --mode unified",
+    "build:gamedev": "tsc -b && vite build --mode gamedev",
+    "preview": "vite preview",
+    "preview:unified": "vite preview --mode unified",
+    "preview:gamedev": "vite preview --mode gamedev",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.17.13",

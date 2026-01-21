@@ -76,7 +76,7 @@ export function ShowreelPlayer({ src, poster, title = 'Showreel' }: ShowreelPlay
         aria-label={isPlaying ? 'Pause' : 'Play showreel'}
       >
         <div className="w-20 h-20 rounded-full bg-accent-500 flex items-center justify-center shadow-lg shadow-accent-500/30 hover:bg-accent-400 hover:scale-110 transition-all duration-300">
-          <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--text-heading)' }}>
             <path d="M8 5v14l11-7z" />
           </svg>
         </div>
@@ -90,7 +90,7 @@ export function ShowreelPlayer({ src, poster, title = 'Showreel' }: ShowreelPlay
           aria-label="Pause"
         >
           <div className="w-16 h-16 rounded-full bg-dark-900/60 backdrop-blur-sm flex items-center justify-center">
-            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--text-heading)' }}>
               <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
             </svg>
           </div>
@@ -98,7 +98,7 @@ export function ShowreelPlayer({ src, poster, title = 'Showreel' }: ShowreelPlay
       )}
 
       {/* Title badge */}
-      <div className="absolute top-4 left-4 px-3 py-1.5 bg-dark-900/60 backdrop-blur-sm rounded-lg text-sm text-white font-medium">
+      <div className="absolute top-4 left-4 px-3 py-1.5 bg-dark-900/60 backdrop-blur-sm rounded-lg text-sm font-medium" style={{ color: 'var(--text-heading)' }}>
         {title}
       </div>
     </div>
