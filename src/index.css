@@ -29,18 +29,28 @@
 }
 
 [data-theme="light"] {
-  /* Light Mode: Matcha Strawberry Latte */
-  --bg: #FDFCF0;           /* Cream background */
-  --surface: #F5F3E7;      /* Slightly darker cream */
-  --surface-2: #EBE8D9;    /* Card backgrounds */
-  --primary: #96A178;      /* Matcha Green - main elements */
-  --secondary: #FFB7B7;    /* Strawberry Pink - highlights */
-  --accent: #4B5335;       /* Matcha Deep - contrast text */
-  --accent-2: #7A8B5A;     /* Mid matcha for gradients */
-  --text: #4B5335;         /* Main text color */
-  --muted: rgba(75, 83, 53, 0.65);
-  --border-color: rgba(75, 83, 53, 0.12);
-  --glass: rgba(253, 252, 240, 0.7);
+  /* Light Mode: Soft Pastel Garden - Calm & Professional */
+  --bg: #FBF6E4;           /* Warm cream base */
+  --surface: #F5F1DC;      /* Slightly warmer cream */
+  --surface-2: #EDE9D5;    /* Card backgrounds */
+  --primary: #9FB36D;      /* Strong green - main elements */
+  --secondary: #FB7185;    /* Soft pink - highlights */
+  --accent: #2F3A1F;       /* Olive text - contrast */
+  --accent-2: #C4D6A4;     /* Mid green for gradients */
+  --text: #2F3A1F;         /* Main olive text */
+  --muted: rgba(85, 98, 58, 0.65);  /* Secondary text */
+  --border-color: rgba(159, 179, 109, 0.15);
+  --glass: rgba(251, 246, 228, 0.7);
+  
+  /* Light Mode: Hero specific tokens */
+  --cream-base: #FBF6E4;   /* Warm cream base */
+  --sage-soft: #DDE8C7;    /* Soft sage */
+  --green-mid: #C4D6A4;    /* Mid green */
+  --green-strong: #9FB36D; /* Strong green */
+  --olive-text: #2F3A1F;   /* Olive text */
+  --secondary-text: #55623A; /* Secondary text */
+  --accent-red: #F87171;   /* Soft red accent */
+  --accent-pink: #FB7185;  /* Pink accent */
 }
 
 @theme {
@@ -172,8 +182,9 @@ body.overflow-hidden {
   overflow: hidden;
 }
 
-/* Hero cosmic background layers */
-.hero-bg {
+/* Hero cosmic background layers - Dark Mode */
+[data-theme="dark"] .hero-bg,
+:root .hero-bg {
   background:
     radial-gradient(900px 600px at 70% 25%, rgba(244, 114, 182, 0.18), transparent 60%),
     radial-gradient(900px 600px at 25% 55%, rgba(168, 85, 247, 0.22), transparent 65%),
@@ -181,7 +192,17 @@ body.overflow-hidden {
     linear-gradient(135deg, #020617 0%, #0B1028 35%, #1B2A7A 70%, #2A0A4A 100%);
 }
 
-.hero-stars {
+/* Hero soft pastel background - Light Mode */
+[data-theme="light"] .hero-bg {
+  background:
+    radial-gradient(800px 500px at 65% 30%, rgba(221, 232, 199, 0.4), transparent 55%),
+    radial-gradient(900px 650px at 30% 60%, rgba(196, 214, 164, 0.35), transparent 60%),
+    radial-gradient(700px 450px at 75% 80%, rgba(159, 179, 109, 0.25), transparent 50%),
+    linear-gradient(135deg, #FBF6E4 0%, #F5F1DC 25%, #EDE9D5 60%, #DDE8C7 100%);
+}
+
+[data-theme="dark"] .hero-stars,
+:root .hero-stars {
   background-image:
     radial-gradient(1px 1px at 12% 18%, rgba(248, 250, 252, 0.35), transparent 60%),
     radial-gradient(1.5px 1.5px at 28% 32%, rgba(248, 250, 252, 0.25), transparent 65%),
@@ -195,10 +216,27 @@ body.overflow-hidden {
   opacity: 0.45;
 }
 
-.hero-grain {
+/* Light mode: minimal decorative accents */
+[data-theme="light"] .hero-stars {
+  background-image:
+    radial-gradient(2px 2px at 20% 25%, rgba(251, 113, 113, 0.4), transparent 40%),
+    radial-gradient(1.5px 1.5px at 78% 18%, rgba(251, 113, 133, 0.35), transparent 35%),
+    radial-gradient(2.5px 2.5px at 85% 75%, rgba(159, 179, 109, 0.3), transparent 40%);
+  opacity: 0.6;
+}
+
+[data-theme="dark"] .hero-grain,
+:root .hero-grain {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   opacity: 0.08;
   mix-blend-mode: soft-light;
+}
+
+/* Light mode: subtle grain texture */
+[data-theme="light"] .hero-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  mix-blend-mode: multiply;
 }
 
 .hero-title {
@@ -206,11 +244,23 @@ body.overflow-hidden {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  line-height: 0.9;
+  line-height: 1.05;
+  padding-top: 0.05em;
+  padding-bottom: 0.05em;
+}
+
+[data-theme="dark"] .hero-title,
+:root .hero-title {
   color: var(--text-0);
 }
 
-.hero-title-word {
+[data-theme="light"] .hero-title {
+  color: var(--olive-text);
+}
+
+/* Dark mode title gradient */
+[data-theme="dark"] .hero-title-word,
+:root .hero-title-word {
   background: linear-gradient(90deg, #5B5CEB 0%, #8B5CF6 45%, #F472B6 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -218,12 +268,40 @@ body.overflow-hidden {
   -webkit-text-fill-color: transparent;
 }
 
-.glass-nav {
+/* Light mode title gradient - warm greens with outlined last word */
+[data-theme="light"] .hero-title-word {
+  background: linear-gradient(110deg, #9FB36D 0%, #7A8B5A 50%, #5F6D45 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .hero-title-word:last-child {
+  background: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 2px #9FB36D;
+  color: transparent;
+}
+
+/* Dark mode glass nav */
+[data-theme="dark"] .glass-nav,
+:root .glass-nav {
   background: rgba(2, 6, 23, 0.35);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(248, 250, 252, 0.1);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  border-radius: 999px;
+}
+
+/* Light mode glass nav - soft, clean, semi-transparent */
+[data-theme="light"] .glass-nav {
+  background: rgba(253, 252, 240, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(159, 179, 109, 0.15);
+  box-shadow: 0 4px 16px rgba(75, 83, 53, 0.08);
   border-radius: 999px;
 }
 
