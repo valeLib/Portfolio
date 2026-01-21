@@ -32,7 +32,7 @@ export function PinnedSection({
     const section = sectionRef.current;
     const ctx = gsap.context(() => {
       // Calculate pin duration (default to viewport height)
-      const duration = pinDuration || window.innerHeight;
+      const duration = pinDuration || window.innerHeight * 1.05;
 
       // Create pin ScrollTrigger
       ScrollTrigger.create({
@@ -40,7 +40,7 @@ export function PinnedSection({
         start: 'top top',
         end: `+=${duration}`,
         pin: true,
-        pinSpacing: false, // Don't add spacing, let sections stack naturally
+        pinSpacing: false,
         scrub: true,
         markers: false, // Set to true for debugging
       });

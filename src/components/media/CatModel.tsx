@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useGLTF, useAnimations } from '@react-three/drei';
-import { Group, Mesh, LoopRepeat } from 'three';
+import { Group, LoopRepeat } from 'three';
+import { gsap } from 'gsap';
 
 interface CatModelProps {
   url: string;
@@ -11,7 +12,7 @@ interface CatModelProps {
 
 export function CatModel({
   url,
-  scale = 0.8,
+  scale = 1,
   position = [0, 0, 0],
   rotation = [0, 0, 0],
 }: CatModelProps) {
@@ -19,45 +20,50 @@ export function CatModel({
   const { scene, animations } = useGLTF(url);
   const { actions, names } = useAnimations(animations, group);
 
-
-  // Debug: log all objects in the scene with their types
+  // Zoom out animation on load
   useEffect(() => {
-    console.log('Model loaded. Available animations:', names);
-    console.log('=== All objects in scene ===');
-    scene.traverse((child) => {
-      console.log(`Name: "${child.name}", Type: ${child.type}, Visible: ${child.visible}`);
-      if (child instanceof Mesh) {
-        const geo = child.geometry;
-        console.log(`  -> Geometry: ${geo.type}, Vertices: ${geo.attributes.position?.count || 0}`);
-      }
-    });
-    console.log('=== End of scene objects ===');
-  }, [names, scene]);
+    if (!group.current) return;
 
+    gsap.fromTo(
+      group.current.scale,
+      { x: 0.3, y: 0.3, z: 0.3 },
+      {
+        x: scale,
+        y: scale,
+        z: scale,
+        duration: 1,
+        ease: 'power2.out',
+      }
+    );
+  }, [scale]);
+
+  // Play idle animation
   useEffect(() => {
     if (!actions || names.length === 0) return;
 
-    // Find the idle animation (case-insensitive) or fallback to first animation
-    const idleClipName =
-    names.find((n) => n.toLowerCase().includes("idle")) ?? names[0];
+    const idleClipName = names.find((n) => n.toLowerCase().includes('idle')) ?? names[0];
+    const action = actions[idleClipName];
+    if (!action) return;
 
-  const action = actions[idleClipName];
-  if (!action) return;
+    action.reset();
+    action.setLoop(LoopRepeat, Infinity);
+    action.clampWhenFinished = false;
+    action.fadeIn(0.2);
+    action.play();
 
-  action.reset();
-  action.setLoop(LoopRepeat, Infinity);
-  action.clampWhenFinished = false;
-  action.fadeIn(0.2);
-  action.play();
-
-  return () => {
-    action.fadeOut(0.2);
-    action.stop();
-  };
-}, [actions, names]);
+    return () => {
+      action.fadeOut(0.2);
+      action.stop();
+    };
+  }, [actions, names]);
 
   return (
-    <group ref={group} position={position} rotation={rotation} scale={scale} dispose={null}>
+    <group
+      ref={group}
+      position={position}
+      rotation={rotation}
+      dispose={null}
+    >
       <primitive object={scene} />
     </group>
   );

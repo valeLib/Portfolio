@@ -4,9 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Section } from '../layout';
 import { CvDownloadButton } from '../ui';
-import { LottieDecor } from '../media';
 import { useGsapContext, usePrefersReducedMotion } from '../../hooks';
-import catAnimation from '../../assets/lottie/cat-decoration.json';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -83,18 +81,6 @@ export function ProjectsIntro() {
               </Link>
               <CvDownloadButton variant="ghost" />
             </div>
-          </div>
-
-          {/* Lottie decoration */}
-          <div
-            data-intro="decoration"
-            className="absolute bottom-12 right-12"
-            style={{ opacity: showAll ? 0.2 : undefined }}
-          >
-            <LottieDecor
-              data={JSON.stringify(catAnimation)}
-              className="w-32 h-32"
-            />
           </div>
         </div>
       </div>

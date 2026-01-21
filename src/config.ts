@@ -86,8 +86,8 @@ const unifiedNavLinks = [
   { label: 'Experience', path: '/experience' },
   { label: 'Projects', path: '/projects' },
   { label: 'Skills', path: '/skills' },
-  { label: 'Contact', path: '/contact' },
-  { label: 'Tech Art', path: '/tech-art', secondary: true }, // Secondary, last item
+  { label: 'Contact', path: '/contact' }
+  // { label: 'Tech Art', path: '/tech-art', secondary: true }, // Secondary, last item
 ];
 
 // GameDev (gamedev-first): Tech Art/GameDev primary

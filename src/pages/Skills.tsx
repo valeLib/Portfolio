@@ -6,7 +6,6 @@ import { LottieDecor } from '../components/media';
 import { useDocumentTitle, useGsapReveal } from '../hooks';
 import { profile } from '../content/profile';
 import { isFrontend } from '../config';
-import catAnimation from '../assets/lottie/cat-decoration.json';
 import sparklesAnimation from '../assets/lottie/magic-sparkles.json';
 import programmingAnimation from '../assets/lottie/Programming Computer.lottie?url';
 
@@ -200,12 +199,6 @@ export function Skills() {
             </Link>
             {isFrontend && <CvDownloadButton variant="secondary" />}
           </div>
-
-          {/* Lottie decoration */}
-          <LottieDecor
-            data={JSON.stringify(catAnimation)}
-            className="absolute bottom-0 right-1/4 w-24 h-24 opacity-20"
-          />
         </div>
       </Section>
     </>

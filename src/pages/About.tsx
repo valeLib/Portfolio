@@ -47,10 +47,15 @@ export function About() {
 
           {/* Profile image placeholder */}
           <div data-gsap-reveal className="relative">
-            <div className="aspect-square max-w-md mx-auto rounded-2xl bg-gradient-to-br from-accent-500/20 via-dark-800 to-primary-500/20 border border-dark-700 flex items-center justify-center">
+            <div className="aspect-square max-w-md mx-auto rounded-2xl bg-gradient-to-br from-accent-500/20 via-dark-800 to-primary-500/20  flex items-center justify-center">
               <div className="text-center p-8">
-                <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-dark-700/50 flex items-center justify-center">
-                  <svg
+                <img
+                    src="profile.jpg"
+                    alt="Profile photo"
+                    className="aspect-square max-w-md mx-auto rounded-2xl object-cover border border-dark-700"
+                  />
+                {/* <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-dark-700/50 flex items-center justify-center"> */}
+                  {/* <svg
                     className="w-12 h-12 text-accent-400"
                     fill="none"
                     stroke="currentColor"
@@ -62,9 +67,9 @@ export function About() {
                       strokeWidth={1.5}
                       d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                     />
-                  </svg>
-                </div>
-                <p className="text-dark-400 text-sm">Profile photo placeholder</p>
+                  </svg> */}
+                {/* </div> */}
+                {/* <p className="text-dark-400 text-sm">Profile photo placeholder</p> */}
               </div>
             </div>
           </div>

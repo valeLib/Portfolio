@@ -8,6 +8,7 @@ export function Footer() {
 
   return (
     <footer
+      className="relative z-80"
       style={{
         backgroundColor: 'var(--surface)',
         borderTop: '1px solid var(--border-color)',

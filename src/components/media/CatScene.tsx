@@ -1,12 +1,13 @@
-import { Suspense, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Environment, Bounds } from '@react-three/drei';
+import { Suspense, useState, useEffect, useRef } from 'react';
+import { Canvas, useThree } from '@react-three/fiber';
+import { OrbitControls, Environment } from '@react-three/drei';
+import { CameraHelper } from 'three';
 import { CatModel } from './CatModel';
 import { CAT_MODEL_URL } from '../../config';
 
 function SceneFallback() {
   return (
-    <div className="w-full h-full rounded-2xl bg-gradient-to-br  flex items-center justify-center">
+    <div className="w-full h-full rounded-2xl bg-transparent flex items-center justify-center">
     </div>
   );
 }
@@ -37,30 +38,62 @@ function SceneError() {
   );
 }
 
+// Camera Helper Component
+function CameraDebugHelper() {
+  const { camera, scene } = useThree();
+  const helperRef = useRef<CameraHelper | null>(null);
+
+  useEffect(() => {
+    if (!camera || !scene) return;
+
+    const helper = new CameraHelper(camera);
+    helperRef.current = helper;
+    scene.add(helper);
+
+    return () => {
+      if (helperRef.current) {
+        scene.remove(helperRef.current);
+        helperRef.current.dispose();
+      }
+    };
+  }, [camera, scene]);
+
+  return null;
+}
+
 // Error boundary for Three.js/R3F errors
 function SceneContent() {
   return (
     <>
+      {/* Debug Helpers */}
+      {/* <CameraDebugHelper /> */}
+      <axesHelper args={[5]} />
+      <gridHelper args={[10, 10]} position={[0, -1, 0]} />
+
+      {/* Lighting */}
       <ambientLight intensity={1} />
       <directionalLight position={[5, 5, 5]} intensity={1} castShadow shadow-mapSize={[1024, 1024]} />
       <directionalLight position={[-5, 5, -5]} intensity={0.3} />
 
       <Environment preset="city" />
 
+      {/* Model */}
       <Suspense fallback={null}>
-        <Bounds fit clip observe margin={1.25}>
-          <CatModel
-            url={CAT_MODEL_URL}
-            scale={1}
-            position={[0, 0, 0]}
-            rotation={[0, 0, 0]}
-          />
-        </Bounds>
+        <CatModel
+          url={CAT_MODEL_URL}
+          scale={1}
+          position={[0, 0, 0]}
+          rotation={[0, 0, 0]}
+        />
       </Suspense>
 
-      {/* <ContactShadows position={[0, -1, 0]} opacity={0.4} scale={10} blur={2} far={4} /> */}
-      <OrbitControls enableZoom={false} enablePan={false}  minDistance={14}/>
-
+      {/* Controls */}
+      <OrbitControls 
+        enableZoom={true}
+        enablePan={true} 
+        minPolarAngle={Math.PI / 3}
+        maxPolarAngle={Math.PI / 2}
+      />
     </>
   );
 }
@@ -76,11 +109,11 @@ export function CatScene() {
     <div className="w-full h-full min-h-[300px] lg:min-h-[400px]">
       <Suspense fallback={<SceneFallback />}>
         <Canvas
-          camera={{ position: [0, 0, 10], fov: 45 }}
+          camera={{ position: [40, 0, 120], fov: 45, near: 1, far: 1000 }}
           shadows
           dpr={[1, 2]}
           onError={() => setHasError(true)}
-          style={{ background: 'transparent'}}
+          style={{ background: 'transparent' }}
         >
           <SceneContent />
         </Canvas>

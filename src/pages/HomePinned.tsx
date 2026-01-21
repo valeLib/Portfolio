@@ -97,14 +97,14 @@ export function HomePinned() {
             <ProjectsSection />
           </PinnedSection>
 
-          <PinnedSection
+          {/* <PinnedSection
             id="tech-art"
             pinDuration={window.innerHeight * 1.2}
             bgClassName="bg-[var(--bg)]"
             index={30}
           >
             <TechArtPreview />
-          </PinnedSection>
+          </PinnedSection> */}
 
           <PinnedSection
             id="skills"
@@ -118,6 +118,7 @@ export function HomePinned() {
           <PinnedSection
             id="about"
             pinDuration={window.innerHeight * 1.2}
+            className="pb-52 mb-60"
             bgClassName="bg-[var(--bg)]"
             index={50}
           >
@@ -125,7 +126,7 @@ export function HomePinned() {
           </PinnedSection>
 
           {/* Contact - Final section, not pinned */}
-          <Section id="contact" className="relative" style={{ zIndex: 60 }}>
+          <Section id="contact" className="pt-96" style={{ zIndex: 60 }}>
             <ContactSection />
           </Section>
         </>
