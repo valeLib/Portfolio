@@ -6,12 +6,12 @@ export interface SocialLink {
 }
 
 export const socials: SocialLink[] = [
-  {
-    name: 'ArtStation',
-    url: 'https://artstation.com/valentina_sofia',
-    icon: 'artstation',
-    username: '@yourusername',
-  },
+  // {
+  //   name: 'ArtStation',
+  //   url: 'https://artstation.com/valentina_sofia',
+  //   icon: 'artstation',
+  //   username: '@yourusername',
+  // },
   {
     name: 'GitHub',
     url: 'https://github.com/valeLib',
@@ -20,7 +20,7 @@ export const socials: SocialLink[] = [
   },
   {
     name: 'LinkedIn',
-    url: 'https://linkedin.com/in/valentina-liberona',
+    url: 'https://linkedin.com/in/valentina-liberona/?locale=en_US',
     icon: 'linkedin',
     username: 'Valentina Liberona',
   },

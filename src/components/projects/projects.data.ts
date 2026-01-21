@@ -1,5 +1,4 @@
-// Frontend / Software Engineering projects for the Software Engineer profile
-
+// Project data model for scroll-driven featured layout
 export interface FrontendProject {
   id: string;
   title: string;
@@ -10,10 +9,11 @@ export interface FrontendProject {
   outcome: string;
   technologies: string[];
   liveUrl?: string;
+  repoUrl?: string;
   image?: string;
 }
 
-export const frontendProjects: FrontendProject[] = [
+export const projects: FrontendProject[] = [
   {
     id: 'neurospeech',
     title: 'NeurospeechAI Research Platform',
@@ -27,7 +27,6 @@ export const frontendProjects: FrontendProject[] = [
       'Delivered a production-ready platform currently being used by researchers to conduct studies with diverse participant groups.',
     technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'WCAG 2.1'],
     liveUrl: 'https://neurospeechai.com/',
-    image: '/projects/neurospeech.png',
   },
   {
     id: 'pignus-dashboard',
@@ -42,7 +41,6 @@ export const frontendProjects: FrontendProject[] = [
       'Significantly improved page load performance and developer experience. The modern stack enabled faster feature development and more responsive data visualizations.',
     technologies: ['Vue 3', 'Inertia.js', 'Vite', 'Pinia', 'Chart.js', 'Laravel'],
     liveUrl: 'https://www.pignus.cl/plataforma/',
-    image: '/projects/pignus-plataform.png',
   },
   {
     id: 'eye-search',
@@ -56,7 +54,7 @@ export const frontendProjects: FrontendProject[] = [
     outcome:
       'Platform successfully enabled remote participation in eye-tracking research, particularly valuable during pandemic restrictions.',
     technologies: ['React', 'TypeScript', 'Unity WebGL', 'Authentication'],
-    image: '/projects/eyesearch.png',
+    liveUrl: 'https://eye-search.co.uk/',
   },
   {
     id: 'capitalizarme',
@@ -70,7 +68,6 @@ export const frontendProjects: FrontendProject[] = [
     outcome:
       'Contributed to a high-performance platform handling significant daily transaction volume with excellent performance metrics.',
     technologies: ['React', 'TypeScript', 'Next.js', 'Redux'],
-    image: '/projects/capitalizarme.png',
   },
   {
     id: 'pulso-escolar',
@@ -84,30 +81,5 @@ export const frontendProjects: FrontendProject[] = [
     outcome:
       'Deployed to multiple schools across Chile, helping educators access and understand student data more effectively.',
     technologies: ['Vue', 'Google Cloud Platform', 'Data Visualization', 'CI/CD'],
-    image: '/projects/radar.png',
   },
 ];
-
-// Game Development projects (secondary section for Software Engineer profile)
-export const gameDevProjects: FrontendProject[] = [
-  {
-    id: 'pignus-vr',
-    title: 'Meta Quest VR Applications',
-    company: 'Pignus',
-    category: 'XR/VR Experience',
-    problem:
-      'Client needed immersive VR experiences for training and evaluation, optimized for standalone Quest hardware.',
-    contribution:
-      'Developed Unity VR applications using Meta Quest SDK. Implemented hand tracking and controller interactions. Optimized rendering for Quest 2/3 performance constraints.',
-    outcome:
-      'Delivered VR applications running smoothly on Quest hardware, currently in use for evaluation and training purposes.',
-    technologies: ['Unity', 'C#', 'Meta Quest SDK', 'VR Optimization'],
-    image: '/projects/pignus-vr.png',
-  },
-];
-
-// Helper functions
-export const getAllFrontendProjects = (): FrontendProject[] => frontendProjects;
-export const getAllGameDevProjects = (): FrontendProject[] => gameDevProjects;
-export const getFrontendProjectById = (id: string): FrontendProject | undefined =>
-  frontendProjects.find((p) => p.id === id);

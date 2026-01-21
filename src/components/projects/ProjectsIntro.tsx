@@ -84,18 +84,6 @@ export function ProjectsIntro() {
               <CvDownloadButton variant="ghost" />
             </div>
           </div>
-
-          {/* Lottie decoration */}
-          <div
-            data-intro="decoration"
-            className="absolute bottom-12 right-12"
-            style={{ opacity: showAll ? 0.2 : undefined }}
-          >
-            <LottieDecor
-              data={JSON.stringify(catAnimation)}
-              className="w-32 h-32"
-            />
-          </div>
         </div>
       </div>
     </Section>

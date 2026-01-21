@@ -97,14 +97,14 @@ export function HomePinned() {
             <ProjectsSection />
           </PinnedSection>
 
-          <PinnedSection
+          {/* <PinnedSection
             id="tech-art"
             pinDuration={window.innerHeight * 1.2}
             bgClassName="bg-[var(--bg)]"
             index={30}
           >
             <TechArtPreview />
-          </PinnedSection>
+          </PinnedSection> */}
 
           <PinnedSection
             id="skills"
