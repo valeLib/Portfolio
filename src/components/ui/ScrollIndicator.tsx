@@ -4,12 +4,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LottieDecor } from '../media';
 import mouseScrollAnimation from '../../assets/lottie/Mouse scroll animation.lottie?url';
 import { usePrefersReducedMotion } from '../../hooks';
+import { useTheme } from '../../hooks/useTheme';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function ScrollIndicator() {
   const indicatorRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (!indicatorRef.current || prefersReducedMotion) return;
@@ -47,13 +49,24 @@ export function ScrollIndicator() {
 
   if (prefersReducedMotion) return null;
 
+  // Get --text color for theme-aware styling
+  const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text').trim();
+
   return (
     <div
       ref={indicatorRef}
       className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 pointer-events-none"
       style={{ opacity: 1 }}
     >
-      <div className="w-12 h-12 md:w-16 md:h-16">
+      <div 
+        className="w-12 h-12 md:w-16 md:h-16"
+        style={{
+          filter: theme === 'light' 
+            ? 'brightness(0.6) saturate(0.8)' 
+            : 'brightness(1.2) saturate(1.2)',
+          color: textColor,
+        }}
+      >
         <LottieDecor
           src={mouseScrollAnimation}
           loop
