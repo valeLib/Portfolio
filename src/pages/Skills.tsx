@@ -6,7 +6,6 @@ import { LottieDecor } from '../components/media';
 import { useDocumentTitle, useGsapReveal } from '../hooks';
 import { profile } from '../content/profile';
 import { isFrontend } from '../config';
-import catAnimation from '../assets/lottie/cat-decoration.json';
 import sparklesAnimation from '../assets/lottie/magic-sparkles.json';
 import programmingAnimation from '../assets/lottie/Programming Computer.lottie?url';
 

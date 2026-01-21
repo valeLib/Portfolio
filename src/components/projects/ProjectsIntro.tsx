@@ -4,9 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Section } from '../layout';
 import { CvDownloadButton } from '../ui';
-import { LottieDecor } from '../media';
 import { useGsapContext, usePrefersReducedMotion } from '../../hooks';
-import catAnimation from '../../assets/lottie/cat-decoration.json';
 
 gsap.registerPlugin(ScrollTrigger);
 

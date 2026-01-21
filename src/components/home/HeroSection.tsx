@@ -75,7 +75,7 @@ export function HeroSection() {
               </h1>
 
               {/* Visual: 3D Cat Model */}
-              <div className="mt-10 w-full max-w-md lg:max-w-lg lg:absolute lg:right-[-10%] lg:bottom-[-35%] opacity-80">
+              <div className="mt-10 w-full max-w-md lg:max-w-lg lg:absolute lg:right-[-18%] lg:bottom-[-20%] opacity-80">
                 <div className="aspect-square lg:aspect-auto lg:h-[440px] rounded-2xl overflow-visible">
                   <CatScene />
                 </div>
