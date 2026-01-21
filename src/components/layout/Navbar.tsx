@@ -12,6 +12,7 @@ export function Navbar() {
   const navRef = useRef<HTMLElement>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isRevealed, setIsRevealed] = useState(false);
   const location = useLocation();
   const prefersReducedMotion = usePrefersReducedMotion();
   const isHome = location.pathname === '/';
@@ -22,26 +23,40 @@ export function Navbar() {
 
     if (prefersReducedMotion || !isHome) {
       setIsScrolled(true);
-      gsap.set(nav, { opacity: 1, y: 0, pointerEvents: 'auto' });
+      setIsRevealed(true);
+      gsap.set(nav, { opacity: 1, y: 0, filter: 'blur(0px)', pointerEvents: 'auto' });
       return;
     }
 
     setIsScrolled(false);
-    gsap.set(nav, { opacity: 0, y: -12, pointerEvents: 'none' });
+    setIsRevealed(false);
+    gsap.set(nav, { opacity: 0, y: 0, filter: 'blur(8px)', pointerEvents: 'none' });
+    
+    // Delayed dissolve reveal on home page
+    const revealTimer = setTimeout(() => {
+      setIsRevealed(true);
+      gsap.to(nav, {
+        opacity: 1,
+        filter: 'blur(0px)',
+        duration: 0.8,
+        ease: 'power2.out',
+        pointerEvents: 'auto',
+      });
+    }, 1500); // Delay after hero settles
+
+    return () => clearTimeout(revealTimer);
   }, [isHome, prefersReducedMotion]);
 
   useEffect(() => {
-    if (!navRef.current || prefersReducedMotion || !isHome) return;
+    if (!navRef.current || prefersReducedMotion || !isHome || !isRevealed) return;
     const nav = navRef.current;
 
     const showNav = () => {
       setIsScrolled(true);
-      gsap.to(nav, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out', pointerEvents: 'auto' });
     };
 
     const hideNav = () => {
       setIsScrolled(false);
-      gsap.to(nav, { opacity: 0, y: -12, duration: 0.2, ease: 'power2.out', pointerEvents: 'none' });
     };
 
     const trigger = ScrollTrigger.create({
@@ -55,7 +70,7 @@ export function Navbar() {
     return () => {
       trigger.kill();
     };
-  }, [isHome, prefersReducedMotion]);
+  }, [isHome, prefersReducedMotion, isRevealed]);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -64,15 +79,19 @@ export function Navbar() {
   return (
     <nav
       ref={navRef}
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+      className="fixed top-3 left-0 right-0 z-50 px-4 md:px-6 max-w-7xl mx-auto"
+      style={{
+        maskImage: !prefersReducedMotion && !isRevealed ? 'linear-gradient(black 10%, transparent 90%)' : 'none',
+        WebkitMaskImage: !prefersReducedMotion && !isRevealed ? 'linear-gradient(black 10%, transparent 90%)' : 'none',
+      }}
     >
-      <div className={`mx-4 md:mx-6 ${isScrolled || isMobileMenuOpen ? 'glass-nav' : ''}`}>
-        <div className="container-main">
-          <div className="flex items-center justify-between h-16 md:h-20">
+      <div className={`glass-nav transition-all duration-300 ${!isRevealed && !prefersReducedMotion ? 'opacity-0' : ''}`}>
+        <div className="px-3 md:px-5 max-w-6xl mx-auto">
+          <div className="flex items-center justify-between h-12 md:h-14">
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center text-lg font-display font-bold transition-colors"
+            className="flex items-center text-base font-display font-bold transition-colors"
             style={{ color: 'var(--text)' }}
           >
             Home
@@ -88,7 +107,7 @@ export function Navbar() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className="px-4 py-2 rounded-lg font-medium transition-all duration-200"
+                  className="px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200"
                   style={{
                     color: isActive ? 'var(--accent)' : 'var(--muted)',
                     backgroundColor: isActive

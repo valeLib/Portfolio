@@ -95,23 +95,39 @@ body.overflow-hidden {
   overflow: hidden;
 }
 
-/* Hero cosmic background layers - Dark Mode */
+/* Hero cosmic background layers - Dark Mode Premium */
 [data-theme="dark"] .hero-bg,
 :root .hero-bg {
   background:
-    radial-gradient(900px 600px at 70% 25%, color-mix(in srgb, var(--pink-0) 18%, transparent), transparent 60%),
-    radial-gradient(900px 600px at 25% 55%, color-mix(in srgb, var(--primary) 22%, transparent), transparent 65%),
-    radial-gradient(1100px 700px at 55% 90%, color-mix(in srgb, var(--cyan-0) 10%, transparent), transparent 70%),
-    linear-gradient(135deg, var(--bg-0) 0%, color-mix(in srgb, var(--bg-0) 70%, var(--indigo-0) 30%) 35%, var(--indigo-0) 70%, var(--violet-0) 100%);
+    /* Glossy sheen */
+    radial-gradient(1200px 800px at 50% 0%, color-mix(in srgb, var(--text-0) 3%, transparent), transparent 60%),
+    /* Purple bloom top right */
+    radial-gradient(1000px 700px at 75% 20%, color-mix(in srgb, var(--pink-0) 20%, transparent), transparent 65%),
+    /* Blue bloom center */
+    radial-gradient(1100px 800px at 30% 50%, color-mix(in srgb, var(--primary) 25%, transparent), transparent 70%),
+    /* Cyan glow bottom */
+    radial-gradient(1200px 900px at 60% 95%, color-mix(in srgb, var(--cyan-0) 12%, transparent), transparent 75%),
+    /* Radial focus behind name */
+    radial-gradient(900px 600px at 50% 45%, color-mix(in srgb, var(--indigo-0) 15%, transparent), transparent 50%),
+    /* Deep navy base gradient */
+    linear-gradient(155deg, #0a0e1a 0%, color-mix(in srgb, var(--bg-0) 80%, var(--indigo-0) 20%) 30%, var(--indigo-0) 65%, var(--violet-0) 100%);
 }
 
-/* Hero soft pastel background - Light Mode */
+/* Hero soft pastel background - Light Mode Premium */
 [data-theme="light"] .hero-bg {
   background:
-    radial-gradient(800px 500px at 65% 30%, color-mix(in srgb, var(--sage-soft) 40%, transparent), transparent 55%),
-    radial-gradient(900px 650px at 30% 60%, color-mix(in srgb, var(--green-mid) 35%, transparent), transparent 60%),
-    radial-gradient(700px 450px at 75% 80%, color-mix(in srgb, var(--primary) 25%, transparent), transparent 50%),
-    linear-gradient(135deg, var(--cream-base) 0%, var(--surface) 25%, var(--surface-2) 60%, var(--sage-soft) 100%);
+    /* Glossy bloom top */
+    radial-gradient(1000px 600px at 50% 0%, rgba(255, 255, 255, 0.4), transparent 55%),
+    /* Soft green tint top right */
+    radial-gradient(900px 650px at 70% 25%, color-mix(in srgb, var(--sage-soft) 45%, transparent), transparent 60%),
+    /* Mid green center left */
+    radial-gradient(1000px 750px at 25% 55%, color-mix(in srgb, var(--green-mid) 40%, transparent), transparent 65%),
+    /* Pastel pink accent bottom right */
+    radial-gradient(800px 550px at 80% 85%, color-mix(in srgb, var(--accent-pink) 15%, transparent), transparent 55%),
+    /* Gentle green bloom bottom */
+    radial-gradient(900px 650px at 50% 100%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 60%),
+    /* Warm off-white base gradient */
+    linear-gradient(140deg, #fffcf5 0%, var(--cream-base) 20%, var(--surface) 40%, var(--surface-2) 70%, color-mix(in srgb, var(--sage-soft) 90%, var(--surface-2) 10%) 100%);
 }
 
 [data-theme="dark"] .hero-stars,
@@ -140,15 +156,15 @@ body.overflow-hidden {
 
 [data-theme="dark"] .hero-grain,
 :root .hero-grain {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: 0.08;
-  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.12;
+  mix-blend-mode: overlay;
 }
 
-/* Light mode: subtle grain texture */
+/* Light mode: subtle premium grain texture */
 [data-theme="light"] .hero-grain {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.70' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.05;
   mix-blend-mode: multiply;
 }
 
@@ -197,25 +213,92 @@ body.overflow-hidden {
   color: transparent;
 }
 
-/* Dark mode glass nav */
+/* iOS-style floating glass nav - Dark Mode */
 [data-theme="dark"] .glass-nav,
 :root .glass-nav {
-  background: color-mix(in srgb, var(--bg-0) 35%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid color-mix(in srgb, var(--text-0) 10%, transparent);
-  box-shadow: 0 10px 30px color-mix(in srgb, var(--bg) 35%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--bg-0) 45%, transparent) 0%,
+    color-mix(in srgb, var(--bg-0) 35%, transparent) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid color-mix(in srgb, var(--text-0) 15%, transparent);
+  box-shadow: 
+    0 0 0 0.5px color-mix(in srgb, var(--text-0) 8%, transparent) inset,
+    0 1px 0 0 color-mix(in srgb, var(--text-0) 20%, transparent) inset,
+    0 8px 24px color-mix(in srgb, var(--bg) 50%, transparent),
+    0 16px 48px color-mix(in srgb, var(--bg) 30%, transparent);
   border-radius: 999px;
+  position: relative;
 }
 
-/* Light mode glass nav - soft, clean, semi-transparent */
+[data-theme="dark"] .glass-nav::before,
+:root .glass-nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--text-0) 8%, transparent) 0%, transparent 100%);
+  border-radius: 999px 999px 0 0;
+  pointer-events: none;
+}
+
+/* iOS-style floating glass nav - Light Mode */
 [data-theme="light"] .glass-nav {
-  background: var(--glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-color);
-  box-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 8%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--cream-base) 85%, transparent) 0%,
+    color-mix(in srgb, var(--cream-base) 75%, transparent) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid color-mix(in srgb, var(--primary) 20%, transparent);
+  box-shadow:
+    0 0 0 0.5px color-mix(in srgb, var(--primary) 12%, transparent) inset,
+    0 1px 0 0 rgba(255, 255, 255, 0.6) inset,
+    0 4px 12px color-mix(in srgb, var(--accent) 6%, transparent),
+    0 8px 24px color-mix(in srgb, var(--accent) 4%, transparent);
   border-radius: 999px;
+  position: relative;
+}
+
+[data-theme="light"] .glass-nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
+  border-radius: 999px 999px 0 0;
+  pointer-events: none;
+}
+
+/* Dissolve reveal animation */
+@keyframes dissolve-reveal {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(0.98);
+  }
+  60% {
+    opacity: 0.8;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nav-dissolve-enter {
+    animation: dissolve-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
 }
 
 /* Texture overlays */

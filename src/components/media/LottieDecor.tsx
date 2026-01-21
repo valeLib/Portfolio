@@ -20,14 +20,26 @@ export function LottieDecor({
   speed = 1,
 }: LottieDecorProps) {
   return (
-    <div className={className} aria-hidden="true">
+    <div 
+      className={className} 
+      aria-hidden="true"
+      style={{
+        imageRendering: 'crisp-edges',
+        WebkitFontSmoothing: 'antialiased',
+      }}
+    >
       <DotLottieReact
         data={data}
         src={src}
         loop={loop}
         autoplay={autoplay}
         speed={speed}
-        style={{ width: '100%', height: '100%' }}
+        style={{ 
+          width: '100%', 
+          height: '100%',
+          transform: 'translateZ(0)',
+          willChange: 'transform',
+        }}
       />
     </div>
   );

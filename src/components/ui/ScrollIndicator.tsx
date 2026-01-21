@@ -55,16 +55,18 @@ export function ScrollIndicator() {
   return (
     <div
       ref={indicatorRef}
-      className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 pointer-events-none"
-      style={{ opacity: 1 }}
+      className="absolute bottom-20 left-1/2 -translate-x-1/2 z-10 pointer-events-none"
+      style={{ opacity: 0.8 }}
     >
       <div 
-        className="w-12 h-12 md:w-16 md:h-16"
+        className="w-14 h-14 md:w-20 md:h-20"
         style={{
           filter: theme === 'light' 
-            ? 'brightness(0.6) saturate(0.8)' 
-            : 'brightness(1.2) saturate(1.2)',
+            ? 'brightness(0.7) contrast(1.1)' 
+            : 'brightness(1.1) contrast(1.05)',
           color: textColor,
+          backfaceVisibility: 'hidden',
+          transform: 'translateZ(0)',
         }}
       >
         <LottieDecor
