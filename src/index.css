@@ -218,8 +218,8 @@ body.overflow-hidden {
 :root .glass-nav {
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--bg-0) 45%, transparent) 0%,
-    color-mix(in srgb, var(--bg-0) 35%, transparent) 100%
+    color-mix(in srgb, var(--bg-0) 55%, transparent) 0%,
+    color-mix(in srgb, var(--bg-0) 45%, transparent) 100%
   );
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -250,8 +250,8 @@ body.overflow-hidden {
 [data-theme="light"] .glass-nav {
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--cream-base) 85%, transparent) 0%,
-    color-mix(in srgb, var(--cream-base) 75%, transparent) 100%
+    color-mix(in srgb, var(--cream-base) 75%, transparent) 0%,
+    color-mix(in srgb, var(--cream-base) 65%, transparent) 100%
   );
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -275,6 +275,50 @@ body.overflow-hidden {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
   border-radius: 999px 999px 0 0;
   pointer-events: none;
+}
+
+/* Mobile menu panel */
+.mobile-menu-panel {
+  background: var(--surface);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 
+    0 0 0 0.5px color-mix(in srgb, var(--primary) 8%, transparent) inset,
+    0 4px 20px color-mix(in srgb, var(--bg) 40%, transparent),
+    0 8px 32px color-mix(in srgb, var(--bg) 30%, transparent);
+  animation: mobile-menu-enter 0.2s ease-out forwards;
+  z-index: 50;
+}
+
+[data-theme="dark"] .mobile-menu-panel,
+:root .mobile-menu-panel {
+  background: color-mix(in srgb, var(--bg-0) 95%, transparent);
+}
+
+[data-theme="light"] .mobile-menu-panel {
+  background: color-mix(in srgb, var(--cream-base) 95%, transparent);
+}
+
+@keyframes mobile-menu-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 /* Dissolve reveal animation */

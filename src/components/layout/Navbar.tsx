@@ -10,9 +10,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function Navbar() {
   const navRef = useRef<HTMLElement>(null);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isRevealed, setIsRevealed] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  
   const location = useLocation();
   const prefersReducedMotion = usePrefersReducedMotion();
   const isHome = location.pathname === '/';
@@ -22,13 +23,11 @@ export function Navbar() {
     const nav = navRef.current;
 
     if (prefersReducedMotion || !isHome) {
-      setIsScrolled(true);
       setIsRevealed(true);
       gsap.set(nav, { opacity: 1, y: 0, filter: 'blur(0px)', pointerEvents: 'auto' });
       return;
     }
 
-    setIsScrolled(false);
     setIsRevealed(false);
     gsap.set(nav, { opacity: 0, y: 0, filter: 'blur(8px)', pointerEvents: 'none' });
     
@@ -47,45 +46,54 @@ export function Navbar() {
     return () => clearTimeout(revealTimer);
   }, [isHome, prefersReducedMotion]);
 
+  // Track scroll position for navbar styling
   useEffect(() => {
-    if (!navRef.current || prefersReducedMotion || !isHome || !isRevealed) return;
-    const nav = navRef.current;
-
-    const showNav = () => {
-      setIsScrolled(true);
-    };
-
-    const hideNav = () => {
-      setIsScrolled(false);
-    };
+    if (!isHome) {
+      setIsScrolled(window.scrollY > 20);
+      return;
+    }
 
     const trigger = ScrollTrigger.create({
       trigger: document.body,
-      start: 'top top+=1',
+      start: 'top top-=50',
       end: 'bottom bottom',
-      onEnter: showNav,
-      onLeaveBack: hideNav,
+      onEnter: () => setIsScrolled(true),
+      onLeaveBack: () => setIsScrolled(false),
     });
 
     return () => {
       trigger.kill();
     };
-  }, [isHome, prefersReducedMotion, isRevealed]);
-
+  }, [isHome]);
+  
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
   return (
-    <nav
-      ref={navRef}
-      className="fixed top-3 left-0 right-0 z-50 px-4 md:px-6 max-w-7xl mx-auto"
-      style={{
-        maskImage: !prefersReducedMotion && !isRevealed ? 'linear-gradient(black 10%, transparent 90%)' : 'none',
-        WebkitMaskImage: !prefersReducedMotion && !isRevealed ? 'linear-gradient(black 10%, transparent 90%)' : 'none',
-      }}
-    >
-      <div className={`glass-nav transition-all duration-300 ${!isRevealed && !prefersReducedMotion ? 'opacity-0' : ''}`}>
+    <>
+      {/* Mobile menu backdrop */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+          style={{ animation: 'fade-in 0.2s ease-out' }}
+        />
+      )}
+      
+      <nav
+        ref={navRef}
+        className="fixed top-3 left-0 right-0 z-50 px-4 md:px-6 max-w-7xl mx-auto"
+        style={{
+          maskImage: !prefersReducedMotion && !isRevealed ? 'linear-gradient(black 10%, transparent 90%)' : 'none',
+          WebkitMaskImage: !prefersReducedMotion && !isRevealed ? 'linear-gradient(black 10%, transparent 90%)' : 'none',
+        }}
+      >
+      <div className={`glass-nav transition-all duration-300 ${!isRevealed && !prefersReducedMotion ? 'opacity-0' : ''} ${
+        isScrolled || isMobileMenuOpen
+          ? 'backdrop-blur-lg border-b'
+          : 'bg-transparent'
+      }`}>
         <div className="px-3 md:px-5 max-w-6xl mx-auto">
           <div className="flex items-center justify-between h-12 md:h-14">
           {/* Logo */}
@@ -183,28 +191,28 @@ export function Navbar() {
           </div>
           </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Dropdown */}
         {isMobileMenuOpen && (
-          <div
-            className="md:hidden pb-4 border-t mt-2 pt-4"
-            style={{ borderColor: 'var(--border-color)' }}
-          >
-            <div className="flex flex-col gap-1">
+          <div className="md:hidden absolute top-full left-4 right-4 mt-2 mobile-menu-panel">
+            <div className="flex flex-col gap-1 p-3">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className="px-4 py-3 rounded-lg font-medium transition-all duration-200"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="px-4 py-3 rounded-lg font-medium transition-all duration-200 text-sm"
                   style={{
-                    color: location.pathname === link.path ? 'var(--accent)' : 'var(--muted)',
-                    backgroundColor: location.pathname === link.path ? 'color-mix(in srgb, var(--accent) 10%, transparent)' : 'transparent',
+                    color: location.pathname === link.path ? 'var(--accent)' : 'var(--text)',
+                    backgroundColor: location.pathname === link.path 
+                      ? 'color-mix(in srgb, var(--accent) 15%, transparent)' 
+                      : 'transparent',
                   }}
                 >
                   {link.label}
                 </Link>
               ))}
               {/* CV Download Button in mobile menu */}
-              <div className="px-4 pt-2">
+              <div className="pt-2">
                 <CvDownloadButton variant="secondary" size="md" className="w-full" />
               </div>
             </div>
@@ -212,6 +220,7 @@ export function Navbar() {
         )}
         </div>
       </div>
-    </nav>
+      </nav>
+    </>
   );
 }
