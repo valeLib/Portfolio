@@ -15,7 +15,7 @@ export function About() {
   return (
     <>
       {/* Header */}
-      <Section className="pb-8">
+      <Section className="page-safe-top pb-8">
         <div ref={headerRef} className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <div data-gsap-reveal className="mb-4">

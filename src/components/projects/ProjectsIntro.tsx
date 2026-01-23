@@ -50,7 +50,7 @@ export function ProjectsIntro() {
   const showAll = prefersReducedMotion;
 
   return (
-    <Section className="relative overflow-hidden" noPadding>
+    <Section className="page-safe-top relative overflow-hidden" noPadding>
       <div ref={containerRef} className="min-h-screen flex items-center">
         <div className="container-main section-padding pt-24">
           <div className="max-w-3xl relative">

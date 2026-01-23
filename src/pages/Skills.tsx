@@ -96,7 +96,7 @@ export function Skills() {
   return (
     <>
       {/* Header */}
-      <Section className="pb-8 relative overflow-hidden">
+      <Section className="page-safe-top pb-8 relative overflow-hidden">
         <div ref={headerRef}>
           <div data-gsap-reveal className="grid lg:grid-cols-2 gap-8 items-center">
             {/* Content Column */}

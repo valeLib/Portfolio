@@ -55,7 +55,7 @@ function ExperienceHeader() {
   );
 
   return (
-    <Section className="pb-8">
+    <Section className="page-safe-top pb-8">
       <div ref={containerRef}>
         <div className="max-w-3xl">
           <h1

@@ -40,7 +40,7 @@ export function Contact() {
   return (
     <>
       {/* Header */}
-      <Section className="pb-8">
+      <Section className="page-safe-top pb-8">
         <div ref={headerRef} className="max-w-3xl">
           <div data-gsap-reveal className="mb-4">
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-accent-500/10 border border-accent-500/20 rounded-full text-accent-400 text-sm font-medium">
