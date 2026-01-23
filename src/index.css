@@ -141,6 +141,16 @@
     50% { background-position: 0% 100%; }
     100% { background-position: 0% 0%; }
   }
+
+  @keyframes glow {
+    0% { box-shadow: 0 0 5px rgba(217, 70, 239, 0.5); }
+    100% { box-shadow: 0 0 20px rgba(217, 70, 239, 0.8); }
+  }
+
+  /* Animation utilities */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
 }
 
 /* =====================================================

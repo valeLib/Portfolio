@@ -16,7 +16,7 @@ export function About() {
     <>
       {/* Header */}
       <Section className="page-safe-top pb-8">
-        <div ref={headerRef} className="grid lg:grid-cols-2 gap-12 items-center">
+        <div ref={headerRef} className="grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center">
           <div>
             <div data-gsap-reveal className="mb-4">
               <span className="inline-flex items-center gap-2 px-4 py-2 bg-accent-500/10 border border-accent-500/20 rounded-full text-accent-400 text-sm font-medium">
@@ -29,11 +29,11 @@ export function About() {
               About <span className="text-gradient">Me</span>
             </h1>
 
-            <p data-gsap-reveal className="text-xl text-dark-300 mb-6">
+            <p data-gsap-reveal className="text-base md:text-lg lg:text-xl text-dark-300 mb-6">
               {profile.tagline}
             </p>
 
-            <p data-gsap-reveal className="text-dark-400 leading-relaxed whitespace-pre-line">
+            <p data-gsap-reveal className="text-sm md:text-base text-dark-400 leading-relaxed whitespace-pre-line">
               {profile.bio}
             </p>
 
@@ -45,32 +45,14 @@ export function About() {
             )}
           </div>
 
-          {/* Profile image placeholder */}
+          {/* Profile image */}
           <div data-gsap-reveal className="relative">
-            <div className="aspect-square max-w-md mx-auto rounded-2xl bg-gradient-to-br from-accent-500/20 via-dark-800 to-primary-500/20  flex items-center justify-center">
-              <div className="text-center p-8">
-                <img
-                    src="profile.jpg"
-                    alt="Profile photo"
-                    className="aspect-square max-w-md mx-auto rounded-2xl object-cover border border-dark-700"
-                  />
-                {/* <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-dark-700/50 flex items-center justify-center"> */}
-                  {/* <svg
-                    className="w-12 h-12 text-accent-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                  </svg> */}
-                {/* </div> */}
-                {/* <p className="text-dark-400 text-sm">Profile photo placeholder</p> */}
-              </div>
+            <div className="w-full max-w-sm lg:max-w-md mx-auto">
+              <img
+                src="profile.jpg"
+                alt="Profile photo"
+                className="w-full aspect-square rounded-2xl object-cover border border-dark-700 shadow-lg"
+              />
             </div>
           </div>
         </div>
@@ -79,7 +61,7 @@ export function About() {
       {/* Extended Bio */}
       <Section className="pt-0">
         <div ref={contentRef} className="max-w-3xl">
-          <p data-gsap-reveal className="text-dark-400 leading-relaxed whitespace-pre-line">
+          <p data-gsap-reveal className="text-sm md:text-base text-dark-400 leading-relaxed whitespace-pre-line">
             {profile.bioExtended}
           </p>
         </div>
@@ -87,16 +69,16 @@ export function About() {
 
       {/* Focus Areas */}
       <Section className="bg-dark-950/50">
-        <div data-gsap-reveal className="text-center mb-12">
+        <div data-gsap-reveal className="text-center mb-8 md:mb-12">
           <h2 className="heading-2 mb-4" style={{ color: 'var(--text-heading)' }}>Focus Areas</h2>
-          <p className="text-dark-400 max-w-2xl mx-auto">
+          <p className="text-sm md:text-base text-dark-400 max-w-2xl mx-auto px-4">
             {isTechArt
               ? 'My core specializations in real-time graphics and game development.'
               : 'My core specializations in frontend engineering and web development.'}
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {profile.focusAreas.map((area) => (
             <div key={area.title} data-gsap-reveal className="glass-card p-6 text-center">
               <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-accent-500/20 flex items-center justify-center">
@@ -112,9 +94,9 @@ export function About() {
       {/* Skills */}
       <Section>
         <div ref={skillsRef}>
-          <div data-gsap-reveal className="text-center mb-12">
+          <div data-gsap-reveal className="text-center mb-8 md:mb-12">
             <h2 className="heading-2 mb-4" style={{ color: 'var(--text-heading)' }}>Tools & Skills</h2>
-            <p className="text-dark-400 max-w-2xl mx-auto">
+            <p className="text-sm md:text-base text-dark-400 max-w-2xl mx-auto px-4">
               {isTechArt
                 ? 'Technologies and software I use to bring creative visions to life.'
                 : 'Technologies and frameworks I use to build modern web applications.'}
@@ -123,7 +105,7 @@ export function About() {
 
           {isTechArt ? (
             // Tech Art Skills
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               {/* Engines */}
               <div data-gsap-reveal className="glass-card p-6">
                 <h3 className="font-semibold mb-4" style={{ color: 'var(--text-heading)' }}>Game Engines</h3>
@@ -180,7 +162,7 @@ export function About() {
             </div>
           ) : (
             // Frontend Skills
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               {/* Frontend */}
               <div data-gsap-reveal className="glass-card p-6">
                 <h3 className="font-semibold mb-4" style={{ color: 'var(--text-heading)' }}>Frontend</h3>
@@ -241,15 +223,15 @@ export function About() {
 
       {/* Secondary Skills Section */}
       <Section className="bg-dark-950/50">
-        <div className="max-w-2xl mx-auto text-center">
-          <h3 className="text-dark-400 text-sm uppercase tracking-wider mb-4">
+        <div className="max-w-2xl mx-auto text-center px-4">
+          <h3 className="text-dark-400 text-xs md:text-sm uppercase tracking-wider mb-4">
             Also Experienced In
           </h3>
           {isTechArt ? (
             // Tech Art profile: Frontend credibility
             <>
               <h2 className="heading-3 mb-4" style={{ color: 'var(--text-heading)' }}>Frontend Development</h2>
-              <p className="text-dark-400 mb-6">
+              <p className="text-sm md:text-base text-dark-400 mb-6">
                 {(profile as any).frontend?.note ||
                   'While my primary focus is Tech Art, I also have experience building polished web interfaces.'}
               </p>
@@ -265,7 +247,7 @@ export function About() {
             // Frontend profile: Tech Art/Game Dev credibility
             <>
               <h2 className="heading-3 mb-4" style={{ color: 'var(--text-heading)' }}>Game Development & VR</h2>
-              <p className="text-dark-400 mb-6">
+              <p className="text-sm md:text-base text-dark-400 mb-6">
                 {(profile as any).techArt?.note ||
                   'I also have hands-on experience with Unity, VR development, and technical art.'}
               </p>
@@ -283,9 +265,9 @@ export function About() {
 
       {/* CTA */}
       <Section>
-        <div className="text-center">
+        <div className="text-center px-4">
           <h2 className="heading-3 mb-4" style={{ color: 'var(--text-heading)' }}>Let's Work Together</h2>
-          <p className="text-dark-400 mb-6 max-w-md mx-auto">
+          <p className="text-sm md:text-base text-dark-400 mb-6 max-w-md mx-auto">
             I'm always interested in hearing about new projects and opportunities.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
