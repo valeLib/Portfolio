@@ -8,6 +8,20 @@ import { experiences, type Experience } from '../../content/experience';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Hook to detect mobile viewport
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return isMobile;
+}
+
 const typeColors: Record<Experience['type'], { bg: string; text: string; border: string }> = {
   frontend: { bg: 'var(--accent)', text: 'var(--accent)', border: 'var(--accent)' },
   fullstack: { bg: 'var(--accent-2)', text: 'var(--accent-2)', border: 'var(--accent-2)' },
@@ -24,10 +38,12 @@ const typeLabels: Record<Experience['type'], string> = {
 
 export function ExperienceTimeline() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const isMobile = useIsMobile();
 
   // Setup scroll-driven animations
   useGsapContext(
@@ -119,6 +135,11 @@ export function ExperienceTimeline() {
                 exp={exp}
                 isActive={index === activeIndex}
                 isCurrent={index === 0}
+                isMobile={isMobile}
+                isExpanded={expandedCardId === exp.id}
+                onToggleExpand={() => {
+                  setExpandedCardId(expandedCardId === exp.id ? null : exp.id);
+                }}
               />
             ))}
           </div>
@@ -132,10 +153,36 @@ interface TimelineItemProps {
   exp: Experience;
   isActive: boolean;
   isCurrent: boolean;
+  isMobile: boolean;
+  isExpanded: boolean;
+  onToggleExpand: () => void;
 }
 
-function TimelineItem({ exp, isActive, isCurrent }: TimelineItemProps) {
+function TimelineItem({ exp, isActive, isCurrent, isMobile, isExpanded, onToggleExpand }: TimelineItemProps) {
   const colors = typeColors[exp.type];
+  const contentRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  // Animate expansion/collapse on mobile
+  useEffect(() => {
+    if (!isMobile || !contentRef.current || prefersReducedMotion) return;
+
+    if (isExpanded) {
+      gsap.to(contentRef.current, {
+        height: 'auto',
+        opacity: 1,
+        duration: 0.3,
+        ease: 'power2.out',
+      });
+    } else {
+      gsap.to(contentRef.current, {
+        height: 0,
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.in',
+      });
+    }
+  }, [isExpanded, isMobile, prefersReducedMotion]);
 
   return (
     <div
@@ -211,34 +258,44 @@ function TimelineItem({ exp, isActive, isCurrent }: TimelineItemProps) {
           </div>
         </div>
 
-        {/* Description */}
-        <p className="mb-4 text-sm md:text-base" style={{ color: 'var(--muted)' }}>
-          {exp.description}
-        </p>
+        {/* Expandable content on mobile */}
+        <div
+          ref={contentRef}
+          className="overflow-hidden"
+          style={{
+            height: isMobile && !isExpanded ? 0 : 'auto',
+            opacity: isMobile && !isExpanded ? 0 : 1,
+          }}
+        >
+          {/* Description */}
+          <p className="mb-4 text-sm md:text-base" style={{ color: 'var(--muted)' }}>
+            {exp.description}
+          </p>
 
-        {/* Highlights - show first 2 always, rest can expand */}
-        <ul className="space-y-1.5 mb-4">
-          {exp.highlights.slice(0, 3).map((highlight, i) => (
-            <li
-              key={i}
-              className="flex items-start gap-2 text-sm"
-              style={{ color: 'var(--muted)' }}
-            >
-              <span
-                className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
-                style={{ backgroundColor: colors.bg }}
-              />
-              {highlight}
-            </li>
-          ))}
-          {exp.highlights.length > 3 && (
-            <li className="text-sm pl-3.5" style={{ color: 'var(--muted)' }}>
-              +{exp.highlights.length - 3} more achievements
-            </li>
-          )}
-        </ul>
+          {/* Highlights - show first 2 always, rest can expand */}
+          <ul className="space-y-1.5 mb-4">
+            {exp.highlights.slice(0, 3).map((highlight, i) => (
+              <li
+                key={i}
+                className="flex items-start gap-2 text-sm"
+                style={{ color: 'var(--muted)' }}
+              >
+                <span
+                  className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+                  style={{ backgroundColor: colors.bg }}
+                />
+                {highlight}
+              </li>
+            ))}
+            {exp.highlights.length > 3 && (
+              <li className="text-sm pl-3.5" style={{ color: 'var(--muted)' }}>
+                +{exp.highlights.length - 3} more achievements
+              </li>
+            )}
+          </ul>
+        </div>
 
-        {/* Technologies */}
+        {/* Technologies - always visible */}
         <div className="flex flex-wrap gap-1.5">
           {exp.technologies.slice(0, 6).map((tech) => (
             <Tag key={tech} size="sm">
@@ -251,6 +308,39 @@ function TimelineItem({ exp, isActive, isCurrent }: TimelineItemProps) {
             </span>
           )}
         </div>
+
+        {/* Mobile expand/collapse button */}
+        {isMobile && (
+          <button
+            onClick={onToggleExpand}
+            className="mt-3 w-full flex items-center justify-center gap-2 py-2 rounded-lg transition-all duration-200 active:scale-95"
+            style={{
+              backgroundColor: `color-mix(in srgb, ${colors.bg} 10%, transparent)`,
+              color: colors.text,
+              border: `1px solid color-mix(in srgb, ${colors.border} 20%, transparent)`,
+            }}
+            aria-expanded={isExpanded}
+            aria-label={isExpanded ? 'Show less details' : 'Show more details'}
+          >
+            <span className="text-sm font-medium">
+              {isExpanded ? 'Read less' : 'Read more'}
+            </span>
+            <svg
+              className="w-4 h-4 transition-transform duration-200"
+              style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+        )}
       </div>
     </div>
   );
