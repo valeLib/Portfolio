@@ -161,6 +161,8 @@ interface TimelineItemProps {
 function TimelineItem({ exp, isActive, isCurrent, isMobile, isExpanded, onToggleExpand }: TimelineItemProps) {
   const colors = typeColors[exp.type];
   const contentRef = useRef<HTMLDivElement>(null);
+  const highlightsRef = useRef<HTMLUListElement>(null);
+  const [highlightsExpanded, setHighlightsExpanded] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
 
   // Animate expansion/collapse on mobile
@@ -183,6 +185,30 @@ function TimelineItem({ exp, isActive, isCurrent, isMobile, isExpanded, onToggle
       });
     }
   }, [isExpanded, isMobile, prefersReducedMotion]);
+
+  // Animate highlights expansion on desktop only
+  useEffect(() => {
+    if (!highlightsRef.current || prefersReducedMotion || isMobile) return;
+
+    const extraHighlights = highlightsRef.current.querySelectorAll('[data-extra-highlight]');
+    
+    if (highlightsExpanded) {
+      gsap.to(extraHighlights, {
+        height: 'auto',
+        opacity: 1,
+        duration: 0.3,
+        ease: 'power2.out',
+        stagger: 0.05,
+      });
+    } else {
+      gsap.to(extraHighlights, {
+        height: 0,
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.in',
+      });
+    }
+  }, [highlightsExpanded, prefersReducedMotion, isMobile]);
 
   return (
     <div
@@ -272,39 +298,88 @@ function TimelineItem({ exp, isActive, isCurrent, isMobile, isExpanded, onToggle
             {exp.description}
           </p>
 
-          {/* Highlights - show first 2 always, rest can expand */}
-          <ul className="space-y-1.5 mb-4">
-            {exp.highlights.slice(0, 3).map((highlight, i) => (
+          {/* Highlights - show first 4, rest can expand on desktop only */}
+          <ul ref={highlightsRef} className="space-y-1.5 mb-4">
+            {exp.highlights.slice(0, 4).map((highlight, i) => (
               <li
                 key={i}
                 className="flex items-start gap-2 text-sm"
                 style={{ color: 'var(--muted)' }}
               >
                 <span
-                  className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+                  className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
                   style={{ backgroundColor: colors.bg }}
                 />
                 {highlight}
               </li>
             ))}
-            {exp.highlights.length > 3 && (
-              <li className="text-sm pl-3.5" style={{ color: 'var(--muted)' }}>
-                +{exp.highlights.length - 3} more achievements
-              </li>
+            {exp.highlights.length > 4 && (
+              <>
+                {/* Extra highlights - always shown on mobile when card expanded, collapsible on desktop */}
+                {exp.highlights.slice(4).map((highlight, i) => (
+                  <li
+                    key={i + 4}
+                    data-extra-highlight
+                    className="flex items-start gap-2 text-sm overflow-hidden"
+                    style={{
+                      color: 'var(--muted)',
+                      height: ((isMobile && isExpanded) || highlightsExpanded) ? 'auto' : 0,
+                      opacity: ((isMobile && isExpanded) || highlightsExpanded) ? 1 : 0,
+                    }}
+                  >
+                    <span
+                      className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
+                      style={{ backgroundColor: colors.bg }}
+                    />
+                    {highlight}
+                  </li>
+                ))}
+                {/* Expand/collapse button - desktop only */}
+                {!isMobile && (
+                  <li>
+                    <button
+                      onClick={() => setHighlightsExpanded(!highlightsExpanded)}
+                      className="text-sm pl-3.5 hover:underline transition-colors duration-200 flex items-center gap-1"
+                      style={{ color: colors.text }}
+                      aria-expanded={highlightsExpanded}
+                    >
+                      {highlightsExpanded ? (
+                        <>Show less</>
+                      ) : (
+                        <>Show {exp.highlights.length - 4} more</>
+                      )}
+                      <svg
+                        className="w-3 h-3 transition-transform duration-200"
+                        style={{ transform: highlightsExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+                  </li>
+                )}
+              </>
             )}
           </ul>
         </div>
 
         {/* Technologies - always visible */}
         <div className="flex flex-wrap gap-1.5">
-          {exp.technologies.slice(0, 6).map((tech) => (
+          {exp.technologies.slice(0, 8).map((tech) => (
             <Tag key={tech} size="sm">
               {tech}
             </Tag>
           ))}
-          {exp.technologies.length > 6 && (
+          {exp.technologies.length > 8 && (
             <span className="text-xs px-2 py-1" style={{ color: 'var(--muted)' }}>
-              +{exp.technologies.length - 6}
+              +{exp.technologies.length - 8}
             </span>
           )}
         </div>
