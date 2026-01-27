@@ -15,7 +15,7 @@ export function About() {
   return (
     <>
       {/* Header */}
-      <Section className="page-safe-top pb-8">
+      <Section className="page-safe-top" noPadding>
         <div ref={headerRef} className="grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center">
           <div>
             <div data-gsap-reveal className="mb-4">
@@ -47,11 +47,11 @@ export function About() {
 
           {/* Profile image */}
           <div data-gsap-reveal className="relative">
-            <div className="w-full max-w-sm lg:max-w-md mx-auto">
+            <div className="w-full max-w-sm lg:max-w-md mx-auto px-6 md:px-16">
               <img
                 src="profile.jpg"
                 alt="Profile photo"
-                className="w-full aspect-square rounded-2xl object-cover border border-dark-700 shadow-lg"
+                className="w-full rounded-2xl object-cover border border-dark-700 shadow-lg"
               />
             </div>
           </div>
