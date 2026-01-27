@@ -52,7 +52,7 @@ export function AboutSection() {
           >
             About Me
           </h2>
-          <p style={{ color: 'var(--muted)' }}>
+          <p style={{ color: 'var(--primary)' }}>
             How I work and what I value
           </p>
         </div>

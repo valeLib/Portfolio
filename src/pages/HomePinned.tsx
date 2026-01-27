@@ -118,7 +118,7 @@ export function HomePinned() {
           <PinnedSection
             id="about"
             pinDuration={window.innerHeight * 1.2}
-            className="pb-52 mb-60"
+            className="pb-60 mb-60 md:pb-32"
             bgClassName="bg-[var(--bg)]"
             index={50}
           >
@@ -126,7 +126,7 @@ export function HomePinned() {
           </PinnedSection>
 
           {/* Contact - Final section, not pinned */}
-          <Section id="contact" className="pt-96" style={{ zIndex: 60 }}>
+          <Section id="contact" className=" mt-96 pt-96 md:pt-20 md:mt-0 xl:pt-32" style={{ zIndex: 60 }}>
             <ContactSection />
           </Section>
         </>

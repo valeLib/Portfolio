@@ -15,6 +15,20 @@ export interface FrontendProject {
 
 export const projects: FrontendProject[] = [
   {
+    id: 'pignus-dashboard',
+    title: 'Modern Reporting Dashboard',
+    company: 'Pignus',
+    category: 'Web Dashboard / Data Visualization',
+    problem:
+    'Legacy PHP Laravel dashboard was slow, hard to maintain, and lacked interactivity for data visualization.',
+    contribution:
+    'Migrated frontend to Vue 3 + Inertia.js with Vite build system. Implemented Pinia for state management and created interactive charts while maintaining backend API compatibility.',
+    outcome:
+    'Significantly improved page load performance and developer experience. The modern stack enabled faster feature development and more responsive data visualizations.',
+    technologies: ['Vue 3', 'Inertia.js', 'Vite', 'Pinia', 'Chart.js', 'Laravel'],
+    liveUrl: 'https://www.pignus.cl/plataforma/',
+  },
+  {
     id: 'neurospeech',
     title: 'NeurospeechAI Research Platform',
     company: 'UCL (University College London)',
@@ -27,20 +41,6 @@ export const projects: FrontendProject[] = [
       'Delivered a production-ready platform currently being used by researchers to conduct studies with diverse participant groups.',
     technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'WCAG 2.1'],
     liveUrl: 'https://neurospeechai.com/',
-  },
-  {
-    id: 'pignus-dashboard',
-    title: 'Modern Reporting Dashboard',
-    company: 'Pignus',
-    category: 'Web Dashboard / Data Visualization',
-    problem:
-      'Legacy PHP Laravel dashboard was slow, hard to maintain, and lacked interactivity for data visualization.',
-    contribution:
-      'Migrated frontend to Vue 3 + Inertia.js with Vite build system. Implemented Pinia for state management and created interactive charts while maintaining backend API compatibility.',
-    outcome:
-      'Significantly improved page load performance and developer experience. The modern stack enabled faster feature development and more responsive data visualizations.',
-    technologies: ['Vue 3', 'Inertia.js', 'Vite', 'Pinia', 'Chart.js', 'Laravel'],
-    liveUrl: 'https://www.pignus.cl/plataforma/',
   },
   {
     id: 'eye-search',
