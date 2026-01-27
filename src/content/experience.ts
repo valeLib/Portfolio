@@ -14,11 +14,29 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
+    id: 'pignus',
+    company: 'Pignus',
+    role: 'Full-Stack Developer & VR Developer',
+    location: 'Chile (Remote)',
+    period: '2023 - Present',
+    type: 'fullstack',
+    description: 'Led dashboard modernization and developed VR training applications for industrial safety.',
+    highlights: [
+      'Migrated legacy PHP Laravel dashboard to Vue + Inertia with Vite',
+      'Implemented state management with Pinia for complex data flows',
+      'Built interactive charts and data visualizations',
+      'Developed Unity VR applications for Meta Quest headsets',
+      'Optimized VR performance for standalone Quest hardware',
+      'Created and optimized 3D assets using Blender and Substance Painter for mobile VR rendering.'
+    ],
+    technologies: ['Vue', 'Inertia.js', 'Vite', 'Pinia', 'Laravel', 'Unity', 'Meta Quest SDK', 'C#'],
+  },
+  {
     id: 'ucl-neurospeech',
     company: 'UCL - NeurospeechAI',
     role: 'Frontend Developer',
     location: 'London, UK (Remote)',
-    period: '2024 - Present',
+    period: '2023',
     type: 'frontend',
     description: 'Building an accessible web application for speech therapy research at University College London.',
     highlights: [
@@ -28,23 +46,6 @@ export const experiences: Experience[] = [
       'Integrated with Python Flask backend for speech analysis',
     ],
     technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'WCAG 2.1', 'Flask'],
-  },
-  {
-    id: 'pignus',
-    company: 'Pignus',
-    role: 'Full-Stack Developer & VR Developer',
-    location: 'Chile (Remote)',
-    period: '2023 - 2024',
-    type: 'fullstack',
-    description: 'Led dashboard modernization and developed VR training applications for industrial safety.',
-    highlights: [
-      'Migrated legacy PHP Laravel dashboard to Vue + Inertia with Vite',
-      'Implemented state management with Pinia for complex data flows',
-      'Built interactive charts and data visualizations',
-      'Developed Unity VR applications for Meta Quest headsets',
-      'Optimized VR performance for standalone Quest hardware',
-    ],
-    technologies: ['Vue', 'Inertia.js', 'Vite', 'Pinia', 'Laravel', 'Unity', 'Meta Quest SDK', 'C#'],
   },
   {
     id: 'capitalizarme',
@@ -79,11 +80,27 @@ export const experiences: Experience[] = [
     technologies: ['React', 'TypeScript', 'Unity WebGL', 'Authentication'],
   },
   {
+    id: 'uchile',
+    company: 'University of Chile',
+    role: 'Unity Developer & UI/UX Designer',
+    location: 'Chile',
+    period: '2020 -2021',
+    type: 'fullstack',
+    description: 'Designed and developed VR based user experience studies with Unity and Blender.',
+    highlights: [
+      'Developed an immersive VR game using Unity and C#, focusing on real-timeinteractions, AIdriven NPCs, and environmental storytelling.',
+      'Designed and implemented 3D models, character rigging, and animations using Blender and Unity’s Animator system.',
+      'Optimized lighting and performance through baked lightmaps, reflectionprobes, and occlusion culling for smooth performance on Quest VR.',
+      'Conducted a user study with VR gameplay analytics, testing player behavior and engagement for research purposes.',
+    ],
+    technologies: ['Unity', 'Meta Quest SDK', 'C#'],
+  },
+  {
     id: 'pulso-escolar',
     company: 'Pulso Escolar',
     role: 'Frontend Developer',
     location: 'Chile',
-    period: '2021 - 2022',
+    period: '2019',
     type: 'frontend',
     description: 'Built data visualization dashboards for educational analytics platform.',
     highlights: [
@@ -99,7 +116,7 @@ export const experiences: Experience[] = [
     company: 'NLHPC (National Laboratory for HPC)',
     role: 'Frontend Developer Intern',
     location: 'Chile',
-    period: '2020 - 2021',
+    period: '2018',
     type: 'frontend',
     description: 'Built monitoring dashboards for high-performance computing infrastructure.',
     highlights: [
