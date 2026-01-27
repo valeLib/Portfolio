@@ -49,13 +49,13 @@ export function HeroSection() {
     <Section className="relative overflow-hidden -mt-16 md:-mt-20" noPadding fullWidth id="hero">
       <div ref={containerRef} className="min-h-screen relative flex flex-col">
         {/* Hero background layers */}
-        <div className="absolute inset-0 hero-bg pointer-events-none" />
-        <div className="absolute inset-0 hero-stars pointer-events-none" />
-        <div className="absolute inset-0 hero-grain pointer-events-none" />
+        <div className="absolute inset-0 hero-bg pointer-events-none z-1" />
+        <div className="absolute inset-0 hero-stars pointer-events-none z-2" />
+        <div className="absolute inset-0 hero-grain pointer-events-none z-3" />
 
         {/* Hero content - centered */}
         <div className="flex-1 flex items-center relative z-10">
-          <div className="container-main section-padding py-24 md:py-32 relative w-full">
+          <div className="container-main section-padding mt-16 pt-24 md:py-32 md:mt-0 relative w-full">
             <div ref={contentRef} className="relative flex flex-col items-center text-center">
               {/* Name - Primary headline with word animation */}
               <h1
@@ -75,7 +75,7 @@ export function HeroSection() {
               </h1>
 
               {/* Visual: 3D Cat Model */}
-              <div className="mt-10 w-full max-w-md lg:max-w-lg lg:absolute lg:right-[-18%] lg:bottom-[-20%] opacity-80">
+              <div className="mt-0 pb-8 w-full max-w-md lg:max-w-lg lg:absolute lg:right-[-20%] lg:bottom-[-20%] opacity-80">
                 <div className="aspect-square lg:aspect-auto lg:h-[440px] rounded-2xl overflow-visible">
                   <CatScene />
                 </div>

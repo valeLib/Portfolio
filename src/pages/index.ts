@@ -1,4 +1,3 @@
-export { Home } from './Home';
 export { HomePinned } from './HomePinned';
 export { Work } from './Work';
 export { CaseStudy } from './CaseStudy';

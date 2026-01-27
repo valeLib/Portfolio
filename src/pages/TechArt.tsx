@@ -69,7 +69,7 @@ export function TechArt() {
   return (
     <>
       {/* Hero Section */}
-      <RhythmSection rhythm="hero" id="tech-art-hero">
+      <RhythmSection rhythm="hero" id="tech-art-hero" className="page-safe-top">
         <div ref={headerRef} className="text-center max-w-4xl mx-auto">
           <h1
             data-reveal

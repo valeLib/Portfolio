@@ -89,8 +89,8 @@ function SceneContent() {
 
       {/* Controls */}
       <OrbitControls 
-        enableZoom={true}
-        enablePan={true} 
+        enableZoom={false}
+        enablePan={false} 
         minPolarAngle={Math.PI / 3}
         maxPolarAngle={Math.PI / 2}
       />

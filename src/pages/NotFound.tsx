@@ -9,7 +9,7 @@ export function NotFound() {
   useDocumentTitle('Page Not Found');
 
   return (
-    <Section className="min-h-[60vh] flex items-center justify-center">
+    <Section className="page-safe-top min-h-[60vh] flex items-center justify-center">
       <div className="text-center">
         {/* 404 Animation */}
         <div className="mb-8 flex justify-center">
