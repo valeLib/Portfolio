@@ -1,4 +1,4 @@
-name: Deploy Portfolio (preview branch)
+name: Deploy Dual Portfolio (Preview)
 
 on:
   push:
@@ -30,33 +30,44 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Build Tech Art variant (root)
-      - name: Build Tech Art Portfolio
-        run: npm run build
-        env:
-          VITE_PROFILE: tech-art
-          VITE_CV_ENABLED: 'false'
+      # Build Unified variant (root - default, Software/Frontend focus)
+      - name: Build Unified Portfolio
+        run: npm run build:unified
 
-      - name: Move Tech Art build
-        run: mv dist tech-art-dist
-
-      # Build Frontend variant (/Software-Engineer/)
-      - name: Build Frontend Portfolio
-        run: npm run build
-        env:
-          VITE_PROFILE: frontend
-          VITE_CV_ENABLED: 'true'
-
-      - name: Move Frontend build
-        run: mv dist frontend-dist
-
-      # Combine outputs
-      - name: Combine builds
+      - name: Move Unified build
         run: |
-          mkdir -p combined
-          cp -r tech-art-dist/* combined/
-          mkdir -p combined/Software-Engineer
-          cp -r frontend-dist/* combined/Software-Engineer/
+          mkdir -p deploy
+          cp -r dist/* deploy/
+
+      # Clean dist folder
+      - name: Clean dist folder
+        run: rm -rf dist
+
+      # Build GameDev variant (/Gamedev/, Tech Art focus)
+      - name: Build GameDev Portfolio
+        run: npm run build:gamedev
+
+      - name: Move GameDev build
+        run: |
+          mkdir -p deploy/Gamedev
+          cp -r dist/* deploy/Gamedev/
+
+      # Verify deployment structure
+      - name: Verify Deploy Structure
+        run: |
+          echo "🔍 Verifying deployment structure..."
+          echo ""
+          echo "📁 Deploy folder contents:"
+          ls -la deploy/
+          echo ""
+          echo "📁 Deploy/Gamedev folder contents:"
+          ls -la deploy/Gamedev/
+          echo ""
+          echo "✅ Deployment structure verified!"
+          echo ""
+          echo "Public URLs after deployment:"
+          echo "  1. Unified (Frontend): https://valelib.github.io/Portfolio/"
+          echo "  2. GameDev (Tech Art): https://valelib.github.io/Portfolio/Gamedev/"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -64,7 +75,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './combined'
+          path: './deploy'
 
   deploy:
     environment:
@@ -76,3 +87,10 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Deployment Summary
+        run: |
+          echo "🚀 Preview Deployment complete!"
+          echo ""
+          echo "✅ Unified Portfolio (Frontend): https://valelib.github.io/Portfolio/"
+          echo "✅ GameDev Portfolio (Tech Art): https://valelib.github.io/Portfolio/Gamedev/"
