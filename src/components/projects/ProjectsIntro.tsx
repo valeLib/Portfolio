@@ -51,8 +51,8 @@ export function ProjectsIntro() {
 
   return (
     <Section className="page-safe-top relative overflow-hidden" noPadding>
-      <div ref={containerRef} className="flex items-center pt-24">
-        <div className="container-main section-padding pt-24">
+      <div ref={containerRef} className="flex items-center min-h-screen">
+        <div className="container-main py-20 md:py-24">
           <div className="max-w-3xl relative">
             <h1
               data-intro="title"

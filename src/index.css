@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bungee&family=Gravitas+One&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Special+Gothic+Expanded+One&display=swap');
 @import "tailwindcss";
 
 /* =====================================================
@@ -94,18 +93,25 @@
   --scrollbar-shadow: none;
 }
 
+@font-face {
+  font-family: 'Telma';
+  src: url("/fonts/Telma-Black.otf");
+  font-weight: 900;
+  font-display: swap;
+}
+
 /* =====================================================
    TAILWIND THEME CONFIGURATION
    ===================================================== */
+
+  
 
 @theme {
   /* Font Families */
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-display: 'Space Grotesk', system-ui, sans-serif;
-  --font-serif: 'Bungee', cursive;
   --font-mono: 'JetBrains Mono', monospace;
-  --font-gothic: 'Special Gothic Expanded One', sans-serif;
-  --font-condensed: 'Roboto Condensed', sans-serif;
+  --font-telma: 'Telma', sans-serif;
 
   /* Keyframe Animations */
   @keyframes float {
@@ -230,10 +236,9 @@
 @layer components {
   /* Hero Title Component */
   .hero-title {
-    font-family: var(--font-serif);
+    font-family: var(--font-telma);
     font-weight: 700;
     letter-spacing: 0.08em;
-    text-transform: uppercase;
     line-height: 1.05;
     padding-top: 0.05em;
     padding-bottom: 0.05em;
@@ -245,20 +250,42 @@
     color: var(--olive-text);
   }
 
+  /* Hero title - first line (Valentina) */
+  /* Dark mode: outlined text with gradient stroke and fill */
   .hero-title-word {
     background: linear-gradient(90deg, color-mix(in srgb, var(--primary) 85%, var(--accent-2) 15%) 0%, var(--primary) 45%, var(--pink-0) 100%);
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent;
     -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: var(--primary);
+    paint-order: stroke fill;
   }
 
+  /* Light mode: filled text with gradient */
   [data-theme="light"] .hero-title-word {
     background: linear-gradient(110deg, var(--green-strong) 0%, var(--accent-2) 50%, color-mix(in srgb, var(--accent-2) 70%, var(--accent) 30%) 100%);
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent;
     -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 0;
+  }
+
+  /* Hero title - second line (Liberona Zuñiga) */
+  /* Dark mode: OUTLINE ONLY - no fill, just stroke */
+  .hero-title-outline {
+    color: transparent;
+    -webkit-text-fill-color: rgba(0, 0, 0, 0);
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: var(--primary);
+  }
+
+  /* Light mode: OUTLINE ONLY - no fill, just stroke */
+  [data-theme="light"] .hero-title-outline {
+    color: transparent;
+    -webkit-text-fill-color: rgba(0, 0, 0, 0);
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: var(--accent-2);
   }
 
   [data-theme="light"] .hero-title-word:last-child {

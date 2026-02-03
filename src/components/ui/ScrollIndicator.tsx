@@ -18,6 +18,17 @@ export function ScrollIndicator() {
 
     const indicator = indicatorRef.current;
 
+    // Initial entrance animation - appears after hero animations
+    gsap.set(indicator, { autoAlpha: 0, y: -10 });
+    
+    gsap.to(indicator, {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.4,
+      ease: 'power2.out',
+      delay: 3.5, // Appears after text (3.2s) + cat animation (0.6s) - slight overlap
+    });
+
     // Fade out indicator as user starts scrolling
     const fadeOut = gsap.to(indicator, {
       opacity: 0,
@@ -56,7 +67,6 @@ export function ScrollIndicator() {
     <div
       ref={indicatorRef}
       className="absolute bottom-20 left-1/2 -translate-x-1/2 z-10 pointer-events-none"
-      style={{ opacity: 0.8 }}
     >
       <div 
         className="w-14 h-14 md:w-20 md:h-20"
