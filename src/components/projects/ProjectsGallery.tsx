@@ -89,11 +89,40 @@ export function ProjectsGallery({
     );
   }, [activeIndex, prefersReducedMotion, isMobile]);
 
+  // Mobile card entrance animation
+  const mobileContainerRef = useRef<HTMLDivElement>(null);
+
+  useGsapContext(
+    () => {
+      if (!mobileContainerRef.current || prefersReducedMotion || !isMobile) return;
+
+      const cards = mobileContainerRef.current.querySelectorAll('[data-featured-content]');
+
+      // Cinematic card entrance - each card is a beat in the story
+      cards.forEach((card) => {
+        gsap.from(card, {
+          opacity: 0,
+          y: 50,
+          scale: 0.95,
+          duration: 0.6,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse',
+          },
+        });
+      });
+    },
+    mobileContainerRef,
+    [prefersReducedMotion, isMobile]
+  );
+
   // Mobile/Reduced motion: simple vertical list
   if (prefersReducedMotion || isMobile) {
     return (
       <Section className="py-16 md:py-24">
-        <div className="container-main">
+        <div ref={mobileContainerRef} className="container-main">
           <h2 className="heading-2 mb-2" style={{ color: 'var(--text)' }}>
             {title}
           </h2>

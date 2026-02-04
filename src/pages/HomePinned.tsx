@@ -15,6 +15,7 @@ import { ScrollIndex } from '../components/ui';
 import { PinnedSection } from '../components/layout';
 import { Section } from '../components/layout';
 import { isUnified } from '../config';
+import { getSectionTheme } from '../utils/sectionTheme';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -77,12 +78,14 @@ export function HomePinned() {
         <>
           {/* ================================================
                UNIFIED BUILD: Software-First Pinned Layout
+               Matcha & Cream Alternating Theme
                ================================================ */}
 
           <PinnedSection
             id="experience"
             pinDuration={window.innerHeight * 1.5}
-            bgClassName="bg-[var(--bg)]"
+            bgClassName={getSectionTheme(0).bgClass}
+            dataAttributes={getSectionTheme(0).dataAttribute}
             index={10}
           >
             <ExperienceSection />
@@ -91,7 +94,8 @@ export function HomePinned() {
           <PinnedSection
             id="projects"
             pinDuration={window.innerHeight * 2}
-            bgClassName="bg-[var(--bg)]"
+            bgClassName={getSectionTheme(1).bgClass}
+            dataAttributes={getSectionTheme(1).dataAttribute}
             index={20}
           >
             <ProjectsSection />
@@ -100,7 +104,8 @@ export function HomePinned() {
           {/* <PinnedSection
             id="tech-art"
             pinDuration={window.innerHeight * 1.2}
-            bgClassName="bg-[var(--bg)]"
+            bgClassName={getSectionTheme(2).bgClass}
+            dataAttributes={getSectionTheme(2).dataAttribute}
             index={30}
           >
             <TechArtPreview />
@@ -109,7 +114,8 @@ export function HomePinned() {
           <PinnedSection
             id="skills"
             pinDuration={window.innerHeight * 1.5}
-            bgClassName="bg-[var(--bg)]"
+            bgClassName={getSectionTheme(2).bgClass}
+            dataAttributes={getSectionTheme(2).dataAttribute}
             index={40}
           >
             <SkillsSection />
@@ -118,15 +124,21 @@ export function HomePinned() {
           <PinnedSection
             id="about"
             pinDuration={window.innerHeight * 1.2}
-            className="pb-60 mb-60 md:pb-32"
-            bgClassName="bg-[var(--bg)]"
+            className="pb-60 mb-60 md:pb-72"
+            bgClassName={getSectionTheme(3).bgClass}
+            dataAttributes={getSectionTheme(3).dataAttribute}
             index={50}
           >
             <AboutSection />
           </PinnedSection>
 
-          {/* Contact - Final section, not pinned */}
-          <Section id="contact" className=" mt-96 pt-96 md:pt-20 md:mt-0 xl:pt-32" style={{ zIndex: 60 }}>
+          {/* Contact - Final section, not pinned - alternates to primary theme */}
+          <Section 
+            id="contact" 
+            className={`${getSectionTheme(4).bgClass} mt-96 pt-96 md:pt-20 md:mt-0 xl:pt-32`}
+            style={{ zIndex: 60 }}
+            {...getSectionTheme(4).dataAttribute}
+          >
             <ContactSection />
           </Section>
         </>
@@ -134,12 +146,14 @@ export function HomePinned() {
         <>
           {/* ================================================
                GAMEDEV BUILD: Tech Art-First Pinned Layout
+               Matcha & Cream Alternating Theme
                ================================================ */}
 
           <PinnedSection
             id="gallery"
             pinDuration={window.innerHeight * 2}
-            bgClassName="bg-[var(--bg)]"
+            bgClassName={getSectionTheme(0).bgClass}
+            dataAttributes={getSectionTheme(0).dataAttribute}
             index={10}
           >
             <TechArtPreview featured />
@@ -148,7 +162,8 @@ export function HomePinned() {
           <PinnedSection
             id="projects"
             pinDuration={window.innerHeight * 1.5}
-            bgClassName="bg-[var(--bg)]"
+            bgClassName={getSectionTheme(1).bgClass}
+            dataAttributes={getSectionTheme(1).dataAttribute}
             index={20}
           >
             <ProjectsSection />
@@ -157,7 +172,8 @@ export function HomePinned() {
           <PinnedSection
             id="experience"
             pinDuration={window.innerHeight * 1.5}
-            bgClassName="bg-[var(--bg)]"
+            bgClassName={getSectionTheme(2).bgClass}
+            dataAttributes={getSectionTheme(2).dataAttribute}
             index={30}
           >
             <ExperienceSection />
@@ -166,7 +182,8 @@ export function HomePinned() {
           <PinnedSection
             id="skills"
             pinDuration={window.innerHeight * 1.2}
-            bgClassName="bg-[var(--bg)]"
+            bgClassName={getSectionTheme(3).bgClass}
+            dataAttributes={getSectionTheme(3).dataAttribute}
             index={40}
           >
             <SkillsSection />
@@ -175,14 +192,20 @@ export function HomePinned() {
           <PinnedSection
             id="about"
             pinDuration={window.innerHeight}
-            bgClassName="bg-[var(--bg)]"
+            bgClassName={getSectionTheme(4).bgClass}
+            dataAttributes={getSectionTheme(4).dataAttribute}
             index={50}
           >
             <AboutSection />
           </PinnedSection>
 
-          {/* Contact - Final section, not pinned */}
-          <Section id="contact" className="relative" style={{ zIndex: 60 }}>
+          {/* Contact - Final section, not pinned - alternates to primary theme */}
+          <Section 
+            id="contact" 
+            className={`${getSectionTheme(5).bgClass} relative`}
+            style={{ zIndex: 60 }}
+            {...getSectionTheme(5).dataAttribute}
+          >
             <ContactSection />
           </Section>
         </>

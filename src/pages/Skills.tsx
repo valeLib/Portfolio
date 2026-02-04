@@ -79,13 +79,38 @@ const techArtSkillCategories = [
 
 const skillCategories = isFrontend ? frontendSkillCategories : techArtSkillCategories;
 
-const colorClasses: Record<string, { bg: string; text: string; border: string }> = {
-  accent: { bg: 'bg-accent-500/20', text: 'text-accent-400', border: 'border-accent-500/30' },
-  primary: { bg: 'bg-primary-500/20', text: 'text-primary-400', border: 'border-primary-500/30' },
-  orange: { bg: 'bg-orange-500/20', text: 'text-orange-400', border: 'border-orange-500/30' },
-  green: { bg: 'bg-green-500/20', text: 'text-green-400', border: 'border-green-500/30' },
-  blue: { bg: 'bg-blue-500/20', text: 'text-blue-400', border: 'border-blue-500/30' },
-  purple: { bg: 'bg-purple-500/20', text: 'text-purple-400', border: 'border-purple-500/30' },
+// Using theme color CSS variables
+const colorStyles: Record<string, { bg: string; text: string; border: string }> = {
+  accent: {
+    bg: 'color-mix(in srgb, var(--accent) 20%, transparent)',
+    text: 'var(--accent)',
+    border: 'color-mix(in srgb, var(--accent) 30%, transparent)',
+  },
+  primary: {
+    bg: 'color-mix(in srgb, var(--primary) 20%, transparent)',
+    text: 'var(--primary)',
+    border: 'color-mix(in srgb, var(--primary) 30%, transparent)',
+  },
+  orange: {
+    bg: 'color-mix(in srgb, var(--secondary) 20%, transparent)',
+    text: 'var(--secondary)',
+    border: 'color-mix(in srgb, var(--secondary) 30%, transparent)',
+  },
+  green: {
+    bg: 'color-mix(in srgb, var(--accent-2) 20%, transparent)',
+    text: 'var(--accent-2)',
+    border: 'color-mix(in srgb, var(--accent-2) 30%, transparent)',
+  },
+  blue: {
+    bg: 'color-mix(in srgb, var(--primary) 20%, transparent)',
+    text: 'var(--primary)',
+    border: 'color-mix(in srgb, var(--primary) 30%, transparent)',
+  },
+  purple: {
+    bg: 'color-mix(in srgb, var(--accent) 20%, transparent)',
+    text: 'var(--accent)',
+    border: 'color-mix(in srgb, var(--accent) 30%, transparent)',
+  },
 };
 
 export function Skills() {
@@ -104,7 +129,7 @@ export function Skills() {
               <h1 className="heading-1 mb-4" style={{ color: 'var(--text-heading)' }}>
                 Skills & <span className="text-gradient">Technologies</span>
               </h1>
-              <p className="text-xl text-dark-300 mb-6">
+              <p className="text-xl mb-6" style={{ color: 'var(--muted)' }}>
                 {isFrontend
                   ? 'A comprehensive overview of my technical skills and the technologies I work with daily.'
                   : 'Tools and technologies I use to create stunning visual effects and real-time graphics.'}
@@ -138,11 +163,14 @@ export function Skills() {
       <Section className="pt-0">
         <div ref={skillsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skillCategories.map((category) => {
-            const colors = colorClasses[category.color] || colorClasses.accent;
+            const colors = colorStyles[category.color] || colorStyles.accent;
             return (
               <div key={category.title} data-gsap-reveal className="glass-card p-6">
-                <div className={`w-12 h-12 mb-4 rounded-xl ${colors.bg} flex items-center justify-center`}>
-                  <SkillIcon name={category.icon} className={colors.text} />
+                <div
+                  className="w-12 h-12 mb-4 rounded-xl flex items-center justify-center"
+                  style={{ backgroundColor: colors.bg }}
+                >
+                  <SkillIcon name={category.icon} style={{ color: colors.text }} />
                 </div>
                 <h3 className="font-semibold mb-4" style={{ color: 'var(--text-heading)' }}>{category.title}</h3>
                 <div className="flex flex-wrap gap-2">
@@ -162,7 +190,7 @@ export function Skills() {
       <Section className="bg-dark-950/50">
         <div className="text-center mb-12">
           <h2 className="heading-2 mb-4" style={{ color: 'var(--text-heading)' }}>Proficiency Levels</h2>
-          <p className="text-dark-400 max-w-2xl mx-auto">
+          <p className="max-w-2xl mx-auto" style={{ color: 'var(--muted)' }}>
             A detailed breakdown of my expertise across different areas.
           </p>
         </div>
@@ -174,7 +202,7 @@ export function Skills() {
               <ul className="space-y-3">
                 {skills?.map((skill) => (
                   <li key={skill.name} className="flex items-center justify-between">
-                    <span className="text-dark-300 text-sm">{skill.name}</span>
+                    <span className="text-sm" style={{ color: 'var(--muted)' }}>{skill.name}</span>
                     <Tag size="sm" variant={skill.primary ? 'accent' : 'default'}>
                       {skill.level}
                     </Tag>
@@ -190,7 +218,7 @@ export function Skills() {
       <Section>
         <div className="relative text-center">
           <h2 className="heading-3 mb-4" style={{ color: 'var(--text-heading)' }}>Ready to Work Together?</h2>
-          <p className="text-dark-400 mb-6 max-w-md mx-auto">
+          <p className="mb-6 max-w-md mx-auto" style={{ color: 'var(--muted)' }}>
             Let's discuss how my skills can help bring your project to life.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
@@ -206,44 +234,44 @@ export function Skills() {
 }
 
 // Skill Icon Component
-function SkillIcon({ name, className }: { name: string; className?: string }): ReactElement {
-  const baseClass = `w-6 h-6 ${className || ''}`;
+function SkillIcon({ name, style }: { name: string; style?: React.CSSProperties }): ReactElement {
+  const baseClass = 'w-6 h-6';
 
   const icons: Record<string, ReactElement> = {
     code: (
-      <svg className={baseClass} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className={baseClass} style={style} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
       </svg>
     ),
     palette: (
-      <svg className={baseClass} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className={baseClass} style={style} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
       </svg>
     ),
     data: (
-      <svg className={baseClass} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className={baseClass} style={style} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
       </svg>
     ),
     motion: (
-      <svg className={baseClass} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className={baseClass} style={style} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
     check: (
-      <svg className={baseClass} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className={baseClass} style={style} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
     tools: (
-      <svg className={baseClass} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className={baseClass} style={style} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
     ),
     sparkles: (
-      <svg className={baseClass} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className={baseClass} style={style} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
       </svg>
     ),

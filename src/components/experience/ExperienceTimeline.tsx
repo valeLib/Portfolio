@@ -26,7 +26,7 @@ const typeColors: Record<Experience['type'], { bg: string; text: string; border:
   frontend: { bg: 'var(--accent)', text: 'var(--accent)', border: 'var(--accent)' },
   fullstack: { bg: 'var(--accent-2)', text: 'var(--accent-2)', border: 'var(--accent-2)' },
   xr: { bg: '#f97316', text: '#f97316', border: '#f97316' },
-  research: { bg: '#22c55e', text: '#22c55e', border: '#22c55e' },
+  research: { bg: 'var(--accent-3)', text: 'var(--accent-3)', border: 'var(--accent-3)' },
 };
 
 const typeLabels: Record<Experience['type'], string> = {
@@ -45,7 +45,7 @@ export function ExperienceTimeline() {
   const prefersReducedMotion = usePrefersReducedMotion();
   const isMobile = useIsMobile();
 
-  // Setup scroll-driven animations
+  // Setup scroll-driven animations - cinematic card entrance
   useGsapContext(
     () => {
       if (!containerRef.current || !timelineRef.current || prefersReducedMotion) return;
@@ -53,27 +53,20 @@ export function ExperienceTimeline() {
       const items = timelineRef.current.querySelectorAll('[data-timeline-item]');
       const progressBar = progressRef.current;
 
-      // Initial state for cards - visible but ready for reveal animation
-      gsap.set(items, { opacity: 0, y: 12 });
-
-      // Reveal animation for each card
+      // Cinematic entrance: cards rise from below with scale
       items.forEach((item, index) => {
-        ScrollTrigger.create({
-          trigger: item,
-          start: 'top 80%',
-          end: 'top 30%',
-          onEnter: () => {
-            // Reveal card
-            gsap.to(item, {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              ease: 'power2.out',
-            });
-            setActiveIndex(index);
-          },
-          onEnterBack: () => {
-            setActiveIndex(index);
+        gsap.from(item, {
+          opacity: 0,
+          y: 50,
+          scale: 0.95,
+          duration: 0.6,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse',
+            onEnter: () => setActiveIndex(index),
+            onEnterBack: () => setActiveIndex(index),
           },
         });
       });

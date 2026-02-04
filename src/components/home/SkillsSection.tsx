@@ -10,7 +10,7 @@ export function SkillsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
-  // Simple reveal animation - no pinning, editorial style
+  // Cinematic card entrance - choreographed reveal
   useGsapContext(
     () => {
       if (!containerRef.current || prefersReducedMotion) return;
@@ -19,30 +19,34 @@ export function SkillsSection() {
       const cards = container.querySelectorAll('[data-skill-card]');
       const header = container.querySelector('[data-skill-header]');
 
-      // Set initial state
-      gsap.set([header, ...Array.from(cards)], { opacity: 0, y: 12 });
-
-      // Simple scroll-triggered fade-in
-      ScrollTrigger.create({
-        trigger: container,
-        start: 'top 75%',
-        onEnter: () => {
-          gsap.to(header, {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-            ease: 'power2.out',
-          });
-
-          gsap.to(cards, {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-            stagger: 0.1,
-            ease: 'power2.out',
-            delay: 0.2,
-          });
+      // Header rises first - sets the stage
+      gsap.from(header, {
+        opacity: 0,
+        y: 30,
+        duration: 0.6,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: header,
+          start: 'top 85%',
+          toggleActions: 'play none none reverse',
         },
+      });
+
+      // Cards follow in sequence - staggered narrative beats
+      cards.forEach((card, index) => {
+        gsap.from(card, {
+          opacity: 0,
+          y: 50,
+          scale: 0.95,
+          duration: 0.6,
+          ease: 'power2.out',
+          delay: index * 0.1, // Stagger each card
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse',
+          },
+        });
       });
     },
     containerRef,
@@ -114,9 +118,9 @@ function TechArtCapabilities() {
       title: 'Blender',
       description: '3D modeling, procedural texturing, and geometry nodes for asset creation.',
       items: ['Geometry Nodes', 'Procedural Materials', 'Asset Pipelines'],
-      gradientFrom: '#f97316',
-      gradientTo: '#ea580c',
-      dotColor: '#f97316',
+      gradientFrom: 'var(--accent-3)',
+      gradientTo: 'var(--accent-2)',
+      dotColor: 'var(--accent-3)',
     },
   ];
 
@@ -151,9 +155,9 @@ function FrontendCapabilities() {
       title: 'Animation & Motion',
       description: 'Rich interactive experiences with modern animation libraries.',
       items: ['GSAP', 'Framer Motion', 'Lottie', 'Three.js / Spline'],
-      gradientFrom: '#f97316',
-      gradientTo: '#ea580c',
-      dotColor: '#f97316',
+      gradientFrom: 'var(--accent-3)',
+      gradientTo: 'var(--accent-2)',
+      dotColor: 'var(--accent-3)',
     },
   ];
 

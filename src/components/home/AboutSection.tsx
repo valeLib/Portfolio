@@ -52,7 +52,7 @@ export function AboutSection() {
           >
             About Me
           </h2>
-          <p style={{ color: 'var(--primary)' }}>
+          <p style={{ color: 'var(--primary)' }} className="font-medium">
             How I work and what I value
           </p>
         </div>
@@ -98,7 +98,7 @@ export function AboutSection() {
             <Link
               to="/about"
               className="inline-flex items-center gap-2 text-sm font-medium"
-              style={{ color: 'var(--accent)' }}
+              style={{ color: 'var(--accent-3)' }}
             >
               More about my background
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

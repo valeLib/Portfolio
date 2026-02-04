@@ -13,6 +13,7 @@ interface PinnedSectionProps {
   bgClassName?: string; // Background classes for full-width section
   pinDuration?: number; // Duration in pixels to pin (default: 100vh)
   index?: number; // For z-index stacking
+  dataAttributes?: Record<string, string>; // Data attributes for theme variants
 }
 
 export function PinnedSection({
@@ -22,6 +23,7 @@ export function PinnedSection({
   bgClassName = '',
   pinDuration,
   index = 0,
+  dataAttributes = {},
 }: PinnedSectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -62,7 +64,8 @@ export function PinnedSection({
     return (
       <section
         id={id}
-        className={`section-padding ${className}`}
+        className={`section-padding ${bgClassName}`}
+        {...dataAttributes}
       >
         <div className="container-main">
           {children}
@@ -77,6 +80,7 @@ export function PinnedSection({
       id={id}
       className={`min-h-screen relative ${bgClassName}`}
       style={{ zIndex: index }}
+      {...dataAttributes}
     >
       <div className="section-padding h-full flex items-center">
         <div className={`container-main w-full ${className}`}>
