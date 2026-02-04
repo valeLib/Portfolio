@@ -37,6 +37,13 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
   // Sync theme to document and localStorage
   useEffect(() => {
+    // Use Tailwind's class-based dark mode
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    // Keep data-theme for backwards compatibility if needed
     document.documentElement.dataset.theme = theme;
     localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);

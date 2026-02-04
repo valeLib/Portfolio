@@ -4,7 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { NAV_LINKS, isUnified } from '../../config';
 import { CvDownloadButton, ThemeToggle } from '../ui';
-import { usePrefersReducedMotion } from '../../hooks';
+import { usePrefersReducedMotion, useLenis } from '../../hooks';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +16,7 @@ export function Navbar() {
   
   const location = useLocation();
   const prefersReducedMotion = usePrefersReducedMotion();
+  const { scrollTo } = useLenis();
   const isHome = location.pathname === '/';
 
   useLayoutEffect(() => {
@@ -101,6 +102,13 @@ export function Navbar() {
             to="/"
             className="flex items-center text-base font-display font-bold transition-colors"
             style={{ color: 'var(--text)' }}
+            onClick={(e) => {
+              // If already on home page, scroll to top instead of navigating
+              if (isHome) {
+                e.preventDefault();
+                scrollTo(0, { duration: 1.2 });
+              }
+            }}
           >
             Home
           </Link>
