@@ -64,7 +64,7 @@ export function ProjectsSection() {
           <Link
             to="/projects"
             className="text-sm font-medium hover:underline"
-            style={{ color: 'var(--accent)' }}
+            style={{ color: 'var(--accent-3)' }}
           >
             View all
           </Link>
@@ -96,7 +96,7 @@ function ProjectItem({ project }: ProjectItemProps) {
         {/* Company tag */}
         <span
           className="text-xs font-medium uppercase tracking-wider mb-2 block"
-          style={{ color: 'var(--accent)' }}
+          style={{ color: 'var(--accent-3)' }}
         >
           {project.company}
         </span>

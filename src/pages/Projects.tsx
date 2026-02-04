@@ -93,7 +93,7 @@ function ProjectApproachSection() {
     {
       title: 'Maintainable',
       description: 'Clean architecture with TypeScript, proper testing, and comprehensive documentation.',
-      color: '#f97316',
+      color: 'var(--accent-3)',
       icon: (
         <path
           strokeLinecap="round"
@@ -246,7 +246,7 @@ function GameDevSection({ projects }: GameDevSectionProps) {
 
 function CTASection() {
   return (
-    <Section style={{ backgroundColor: 'color-mix(in srgb, var(--surface) 50%, transparent)' }}>
+    <Section style={{ backgroundColor: 'color-mix(in srgb, var(--surface) 80%, transparent)' }}>
       <div className="text-center">
         <h2 className="heading-3 mb-4" style={{ color: 'var(--text)' }}>
           Want to See More?
