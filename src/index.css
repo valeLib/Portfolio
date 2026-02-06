@@ -2,36 +2,13 @@
 @import "tailwindcss";
 
 /* =====================================================
-   SECTION BACKGROUND UTILITIES
-   Using CSS custom properties instead of Tailwind variants
-   ===================================================== */
-
-/* Primary Section Colors */
-.section-bg-primary {
-  background-color: #fefadf;
-}
-
-:root.dark .section-bg-primary {
-  background-color: #4a3383;
-}
-
-/* Secondary Section Colors */
-.section-bg-secondary {
-  background-color: #dcdfaa;
-}
-
-:root.dark .section-bg-secondary {
-  background-color: #192453;
-}
-
-/* =====================================================
    THEME VARIABLES
    ===================================================== */
 
 :root {
   /* Light Mode (Default): Matcha & Cream - High Contrast */
   --bg: #fefadf;
-  --bg-alt: #f9c5b8;
+  --bg-alt: #dcdfaa;
   --surface: #fefadf;
   --surface-2: #a3b464;
   --primary: #a3b464;

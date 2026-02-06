@@ -84,7 +84,7 @@ export function HomePinned() {
           <PinnedSection
             id="experience"
             pinDuration={window.innerHeight * 1.5}
-            bgClassName={getSectionTheme(0).bgClass}
+            bgStyle={getSectionTheme(0).style}
             dataAttributes={getSectionTheme(0).dataAttribute}
             index={10}
           >
@@ -94,7 +94,7 @@ export function HomePinned() {
           <PinnedSection
             id="projects"
             pinDuration={window.innerHeight * 2}
-            bgClassName={getSectionTheme(1).bgClass}
+            bgStyle={getSectionTheme(1).style}
             dataAttributes={getSectionTheme(1).dataAttribute}
             index={20}
           >
@@ -104,7 +104,7 @@ export function HomePinned() {
           {/* <PinnedSection
             id="tech-art"
             pinDuration={window.innerHeight * 1.2}
-            bgClassName={getSectionTheme(2).bgClass}
+            bgStyle={getSectionTheme(2).style}
             dataAttributes={getSectionTheme(2).dataAttribute}
             index={30}
           >
@@ -114,7 +114,7 @@ export function HomePinned() {
           <PinnedSection
             id="skills"
             pinDuration={window.innerHeight * 1.5}
-            bgClassName={getSectionTheme(2).bgClass}
+            bgStyle={getSectionTheme(2).style}
             dataAttributes={getSectionTheme(2).dataAttribute}
             index={40}
           >
@@ -125,7 +125,7 @@ export function HomePinned() {
             id="about"
             pinDuration={window.innerHeight * 1.2}
             className="pb-60 mb-60 md:pb-72"
-            bgClassName={getSectionTheme(3).bgClass}
+            bgStyle={getSectionTheme(3).style}
             dataAttributes={getSectionTheme(3).dataAttribute}
             index={50}
           >
@@ -135,8 +135,8 @@ export function HomePinned() {
           {/* Contact - Final section, not pinned - alternates to primary theme */}
           <Section 
             id="contact" 
-            className={`${getSectionTheme(4).bgClass} mt-96 pt-96 md:pt-20 md:mt-0 xl:pt-32`}
-            style={{ zIndex: 60 }}
+            className="mt-96 pt-96 md:pt-20 md:mt-0 xl:pt-32"
+            style={{ zIndex: 60, ...getSectionTheme(4).style }}
             {...getSectionTheme(4).dataAttribute}
           >
             <ContactSection />
@@ -152,7 +152,7 @@ export function HomePinned() {
           <PinnedSection
             id="gallery"
             pinDuration={window.innerHeight * 2}
-            bgClassName={getSectionTheme(0).bgClass}
+            bgStyle={getSectionTheme(0).style}
             dataAttributes={getSectionTheme(0).dataAttribute}
             index={10}
           >
@@ -162,7 +162,7 @@ export function HomePinned() {
           <PinnedSection
             id="projects"
             pinDuration={window.innerHeight * 1.5}
-            bgClassName={getSectionTheme(1).bgClass}
+            bgStyle={getSectionTheme(1).style}
             dataAttributes={getSectionTheme(1).dataAttribute}
             index={20}
           >
@@ -172,7 +172,7 @@ export function HomePinned() {
           <PinnedSection
             id="experience"
             pinDuration={window.innerHeight * 1.5}
-            bgClassName={getSectionTheme(2).bgClass}
+            bgStyle={getSectionTheme(2).style}
             dataAttributes={getSectionTheme(2).dataAttribute}
             index={30}
           >
@@ -182,7 +182,7 @@ export function HomePinned() {
           <PinnedSection
             id="skills"
             pinDuration={window.innerHeight * 1.2}
-            bgClassName={getSectionTheme(3).bgClass}
+            bgStyle={getSectionTheme(3).style}
             dataAttributes={getSectionTheme(3).dataAttribute}
             index={40}
           >
@@ -192,7 +192,7 @@ export function HomePinned() {
           <PinnedSection
             id="about"
             pinDuration={window.innerHeight}
-            bgClassName={getSectionTheme(4).bgClass}
+            bgStyle={getSectionTheme(4).style}
             dataAttributes={getSectionTheme(4).dataAttribute}
             index={50}
           >
@@ -202,8 +202,8 @@ export function HomePinned() {
           {/* Contact - Final section, not pinned - alternates to primary theme */}
           <Section 
             id="contact" 
-            className={`${getSectionTheme(5).bgClass} relative`}
-            style={{ zIndex: 60 }}
+            className="relative"
+            style={{ zIndex: 60, ...getSectionTheme(5).style }}
             {...getSectionTheme(5).dataAttribute}
           >
             <ContactSection />

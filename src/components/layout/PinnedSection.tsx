@@ -10,7 +10,8 @@ interface PinnedSectionProps {
   children: ReactNode;
   id: string;
   className?: string;
-  bgClassName?: string; // Background classes for full-width section
+  bgClassName?: string; // Background classes for full-width section (deprecated, use bgStyle)
+  bgStyle?: React.CSSProperties; // Inline background styles using CSS variables
   pinDuration?: number; // Duration in pixels to pin (default: 100vh)
   index?: number; // For z-index stacking
   dataAttributes?: Record<string, string>; // Data attributes for theme variants
@@ -21,6 +22,7 @@ export function PinnedSection({
   id,
   className = '',
   bgClassName = '',
+  bgStyle = {},
   pinDuration,
   index = 0,
   dataAttributes = {},
@@ -65,6 +67,7 @@ export function PinnedSection({
       <section
         id={id}
         className={`section-padding ${bgClassName}`}
+        style={bgStyle}
         {...dataAttributes}
       >
         <div className="container-main">
@@ -79,7 +82,7 @@ export function PinnedSection({
       ref={sectionRef}
       id={id}
       className={`min-h-screen relative ${bgClassName}`}
-      style={{ zIndex: index }}
+      style={{ zIndex: index, ...bgStyle }}
       {...dataAttributes}
     >
       <div className="section-padding h-full flex items-center">
