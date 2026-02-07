@@ -56,7 +56,7 @@ export function ContactSection() {
     <div ref={containerRef}>
         <div
           data-contact-card
-          className="relative glass-card p-8 md:p-12 md:mt-96 text-center overflow-hidden z-70"
+          className="relative glass-card p-8 md:p-12 text-center overflow-hidden z-70"
         >
           {/* Background gradient */}
           <div

@@ -69,13 +69,14 @@ export function ScrollIndex({ chapters, className = '' }: ScrollIndexProps) {
             <button
               key={chapter.id}
               onClick={() => scrollToChapter(chapter.id)}
-              className="group text-right transition-all duration-300"
+              className="group text-right transition-all duration-300 focus:outline-none focus-visible:outline-none"
               aria-label={`Go to ${chapter.label}`}
+              aria-current={isActive ? 'true' : undefined}
             >
               <div className="flex items-center gap-3 justify-end">
-                {/* Label - shows on hover or when active */}
+                {/* Label - shows on hover, focus, or when active */}
                 <span
-                  className="text-xs font-medium tracking-wider uppercase transition-opacity duration-300"
+                  className="text-xs font-medium tracking-wider uppercase transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
                   style={{
                     color: isActive ? 'var(--accent)' : 'var(--muted)',
                     opacity: isActive ? 1 : 0,
@@ -87,7 +88,7 @@ export function ScrollIndex({ chapters, className = '' }: ScrollIndexProps) {
                 {/* Dot indicator */}
                 <div className="relative">
                   <div
-                    className="w-2 h-2 rounded-full transition-all duration-300"
+                    className="w-2 h-2 rounded-full transition-all duration-300 group-focus-visible:ring-2 group-focus-visible:ring-offset-2 group-focus-visible:ring-[var(--accent)]"
                     style={{
                       backgroundColor: isActive ? 'var(--accent)' : 'var(--border-color)',
                       transform: isActive ? 'scale(1.5)' : 'scale(1)',
@@ -96,9 +97,9 @@ export function ScrollIndex({ chapters, className = '' }: ScrollIndexProps) {
                         : 'none',
                     }}
                   />
-                  {/* Hover ring */}
+                  {/* Hover/focus ring */}
                   <div
-                    className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300"
                     style={{
                       border: '1px solid var(--accent)',
                       transform: 'scale(2)',
@@ -107,10 +108,10 @@ export function ScrollIndex({ chapters, className = '' }: ScrollIndexProps) {
                 </div>
               </div>
 
-              {/* Label on hover (for inactive) */}
+              {/* Label on hover/focus (for inactive) */}
               {!isActive && (
                 <span
-                  className="absolute right-8 text-xs font-medium tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                  className="absolute right-8 text-xs font-medium tracking-wider uppercase opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300 pointer-events-none"
                   style={{ color: 'var(--muted)' }}
                 >
                   {chapter.label}

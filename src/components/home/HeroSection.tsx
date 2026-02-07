@@ -48,12 +48,13 @@ export function HeroSection() {
     })), [nameLines]
   );
 
-  // Typewriter animation - manual character splitting
+  // Cinematic typewriter + parallax scroll effects
   useLayoutEffect(() => {
-    if (!nameRef.current) return;
+    if (!nameRef.current || !containerRef.current) return;
 
     const chars = nameRef.current.querySelectorAll('[data-char]');
     const cat = catRef.current;
+    const container = containerRef.current;
 
     // For reduced motion, show everything immediately
     if (prefersReducedMotion) {
@@ -61,48 +62,91 @@ export function HeroSection() {
       return;
     }
 
-    // Set initial state
-    gsap.set(chars, { opacity: 0 });
-    if (cat) gsap.set(cat, { opacity: 0, y: 20, scale: 0.9 });
+    const ctx = gsap.context(() => {
+      // Set initial state
+      gsap.set(chars, { opacity: 0 });
+      if (cat) gsap.set(cat, { opacity: 0, y: 20, scale: 0.9 });
 
-    // Create timeline
-    const tl = gsap.timeline();
+      // Create entrance timeline
+      const tl = gsap.timeline();
 
-    // Typewriter reveal animation - fade in each character sequentially
-    tl.to(chars, {
-      opacity: 1,
-      duration: 0.05,
-      stagger: 0.1,
-      ease: 'none',
-      delay: 0.3,
+      // Typewriter reveal - fade in each character sequentially
+      tl.to(chars, {
+        opacity: 1,
+        duration: 0.05,
+        stagger: 0.1,
+        ease: 'none',
+        delay: 0.3,
+      });
+
+      // Cat appears after text completes
+      if (cat) {
+        tl.to(cat, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.6,
+          ease: 'back.out(1.2)',
+        }, '-=0.1');
+      }
+
+      // PARALLAX: Hero fades + scales down as you scroll past
+      gsap.to(container, {
+        scrollTrigger: {
+          trigger: container,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 2,
+        },
+        opacity: 0,
+        scale: 0.88,
+        y: -120,
+        ease: 'power1.inOut',
+      });
+
+      // PARALLAX: Background layers - query from document since they're fixed
+      const bgLayers = document.querySelectorAll('.hero-bg, .hero-stars, .hero-grain');
+      bgLayers.forEach((layer, index) => {
+        const speed = 0.4 + (index * 0.3);
+        gsap.to(layer, {
+          scrollTrigger: {
+            trigger: container,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: speed,
+          },
+          y: index === 0 ? -180 : index === 1 ? -120 : -60,
+          opacity: 0.3,
+          ease: 'none',
+        });
+      });
     });
 
-    // Cat appears after text animation completes
-    if (cat) {
-      tl.to(cat, {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.6,
-        ease: 'back.out(1.2)',
-      }, '-=0.1'); // Slight overlap with last characters
-    }
+    return () => {
+      ctx.revert();
+    };
   }, [prefersReducedMotion]);
 
   // For reduced motion, show everything immediately
   const showAll = prefersReducedMotion;
 
   return (
-    <Section className="relative overflow-hidden -mt-16 md:-mt-20" noPadding fullWidth id="hero">
+    <Section
+      className="relative overflow-hidden full-viewport-section"
+      noPadding
+      fullWidth
+      id="hero"
+      data-section-snap=""
+    >
       <div ref={containerRef} className="min-h-screen relative flex flex-col">
-        {/* Hero background layers */}
-        <div className="absolute inset-0 hero-bg pointer-events-none z-1" />
-        <div className="absolute inset-0 hero-stars pointer-events-none z-2" />
-        <div className="absolute inset-0 hero-grain pointer-events-none z-3" />
+        {/* Hero background layers - extend to top to cover navbar area */}
+        <div className="fixed inset-0 hero-bg pointer-events-none z-1" />
+        <div className="fixed inset-0 hero-stars pointer-events-none z-2" />
+        <div className="fixed inset-0 hero-grain pointer-events-none z-3" />
 
         {/* Hero content - centered */}
-        <div className="flex-1 flex items-center relative z-10">
-          <div className="container-main section-padding mt-16 pt-24 md:py-32 md:mt-0 relative w-full">
+        <div className="flex-1 flex items-center relative z-10 pt-20 md:pt-24">
+          <div className="container-main section-padding relative w-full">
             <div className="relative flex flex-col items-center text-center">
               {/* Name - Primary headline with typewriter effect */}
               <h1
@@ -141,7 +185,7 @@ export function HeroSection() {
               {/* Visual: 3D Cat Model - positioned to overlap between words */}
               <div 
                 ref={catRef}
-                className="relative -mt-10 ml-24 md:-mt-20 lg:-mt-32 lg:ml-52 w-full max-w-xs md:max-w-sm z-20"
+                className="relative -mt-10 ml-24 md:-mt-20 lg:-mt-32 lg:ml-52 w-full max-w-xs md:max-w-sm z-30"
                 style={{ opacity: prefersReducedMotion ? 1 : 0 }}
               >
                 <div className="aspect-square rounded-2xl overflow-visible opacity-80">

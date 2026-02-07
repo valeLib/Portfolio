@@ -1,8 +1,8 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Section } from '../layout';
-import { useGsapContext, usePrefersReducedMotion } from '../../hooks';
+import { useGsapContext, usePrefersReducedMotion, useIsTablet } from '../../hooks';
 import { projects as defaultProjects, type FrontendProject } from './projects.data';
 import { FeaturedProject } from './FeaturedProject';
 import { Filmstrip } from './Filmstrip';
@@ -24,46 +24,14 @@ export function ProjectsGallery({
   const featuredRef = useRef<HTMLDivElement>(null);
   const filmstripRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
   const prefersReducedMotion = usePrefersReducedMotion();
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsTablet(); // Uses 1024px breakpoint with debouncing
 
-  // Detect mobile/desktop
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
-  // Desktop pinned scroll interaction
-  useGsapContext(
-    () => {
-      if (!containerRef.current || prefersReducedMotion || isMobile) return;
-
-      const totalProjects = projects.length;
-      if (totalProjects <= 1) return;
-
-      // Scroll distance: each project gets 100vh
-      const scrollDistance = (totalProjects - 1) * 100;
-
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: 'top top',
-        end: `+=${scrollDistance}vh`,
-        pin: true,
-        scrub: 1,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          const newIndex = Math.round(self.progress * (totalProjects - 1));
-          if (newIndex !== activeIndex) {
-            setActiveIndex(newIndex);
-          }
-        },
-      });
-    },
-    containerRef,
-    [prefersReducedMotion, projects, activeIndex, isMobile]
-  );
 
   // Featured panel content reveal animation
   useEffect(() => {
@@ -83,7 +51,7 @@ export function ProjectsGallery({
         opacity: 1,
         y: 0,
         clipPath: 'inset(0% 0% 0% 0%)',
-        duration: 0.5,
+        duration: 1,
         ease: 'power2.out',
       }
     );
@@ -141,7 +109,7 @@ export function ProjectsGallery({
 
   // Desktop: Pinned featured + filmstrip layout
   return (
-    <Section className="min-h-screen overflow-hidden" noPadding fullWidth>
+    <Section className="min-h-screen overflow-hidden pt-4 pb-20" noPadding fullWidth>
       <div ref={containerRef} className="h-screen flex flex-col">
         {/* Header */}
         <div className="container-main pt-20 pb-6 shrink-0">
