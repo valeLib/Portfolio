@@ -24,8 +24,13 @@ export function ProjectsGallery({
   const featuredRef = useRef<HTMLDivElement>(null);
   const filmstripRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
   const prefersReducedMotion = usePrefersReducedMotion();
   const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
   // Detect mobile/desktop
   useEffect(() => {
@@ -37,32 +42,38 @@ export function ProjectsGallery({
 
   // Desktop pinned scroll interaction
   useGsapContext(
-    () => {
+    (ctx) => {
       if (!containerRef.current || prefersReducedMotion || isMobile) return;
 
       const totalProjects = projects.length;
       if (totalProjects <= 1) return;
 
-      // Scroll distance: each project gets 100vh
-      const scrollDistance = (totalProjects - 1) * 100;
+      // Scroll distance controls pacing. We only need (n-1) transitions.
+      // Give each transition generous space for a "fixed panel" feel.
+      const transitions = totalProjects - 1;
+      const scrollDistance = transitions * 240; // 4 transitions => 960vh
 
-      ScrollTrigger.create({
+      const st = ScrollTrigger.create({
         trigger: containerRef.current,
         start: 'top top',
         end: `+=${scrollDistance}vh`,
         pin: true,
-        scrub: 1,
+        pinSpacing: true,
+        scrub: 2.2, // Smooth, slower transitions
         anticipatePin: 1,
+        invalidateOnRefresh: true,
         onUpdate: (self) => {
-          const newIndex = Math.round(self.progress * (totalProjects - 1));
-          if (newIndex !== activeIndex) {
-            setActiveIndex(newIndex);
-          }
+          const newIndex = Math.round(self.progress * transitions);
+          if (newIndex !== activeIndexRef.current) setActiveIndex(newIndex);
         },
       });
+
+      // Ensure cleanup even if ScrollTrigger isn't auto-tracked.
+      ctx.add(() => st.kill());
     },
     containerRef,
-    [prefersReducedMotion, projects, activeIndex, isMobile]
+    // IMPORTANT: don't include activeIndex here, or we'd recreate the pin on every update.
+    [prefersReducedMotion, projects, isMobile]
   );
 
   // Featured panel content reveal animation

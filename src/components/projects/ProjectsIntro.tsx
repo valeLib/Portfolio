@@ -27,21 +27,20 @@ export function ProjectsIntro() {
       gsap.set([description, cta], { opacity: 0, y: 20 });
       gsap.set(decoration, { opacity: 0, scale: 0.9 });
 
-      // Create timeline with short pin - scroll reveals secondary content
+      // Reveal secondary content without pinning (prevents double-pin jitter)
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: 'top top',
-          end: '+=50%',
-          pin: true,
-          scrub: 0.5,
-          anticipatePin: 1,
+          start: 'top 75%',
+          end: 'top 45%',
+          scrub: 0.8,
+          invalidateOnRefresh: true,
         },
       });
 
-      tl.to(description, { opacity: 1, y: 0, duration: 0.4 }, 0)
-        .to(cta, { opacity: 1, y: 0, duration: 0.4 }, 0.2)
-        .to(decoration, { opacity: 0.2, scale: 1, duration: 0.5 }, 0.1);
+      tl.to(description, { opacity: 1, y: 0, duration: 0.8 }, 0)
+        .to(cta, { opacity: 1, y: 0, duration: 0.8 }, 0.2)
+        .to(decoration, { opacity: 0.2, scale: 1, duration: 1 }, 0.1);
     },
     containerRef,
     [prefersReducedMotion]

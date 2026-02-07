@@ -33,12 +33,16 @@ export function LenisProvider({ children }: LenisProviderProps) {
     }
 
     const lenisInstance = new Lenis({
-      duration: 1.2,
+      duration: 2.2, // Significantly slower for more weighted feel
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      touchMultiplier: 2,
+      wheelMultiplier: 0.8, // Reduce wheel sensitivity
+      touchMultiplier: 1.5, // Slower on mobile
+      infinite: false,
+      syncTouch: true,
+      syncTouchLerp: 0.08, // Smoother touch
     });
 
     lenisRef.current = lenisInstance;

@@ -48,12 +48,13 @@ export function HeroSection() {
     })), [nameLines]
   );
 
-  // Typewriter animation - manual character splitting
+  // Cinematic typewriter + parallax scroll effects
   useLayoutEffect(() => {
-    if (!nameRef.current) return;
+    if (!nameRef.current || !containerRef.current) return;
 
     const chars = nameRef.current.querySelectorAll('[data-char]');
     const cat = catRef.current;
+    const container = containerRef.current;
 
     // For reduced motion, show everything immediately
     if (prefersReducedMotion) {
@@ -65,10 +66,10 @@ export function HeroSection() {
     gsap.set(chars, { opacity: 0 });
     if (cat) gsap.set(cat, { opacity: 0, y: 20, scale: 0.9 });
 
-    // Create timeline
+    // Create entrance timeline
     const tl = gsap.timeline();
 
-    // Typewriter reveal animation - fade in each character sequentially
+    // Typewriter reveal - fade in each character sequentially
     tl.to(chars, {
       opacity: 1,
       duration: 0.05,
@@ -77,7 +78,7 @@ export function HeroSection() {
       delay: 0.3,
     });
 
-    // Cat appears after text animation completes
+    // Cat appears after text completes
     if (cat) {
       tl.to(cat, {
         opacity: 1,
@@ -85,16 +86,58 @@ export function HeroSection() {
         scale: 1,
         duration: 0.6,
         ease: 'back.out(1.2)',
-      }, '-=0.1'); // Slight overlap with last characters
+      }, '-=0.1');
     }
+
+    // PARALLAX: Hero fades + scales down as you scroll past
+    // Enhanced for smoother narrative transition
+    gsap.to(container, {
+      scrollTrigger: {
+        trigger: container,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 2, // Slower = smoother
+      },
+      opacity: 0,
+      scale: 0.88, // More pronounced scale for depth
+      y: -120,     // Slightly more movement
+      ease: 'power1.inOut', // Smoother easing
+    });
+
+    // PARALLAX: Background layers move at different speeds
+    const bgLayers = container.querySelectorAll('.hero-bg, .hero-stars, .hero-grain');
+    bgLayers.forEach((layer, index) => {
+      const speed = 0.4 + (index * 0.3); // Adjusted speeds for smoother feel
+      gsap.to(layer, {
+        scrollTrigger: {
+          trigger: container,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: speed,
+        },
+        y: index === 0 ? -180 : index === 1 ? -120 : -60, // More parallax depth
+        opacity: 0.3, // Fade backgrounds as they exit
+        ease: 'none',
+      });
+    });
+
+    return () => {
+      tl.kill();
+    };
   }, [prefersReducedMotion]);
 
   // For reduced motion, show everything immediately
   const showAll = prefersReducedMotion;
 
   return (
-    <Section className="relative overflow-hidden -mt-16 md:-mt-20" noPadding fullWidth id="hero">
-      <div ref={containerRef} className="min-h-screen relative flex flex-col">
+    <Section
+      className="relative overflow-hidden full-viewport-section"
+      noPadding
+      fullWidth
+      id="hero"
+      data-section-snap=""
+    >
+      <div ref={containerRef} className="min-h-screen relative flex flex-col pt-20 md:pt-24">
         {/* Hero background layers */}
         <div className="absolute inset-0 hero-bg pointer-events-none z-1" />
         <div className="absolute inset-0 hero-stars pointer-events-none z-2" />
@@ -102,7 +145,7 @@ export function HeroSection() {
 
         {/* Hero content - centered */}
         <div className="flex-1 flex items-center relative z-10">
-          <div className="container-main section-padding mt-16 pt-24 md:py-32 md:mt-0 relative w-full">
+          <div className="container-main section-padding relative w-full">
             <div className="relative flex flex-col items-center text-center">
               {/* Name - Primary headline with typewriter effect */}
               <h1
