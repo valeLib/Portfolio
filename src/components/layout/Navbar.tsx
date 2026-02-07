@@ -29,7 +29,7 @@ export function Navbar() {
       return;
     }
 
-    setIsRevealed(false);
+    //setIsRevealed(false);
     gsap.set(nav, { opacity: 0, y: 0, filter: 'blur(8px)', pointerEvents: 'none' });
     
     // Delayed dissolve reveal on home page
@@ -84,7 +84,7 @@ export function Navbar() {
       
       <nav
         ref={navRef}
-        className="fixed top-3 left-0 right-0 z-80 px-4 md:px-6 max-w-3xl mx-auto"
+        className="sticky top-4 left-0 right-0 z-80 px-4 md:px-6 max-w-4xl mx-auto"
         style={{
           maskImage: !prefersReducedMotion && !isRevealed ? 'linear-gradient(black 10%, transparent 90%)' : 'none',
           WebkitMaskImage: !prefersReducedMotion && !isRevealed ? 'linear-gradient(black 10%, transparent 90%)' : 'none',
@@ -100,7 +100,7 @@ export function Navbar() {
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center text-base font-display font-bold transition-colors"
+            className="flex items-center text-base font-display font-bold transition-colors pr-8"
             style={{ color: 'var(--accent-3)' }}
             onClick={(e) => {
               // If already on home page, scroll to top instead of navigating

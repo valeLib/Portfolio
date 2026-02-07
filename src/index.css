@@ -68,7 +68,7 @@
   --text-heading: #ffffff; /* White headings */
   --muted: rgba(255, 255, 255, 0.6); /* White 60% opacity (brighter) */
   --border-color: rgba(255, 255, 255, 0.15); /* White 15% border (more visible) */
-  --glass: rgba(255, 255, 255, 0.12); /* Glass effect */
+  --glass: rgba(255, 255, 255, 0.1); /* Glass effect */
 
   /* Hero gradient colors (dark mode - reference design) */
   --hero-gradient-base: #1a1625;
@@ -352,7 +352,7 @@
 
   /* Mobile Menu Panel Component */
   .mobile-menu-panel {
-    @apply z-50 rounded-2xl;
+    @apply z-80 rounded-2xl;
     background: color-mix(in srgb, var(--bg) 95%, transparent);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -647,7 +647,6 @@
   /* Ensure sections have proper stacking and transitions */
   section {
     position: relative;
-    will-change: transform, opacity;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     transform: translateZ(0);
@@ -655,9 +654,13 @@
     transform-style: preserve-3d;
   }
 
-  /* Smooth content rendering during scroll */
+  /* Only apply will-change to sections that are actively animating */
+  section[data-section-entrance] {
+    will-change: transform, opacity;
+  }
+
+  /* Smooth content rendering during scroll - will-change applied via JS when needed */
   [data-section-content] {
-    will-change: transform;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     transform-style: preserve-3d;
@@ -681,11 +684,17 @@
     transform: translateY(-4px) translateZ(20px);
   }
 
-  /* Optimize scroll performance */
+  /* Optimize scroll performance - disabled when Lenis is active to prevent conflicts */
   @media (prefers-reduced-motion: no-preference) {
-    * {
+    html:not(.lenis-smooth) * {
       scroll-behavior: smooth;
     }
+  }
+
+  /* When Lenis is active, disable CSS scroll-behavior to prevent conflicts */
+  html.lenis-smooth,
+  html.lenis-smooth * {
+    scroll-behavior: auto !important;
   }
 
   .page-safe-top {
@@ -855,19 +864,6 @@
     radial-gradient(1.5px 1.5px at 78% 18%, color-mix(in srgb, var(--secondary) 35%, transparent), transparent 35%),
     radial-gradient(2.5px 2.5px at 85% 75%, color-mix(in srgb, var(--primary) 30%, transparent), transparent 40%);
   opacity: 0.6;
-}
-
-/* Hero Grain Texture */
-.hero-grain {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: 0.12;
-  mix-blend-mode: overlay;
-}
-
-:root:not(.dark) .hero-grain {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.70' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: 0.05;
-  mix-blend-mode: multiply;
 }
 
 /* Body Texture Overlay */

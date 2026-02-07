@@ -48,6 +48,9 @@ export function LenisProvider({ children }: LenisProviderProps) {
     lenisRef.current = lenisInstance;
     setLenis(lenisInstance);
 
+    // Add class to html element to indicate Lenis is active (for CSS scroll-behavior override)
+    document.documentElement.classList.add('lenis-smooth');
+
     // Disable GSAP lag smoothing for better sync
     gsap.ticker.lagSmoothing(0);
 
@@ -102,6 +105,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
       lenisInstance.destroy();
       lenisRef.current = null;
       setLenis(null);
+      document.documentElement.classList.remove('lenis-smooth');
     };
   }, []);
 

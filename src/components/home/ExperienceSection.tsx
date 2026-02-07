@@ -2,39 +2,10 @@ import { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Tag } from '../ui';
-import { useGsapContext, usePrefersReducedMotion } from '../../hooks';
+import { useGsapContext, usePrefersReducedMotion, useIsMobile } from '../../hooks';
 import { experiences, type Experience } from '../../content/experience';
 
 gsap.registerPlugin(ScrollTrigger);
-
-// Hook to detect mobile viewport
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  return isMobile;
-}
-
-const typeColors: Record<Experience['type'], { bg: string; text: string; border: string }> = {
-  frontend: { bg: 'var(--accent)', text: 'var(--accent)', border: 'var(--accent)' },
-  fullstack: { bg: 'var(--accent-2)', text: 'var(--accent-2)', border: 'var(--accent-2)' },
-  xr: { bg: '#f97316', text: '#f97316', border: '#f97316' },
-  research: { bg: '#22c55e', text: '#22c55e', border: '#22c55e' },
-};
-
-const typeLabels: Record<Experience['type'], string> = {
-  frontend: 'Frontend',
-  fullstack: 'Full-Stack',
-  xr: 'XR / Game Dev',
-  research: 'Research',
-};
 
 export function ExperienceSection() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -185,7 +156,6 @@ interface TimelineItemProps {
 }
 
 function TimelineItem({ exp, index, isActive, isCurrent, isMobile, isExpanded, onToggleExpand }: TimelineItemProps) {
-  const colors = typeColors[exp.type];
   const contentRef = useRef<HTMLDivElement>(null);
   const highlightsRef = useRef<HTMLUListElement>(null);
   const [highlightsExpanded, setHighlightsExpanded] = useState(false);
@@ -364,14 +334,9 @@ function TimelineItem({ exp, index, isActive, isCurrent, isMobile, isExpanded, o
         {/* Technologies */}
         <div className="flex flex-wrap gap-2">
           {exp.technologies.slice(0, 4).map((tech) => (
-            <span 
+            <span
               key={tech}
-              className="text-xs font-medium px-3 py-1 rounded-full border transition-colors duration-200"
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                borderColor: 'rgba(255, 255, 255, 0.1)',
-                color: 'rgba(255, 255, 255, 0.8)',
-              }}
+              className="tag text-xs"
             >
               {tech}
             </span>
@@ -385,15 +350,8 @@ function TimelineItem({ exp, index, isActive, isCurrent, isMobile, isExpanded, o
 
         {/* Current badge */}
         {isCurrent && (
-          <div 
-            className="mt-4 inline-block px-3 py-1 rounded-full text-xs font-mono tracking-wider"
-            style={{
-              backgroundColor: 'rgba(252, 119, 153, 0.15)',
-              color: '#fc7799',
-              border: '1px solid rgba(252, 119, 153, 0.3)',
-            }}
-          >
-            CURRENT
+          <div className="mt-4 tag-accent text-xs font-mono tracking-wider uppercase">
+            Current
           </div>
         )}
 

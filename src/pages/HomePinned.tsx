@@ -166,29 +166,19 @@ export function HomePinned() {
           scrollTrigger: {
             trigger: firstSection as gsap.DOMTarget,
             start: 'top 100%',
-            end: 'top 40%',
-            scrub: 3.5,
+            end: 'top 80%',
+            scrub: 1,
           },
           opacity: 0,
-          scale: 0.88,
           y: -100,
           ease: 'power2.inOut',
         });
       }
 
-      // Navbar
+      // Navbar is fixed and always visible - no scroll animations
       const navbar = document.querySelector('nav');
       if (navbar) {
-        gsap.to(navbar, {
-          scrollTrigger: {
-            trigger: document.body,
-            start: 'top top',
-            end: '+=600',
-            scrub: 2,
-          },
-          '--nav-scale': 0.98,
-          ease: 'power1.inOut',
-        });
+        gsap.set(navbar, { clearProps: 'all' });
       }
 
       cleanupSnap = () => {
@@ -230,7 +220,7 @@ export function HomePinned() {
 
           <PinnedSection
             id="experience"
-            pinDuration={window.innerHeight * 0.8}
+            pinDuration={window.innerHeight * 0.98}
             pinSpacing={false}
             disablePin
             sectionClassName="full-viewport-section"

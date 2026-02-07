@@ -1,8 +1,8 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Section } from '../layout';
-import { useGsapContext, usePrefersReducedMotion } from '../../hooks';
+import { useGsapContext, usePrefersReducedMotion, useIsTablet } from '../../hooks';
 import { projects as defaultProjects, type FrontendProject } from './projects.data';
 import { FeaturedProject } from './FeaturedProject';
 import { Filmstrip } from './Filmstrip';
@@ -26,55 +26,12 @@ export function ProjectsGallery({
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
   const prefersReducedMotion = usePrefersReducedMotion();
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsTablet(); // Uses 1024px breakpoint with debouncing
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
 
-  // Detect mobile/desktop
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Desktop pinned scroll interaction
-  useGsapContext(
-    (ctx) => {
-      if (!containerRef.current || prefersReducedMotion || isMobile) return;
-
-      const totalProjects = projects.length;
-      if (totalProjects <= 1) return;
-
-      // Scroll distance controls pacing. We only need (n-1) transitions.
-      // Give each transition generous space for a "fixed panel" feel.
-      const transitions = totalProjects - 1;
-      const scrollDistance = transitions * 240; // 4 transitions => 960vh
-
-      const st = ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: 'top top',
-        end: `+=${scrollDistance}vh`,
-        pin: true,
-        pinSpacing: true,
-        scrub: 2.2, // Smooth, slower transitions
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          const newIndex = Math.round(self.progress * transitions);
-          if (newIndex !== activeIndexRef.current) setActiveIndex(newIndex);
-        },
-      });
-
-      // Ensure cleanup even if ScrollTrigger isn't auto-tracked.
-      ctx.add(() => st.kill());
-    },
-    containerRef,
-    // IMPORTANT: don't include activeIndex here, or we'd recreate the pin on every update.
-    [prefersReducedMotion, projects, isMobile]
-  );
 
   // Featured panel content reveal animation
   useEffect(() => {
@@ -94,7 +51,7 @@ export function ProjectsGallery({
         opacity: 1,
         y: 0,
         clipPath: 'inset(0% 0% 0% 0%)',
-        duration: 0.5,
+        duration: 1,
         ease: 'power2.out',
       }
     );
@@ -152,7 +109,7 @@ export function ProjectsGallery({
 
   // Desktop: Pinned featured + filmstrip layout
   return (
-    <Section className="min-h-screen overflow-hidden" noPadding fullWidth>
+    <Section className="min-h-screen overflow-hidden pt-4 pb-20" noPadding fullWidth>
       <div ref={containerRef} className="h-screen flex flex-col">
         {/* Header */}
         <div className="container-main pt-20 pb-6 shrink-0">

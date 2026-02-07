@@ -62,67 +62,68 @@ export function HeroSection() {
       return;
     }
 
-    // Set initial state
-    gsap.set(chars, { opacity: 0 });
-    if (cat) gsap.set(cat, { opacity: 0, y: 20, scale: 0.9 });
+    const ctx = gsap.context(() => {
+      // Set initial state
+      gsap.set(chars, { opacity: 0 });
+      if (cat) gsap.set(cat, { opacity: 0, y: 20, scale: 0.9 });
 
-    // Create entrance timeline
-    const tl = gsap.timeline();
+      // Create entrance timeline
+      const tl = gsap.timeline();
 
-    // Typewriter reveal - fade in each character sequentially
-    tl.to(chars, {
-      opacity: 1,
-      duration: 0.05,
-      stagger: 0.1,
-      ease: 'none',
-      delay: 0.3,
-    });
-
-    // Cat appears after text completes
-    if (cat) {
-      tl.to(cat, {
+      // Typewriter reveal - fade in each character sequentially
+      tl.to(chars, {
         opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.6,
-        ease: 'back.out(1.2)',
-      }, '-=0.1');
-    }
+        duration: 0.05,
+        stagger: 0.1,
+        ease: 'none',
+        delay: 0.3,
+      });
 
-    // PARALLAX: Hero fades + scales down as you scroll past
-    // Enhanced for smoother narrative transition
-    gsap.to(container, {
-      scrollTrigger: {
-        trigger: container,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 2, // Slower = smoother
-      },
-      opacity: 0,
-      scale: 0.88, // More pronounced scale for depth
-      y: -120,     // Slightly more movement
-      ease: 'power1.inOut', // Smoother easing
-    });
+      // Cat appears after text completes
+      if (cat) {
+        tl.to(cat, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.6,
+          ease: 'back.out(1.2)',
+        }, '-=0.1');
+      }
 
-    // PARALLAX: Background layers move at different speeds
-    const bgLayers = container.querySelectorAll('.hero-bg, .hero-stars, .hero-grain');
-    bgLayers.forEach((layer, index) => {
-      const speed = 0.4 + (index * 0.3); // Adjusted speeds for smoother feel
-      gsap.to(layer, {
+      // PARALLAX: Hero fades + scales down as you scroll past
+      gsap.to(container, {
         scrollTrigger: {
           trigger: container,
           start: 'top top',
           end: 'bottom top',
-          scrub: speed,
+          scrub: 2,
         },
-        y: index === 0 ? -180 : index === 1 ? -120 : -60, // More parallax depth
-        opacity: 0.3, // Fade backgrounds as they exit
-        ease: 'none',
+        opacity: 0,
+        scale: 0.88,
+        y: -120,
+        ease: 'power1.inOut',
+      });
+
+      // PARALLAX: Background layers - query from document since they're fixed
+      const bgLayers = document.querySelectorAll('.hero-bg, .hero-stars, .hero-grain');
+      bgLayers.forEach((layer, index) => {
+        const speed = 0.4 + (index * 0.3);
+        gsap.to(layer, {
+          scrollTrigger: {
+            trigger: container,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: speed,
+          },
+          y: index === 0 ? -180 : index === 1 ? -120 : -60,
+          opacity: 0.3,
+          ease: 'none',
+        });
       });
     });
 
     return () => {
-      tl.kill();
+      ctx.revert();
     };
   }, [prefersReducedMotion]);
 
@@ -137,14 +138,14 @@ export function HeroSection() {
       id="hero"
       data-section-snap=""
     >
-      <div ref={containerRef} className="min-h-screen relative flex flex-col pt-20 md:pt-24">
-        {/* Hero background layers */}
-        <div className="absolute inset-0 hero-bg pointer-events-none z-1" />
-        <div className="absolute inset-0 hero-stars pointer-events-none z-2" />
-        <div className="absolute inset-0 hero-grain pointer-events-none z-3" />
+      <div ref={containerRef} className="min-h-screen relative flex flex-col">
+        {/* Hero background layers - extend to top to cover navbar area */}
+        <div className="fixed inset-0 hero-bg pointer-events-none z-1" />
+        <div className="fixed inset-0 hero-stars pointer-events-none z-2" />
+        <div className="fixed inset-0 hero-grain pointer-events-none z-3" />
 
         {/* Hero content - centered */}
-        <div className="flex-1 flex items-center relative z-10">
+        <div className="flex-1 flex items-center relative z-10 pt-20 md:pt-24">
           <div className="container-main section-padding relative w-full">
             <div className="relative flex flex-col items-center text-center">
               {/* Name - Primary headline with typewriter effect */}
