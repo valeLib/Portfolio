@@ -114,7 +114,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-1 px-2">
             {NAV_LINKS.map((link) => {
               const isActive = location.pathname === link.path;
               const isSecondary = 'secondary' in link && link.secondary === true;
@@ -123,7 +123,7 @@ export function Navbar() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className="px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200"
+                  className="px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200"
                   style={{
                     color: isActive ? 'var(--accent)' : 'var(--muted)',
                     backgroundColor: isActive
@@ -156,7 +156,7 @@ export function Navbar() {
           </div>
 
           {/* Mobile: Theme Toggle + Menu Button */}
-          <div className="md:hidden flex items-center gap-1">
+          <div className="md:hidden flex items-center gap-1 pl-8">
             <ThemeToggle />
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
