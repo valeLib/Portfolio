@@ -185,7 +185,7 @@ export function HeroSection() {
               {/* Visual: 3D Cat Model - positioned to overlap between words */}
               <div 
                 ref={catRef}
-                className="relative -mt-10 ml-24 md:-mt-20 lg:-mt-32 lg:ml-52 w-full max-w-xs md:max-w-sm z-20"
+                className="relative -mt-10 ml-24 md:-mt-20 lg:-mt-32 lg:ml-52 w-full max-w-xs md:max-w-sm z-30"
                 style={{ opacity: prefersReducedMotion ? 1 : 0 }}
               >
                 <div className="aspect-square rounded-2xl overflow-visible opacity-80">
