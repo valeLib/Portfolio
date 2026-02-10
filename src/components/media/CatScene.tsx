@@ -109,7 +109,7 @@ export function CatScene() {
     <div className="w-full h-full min-h-[300px] lg:min-h-[400px]">
       <Suspense fallback={<SceneFallback />}>
         <Canvas
-          camera={{ position: [35, 0, 138], fov: 45, near: 1, far: 1000 }}
+          camera={{ position: [35, 0, 145], fov: 45, near: 1, far: 1000 }}
           shadows
           dpr={[1, 2]}
           onError={() => setHasError(true)}

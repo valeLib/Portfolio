@@ -132,13 +132,13 @@ export function HeroSection() {
 
   return (
     <Section
-      className="relative overflow-hidden full-viewport-section"
+      className="relative full-viewport-section"
       noPadding
       fullWidth
       id="hero"
       data-section-snap=""
     >
-      <div ref={containerRef} className="min-h-screen relative flex flex-col">
+      <div ref={containerRef} className="min-h-screen relative flex flex-col" style={{ touchAction: 'pan-y' }}>
         {/* Hero background layers - extend to top to cover navbar area */}
         <div className="fixed inset-0 hero-bg pointer-events-none z-1" />
         <div className="fixed inset-0 hero-stars pointer-events-none z-2" />
