@@ -103,23 +103,6 @@ export function HeroSection() {
         y: -120,
         ease: 'power1.inOut',
       });
-
-      // PARALLAX: Background layers - query from document since they're fixed
-      const bgLayers = document.querySelectorAll('.hero-bg, .hero-stars, .hero-grain');
-      bgLayers.forEach((layer, index) => {
-        const speed = 0.4 + (index * 0.3);
-        gsap.to(layer, {
-          scrollTrigger: {
-            trigger: container,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: speed,
-          },
-          y: index === 0 ? -180 : index === 1 ? -120 : -60,
-          opacity: 0.3,
-          ease: 'none',
-        });
-      });
     });
 
     return () => {
@@ -140,9 +123,9 @@ export function HeroSection() {
     >
       <div ref={containerRef} className="min-h-screen relative flex flex-col" style={{ touchAction: 'pan-y' }}>
         {/* Hero background layers - extend to top to cover navbar area */}
-        <div className="fixed inset-0 hero-bg pointer-events-none z-1" />
-        <div className="fixed inset-0 hero-stars pointer-events-none z-2" />
-        <div className="fixed inset-0 hero-grain pointer-events-none z-3" />
+        <div className="absolute inset-0 hero-bg pointer-events-none z-1" />
+        <div className="absolute inset-0 hero-stars pointer-events-none z-2" />
+        <div className="absolute inset-0 hero-grain pointer-events-none z-3" />
 
         {/* Hero content - centered */}
         <div className="flex-1 flex items-center relative z-10 pt-20 md:pt-24">

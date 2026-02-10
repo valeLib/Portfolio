@@ -50,6 +50,9 @@ export function HomePinned() {
   useLayoutEffect(() => {
     if (prefersReducedMotion) return;
 
+    // Detect touch devices - snap conflicts with Lenis touch handling on mobile
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
     let cleanupSnap: (() => void) | null = null;
     const ctx = gsap.context(() => {
       const snapSections = gsap.utils.toArray<HTMLElement>('[data-section-snap]');
@@ -57,36 +60,43 @@ export function HomePinned() {
 
       // ===================================================
       // FULL-PAGE SNAP (GSAP) - Apple/Tesla style
+      // Only enable on non-touch devices to prevent conflicts with Lenis touch handling
       // ===================================================
-      const snapTriggers = snapSections.map((section) =>
-        ScrollTrigger.create({
-          trigger: section,
-          start: 'top top',
-          end: '+=1',
-          invalidateOnRefresh: true,
+      let snapTrigger: ScrollTrigger | undefined;
+      let snapTriggers: ScrollTrigger[] = [];
+      let updateSnapPointsCallback: (() => void) | null = null;
+      
+      if (!isTouchDevice) {
+        snapTriggers = snapSections.map((section) =>
+          ScrollTrigger.create({
+            trigger: section,
+            start: 'top top',
+            end: '+=1',
+            invalidateOnRefresh: true,
+            scroller: document.body,
+          })
+        );
+
+        let snapPoints: number[] = [];
+        updateSnapPointsCallback = () => {
+          const maxScroll = ScrollTrigger.maxScroll(document.body) || 1;
+          snapPoints = snapTriggers.map((trigger) => trigger.start / maxScroll);
+        };
+
+        updateSnapPointsCallback();
+        ScrollTrigger.addEventListener('refresh', updateSnapPointsCallback);
+
+        snapTrigger = ScrollTrigger.create({
+          start: 0,
+          end: () => ScrollTrigger.maxScroll(document.body),
           scroller: document.body,
-        })
-      );
-
-      let snapPoints: number[] = [];
-      const updateSnapPoints = () => {
-        const maxScroll = ScrollTrigger.maxScroll(document.body) || 1;
-        snapPoints = snapTriggers.map((trigger) => trigger.start / maxScroll);
-      };
-
-      updateSnapPoints();
-      ScrollTrigger.addEventListener('refresh', updateSnapPoints);
-
-      const snapTrigger = ScrollTrigger.create({
-        start: 0,
-        end: () => ScrollTrigger.maxScroll(document.body),
-        scroller: document.body,
-        snap: {
-          snapTo: (value) => (snapPoints.length ? gsap.utils.snap(snapPoints, value) : value),
-          duration: { min: 0.5, max: 1.5 },
-          ease: 'power2.inOut',
-        },
-      });
+          snap: {
+            snapTo: (value) => (snapPoints.length ? gsap.utils.snap(snapPoints, value) : value),
+            duration: { min: 0.5, max: 1.5 },
+            ease: 'power2.inOut',
+          },
+        });
+      }
       
       sections.forEach((section, index) => {
         // Initial state
@@ -182,9 +192,11 @@ export function HomePinned() {
       }
 
       cleanupSnap = () => {
-        ScrollTrigger.removeEventListener('refresh', updateSnapPoints);
-        snapTrigger.kill();
-        snapTriggers.forEach((trigger) => trigger.kill());
+        if (!isTouchDevice && updateSnapPointsCallback) {
+          ScrollTrigger.removeEventListener('refresh', updateSnapPointsCallback);
+          snapTrigger?.kill();
+          snapTriggers.forEach((trigger) => trigger.kill());
+        }
       };
     });
 
